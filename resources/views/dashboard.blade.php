@@ -25,6 +25,7 @@
                     <a href="#" class="card-link">Another link</a>
                 </div>
             </div>
+            
             <div class="card  m-5" style="width: 18rem;">
                 <div class="card-body">
                     <h5 class="card-title">Card title</h5>
