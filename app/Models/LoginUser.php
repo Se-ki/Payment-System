@@ -9,7 +9,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable implements MustVerifyEmail
+class LoginUser extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable;
 
@@ -44,20 +44,14 @@ class User extends Authenticatable implements MustVerifyEmail
         'password' => 'hashed',
     ];
 
-    protected $with = ['payments'];
-
-    public function payments()
+    public function student()
     {
-        return $this->hasMany(Payments::class);
+        return $this->belongsTo(Student::class);
     }
-
-    public function records()
+    public function role()
     {
-        return $this->hasMany(PaymentRecords::class);
-    }
-
-    public function course()
-    {
-        return $this->belongsTo(Courses::class);
+        return $this->belongsTo(RoleType::class, foreignKey: 'role_type_id');
     }
 }
+
+

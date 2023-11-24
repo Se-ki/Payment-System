@@ -3,7 +3,7 @@
     <link rel="stylesheet" href="{{ asset('css/dashboard/style.css') }}">
     @include('partials.header')
     @include('partials.sidebar')
-    @if (Auth::user()->role === 'student')
+    @if (Auth::user()->role_type_id === 1)
         <div class="container d-flex">
             <div class="card m-5" style="width: 18rem;">
                 <div class="card-body">
@@ -33,6 +33,26 @@
                         card's content.</p>
                     <a href="#" class="card-link">Card link</a>
                     <a href="#" class="card-link">Another link</a>
+                </div>
+            </div>
+        </div>
+    @elseif (Auth::user()->role_type_id === 2)
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-header">{{ __('Collector Dashboard') }}</div>
+
+                        <div class="card-body">
+                            @if (session('status'))
+                                <div class="alert alert-success" role="alert">
+                                    {{ session('status') }}
+                                </div>
+                            @endif
+
+                            {{ __('You are logged in!') }}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

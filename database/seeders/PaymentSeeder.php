@@ -2,11 +2,11 @@
 
 namespace Database\Seeders;
 
+use App\Models\LoginUser;
 use App\Models\Payment;
 use App\Models\Student;
 use App\Models\StudentBalancePayment;
 use App\Models\StudentPaymentRecord;
-use App\Models\UserLogin;
 use Illuminate\Database\Seeder;
 
 class PaymentSeeder extends Seeder
@@ -45,46 +45,46 @@ class PaymentSeeder extends Seeder
             "address" => "Cabadbaran City",
         ]);
 
-        $user1 = UserLogin::factory()->create([
+        $user1 = LoginUser::factory()->create([
             "student_id" => $student1->id,
             'username' => 'christiankyle.autor',
             'email' => 'christiankyle.autor@csucc.edu.ph',
-            'role' => "student",
+            'role_type_id' => 1,
             // 'email_verified_at' => NOW()
         ]);
 
-        $user2 = UserLogin::factory()->create([
+        $user2 = LoginUser::factory()->create([
             "student_id" => $student2->id,
             'username' => 'jaymar.salas',
             'email' => 'jaymar.salas@csucc.edu.ph',
-            'role' => 'student',
+            'role_type_id' => 1,
             'email_verified_at' => NOW()
         ]);
 
-        $user3 = UserLogin::factory()->create([
+        $user3 = LoginUser::factory()->create([
             "student_id" => $student3->id,
             'username' => 'ahrrol.cervantes',
             'email' => 'ahrrol.cervantes@csucc.edu.ph',
-            'role' => 'student',
+            'role_type_id' => 1,
             'email_verified_at' => NOW()
         ]);
 
-        UserLogin::factory()->create([
+        LoginUser::factory()->create([
             "student_id" => $student4->id,
             'username' => 'admin',
             'email' => 'admin@admin.com',
-            'role' => 'admin',
+            'role_type_id' => 3,
             'email_verified_at' => NOW()
         ]);
 
         Payment::factory(30)->create([
-            'user_login_id' => $user1->id
+            'student_id' => $student1->id
         ]);
         Payment::factory(5)->create([
-            'user_login_id' => $user2->id
+            'student_id' => $student2->id
         ]);
         Payment::factory(20)->create([
-            'user_login_id' => $user3->id
+            'student_id' => $student3->id
         ]);
 
         StudentPaymentRecord::factory(35)->create();

@@ -12,13 +12,15 @@ return new class extends Migration {
     {
         Schema::create('student_payment_records', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_login_id')->constrained(table: "user_logins");
-            $table->integer('receipt_number')->unique();
-            $table->bigInteger('reference_number')->unique();
-            $table->string('description');
-            $table->string('mode');
-            $table->date('paid_date');
-            $table->float('amount');
+            $table->foreignId('student_id')->constrained();
+            $table->string('spr_description');
+            $table->bigInteger('spr_receipt_number')->unique();
+            $table->bigInteger('spr_reference_number')->unique();
+            $table->date('spr_paid_date');
+            $table->float('spr_amount');
+            $table->string('spr_semester');
+            $table->string('spr_mode_of_payment');
+            $table->string('spr_proof_of_payment_photo')->nullable();
             $table->timestamps();
         });
     }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\PaymentRecords;
+use App\Models\Student;
 use App\Models\StudentPaymentRecord;
 use App\Models\UserLogin;
 use Illuminate\Http\Request;
@@ -12,9 +13,11 @@ class StudentPaymentRecordController extends Controller
 {
     public function index()
     {
+        // $records = StudentPaymentRecord::latest()->where('student_id', Auth::user()->student->id)->get();
+        // dd($records);
         return view('records.index', [
             'header' => "Student Records",
-            "records" => StudentPaymentRecord::latest("paid_date")->where('user_login_id', Auth::user()->id)->get()
+            "records" => StudentPaymentRecord::latest()->where('student_id', Auth::user()->student->id)->get()
         ]);
     }
     public function store(Request $request)
@@ -28,7 +31,7 @@ class StudentPaymentRecordController extends Controller
             'amount' => $request->amount
         ]);
 
-        $user = UserLogin::find(Auth::user()->id);
+        $user = Student::find(Auth::user()->id);
 
         $user->records()->save($record);
 

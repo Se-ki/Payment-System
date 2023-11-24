@@ -16,6 +16,11 @@ class Admin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        return Auth::check() && Auth::user()->role === "admin" ? $next($request) : redirect()->route('login');
+        /*
+           1- Student
+           2- Collector
+           3- Admin
+       */
+        return Auth::check() && Auth::user()->role_type_id === 3 ? $next($request) : redirect()->route('login');
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Payment;
 use App\Models\Payments;
+use App\Models\Student;
 use App\Models\UserLogin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -14,7 +15,7 @@ class PaymentController extends Controller
     public function index()
     {
         return view('payments.index', [
-            'payments' => Payment::latest()->where('user_login_id', Auth::user()->id)->get()
+            'payments' => Payment::latest()->where('student_id', Auth::user()->student->id)->get()
         ]);
     }
     public function create()
@@ -23,7 +24,7 @@ class PaymentController extends Controller
     }
     public function store(Request $request)
     {
-        $students = UserLogin::where('role', 'student')->get();
+        $students = Student::where('role', 'student')->get();
         foreach ($students as $student) {
             $uniqueIdentifier = str_pad(mt_rand(1, 9999), 4, '0', STR_PAD_LEFT);
             $currentDate = now()->format('Ymd');

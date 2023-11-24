@@ -2,14 +2,12 @@
 
 namespace Database\Factories;
 
-use App\Models\Courses;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\LoginUser>
  */
-class UserFactory extends Factory
+class LoginUserFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -19,16 +17,9 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'course_id' => fake()->randomElement([1, 2, 3, 4, 5]),
-            'profile_pic' => 'img/temp-profile.png',
-            'school_id' => fake()->numberBetween(20000000, 99999999),
-            'username' => fake()->userName(),
-            'firstname' => fake()->firstName(),
-            'lastname' => fake()->lastName(),
+            "student_id" => $this->faker->randomElement([1, 2, 3]),
             'email' => fake()->unique()->safeEmail(),
-            'year_level' => fake()->numberBetween(1, 6),
-            'mobilenumber' => fake()->phoneNumber(),
-            'address' => fake()->address(),
+            'username' => fake()->userName(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
             // password
             // 'remember_token' => Str::random(10),

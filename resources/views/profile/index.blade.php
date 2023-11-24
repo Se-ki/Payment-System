@@ -9,7 +9,7 @@
                 <div class="card mb-4">
                     <div class="card-body text-center p-4">
                         <a href="" data-bs-toggle="modal" data-bs-target="#changeprofile">
-                            <img id="image" src="{{ Auth::user()->profile_pic }}" alt="avatar"
+                            <img id="image" src="{{ Auth::user()->student->profile_pic }}" alt="avatar"
                                 class="rounded-circle img-fluid" style="width: 150px; padding-top: 11px;">
                         </a>
                         <!-- Modal -->
@@ -37,13 +37,13 @@
                             </div>
                         </div>
                         <h4 class="my-2" style="text-transform: capitalize;">
-                            {{ Auth::user()->firstname }}
+                            {{ Auth::user()->student->firstname }}
                         </h4>
                         <p class="text-muted mb-1">
-                            {{ Auth::user()->course->name }}
+                            {{ Auth::user()->student->course->name }}
                         </p>
                         <p class="text-muted mb-4">
-                            Year Level {{ Auth::user()->year_level }}
+                            Year Level {{ Auth::user()->student->year_level }}
                         </p>
                     </div>
                 </div>
@@ -57,7 +57,7 @@
                             </div>
                             <div class="col-sm-9">
                                 <p class="text-muted mb-0">
-                                    {{ Auth::user()->school_id }}
+                                    {{ App\Helper\PS::addHyphenAfterFourNumbers(Auth::user()->student->school_id) }}
                                 </p>
                             </div>
                         </div>
@@ -68,8 +68,8 @@
                             </div>
                             <div class="col-sm-9" style="text-transform: capitalize;">
                                 <p class="text-muted mb-0">
-                                    {{ Auth::user()->firstname }} {{ Auth::user()->middlename }}
-                                    {{ Auth::user()->lastname }}
+                                    {{ Auth::user()->student->firstname }} {{ Auth::user()->student->middlename }}
+                                    {{ Auth::user()->student->lastname }}
                                 </p>
                             </div>
                         </div>
@@ -91,7 +91,7 @@
                             </div>
                             <div class="col-sm-9">
                                 <p class="text-muted mb-0">
-                                    {{ Auth::user()->course->name }}
+                                    {{ Auth::user()->student->course->name }}
                                 </p>
                             </div>
                         </div>
@@ -102,7 +102,7 @@
                             </div>
                             <div class="col-sm-9">
                                 <p class="text-muted mb-0">
-                                    {{ Auth::user()->year_level }}
+                                    {{ Auth::user()->student->year_level }}
                                 </p>
                             </div>
                         </div>
@@ -113,7 +113,7 @@
                             </div>
                             <div class="col-sm-9">
                                 <p class="text-muted mb-0">
-                                    {{ Auth::user()->mobilenumber }}
+                                    {{ Auth::user()->student->mobile_number }}
                                 </p>
                             </div>
                         </div>
@@ -124,7 +124,7 @@
                             </div>
                             <div class="col-sm-9" style="text-transform: capitalize;">
                                 <p class="text-muted mb-0">
-                                    {{ Auth::user()->address }}
+                                    {{ Auth::user()->student->address }}
                                 </p>
                             </div>
                         </div>

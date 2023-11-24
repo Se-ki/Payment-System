@@ -17,17 +17,13 @@ class PaymentFactory extends Factory
      */
     public function definition(): array
     {
-        $uniqueIdentifier = str_pad(mt_rand(1, 9999), 4, '0', STR_PAD_LEFT);
-        $currentDate = now()->format('Ymd');
-        $generatedCode = $currentDate . $uniqueIdentifier;
         return [
-            'user_login_id' => UserLogin::factory(),
-            "semester" => $this->faker->randomElement(["1st Semester", "2nd Semester"]),
-            "code" => $generatedCode,
             "description" => $this->faker->sentence(2),
             "amount" => $this->faker->numberBetween(100, 2000),
+            "date_post" => $this->faker->dateTimeBetween('-2 years', '1 year'),
+            "record_by" => $this->faker->name(),
+            "p_semester" => $this->faker->randomElement(["1st Semester", "2nd Semester"]),
             "deadline" => $this->faker->dateTimeThisYear(),
-            "encoded_by" => $this->faker->name(),
             "created_at" => $this->faker->dateTimeBetween('-2 years', '1 year')
         ];
     }

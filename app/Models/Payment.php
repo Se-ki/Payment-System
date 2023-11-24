@@ -11,15 +11,10 @@ class Payment extends Model
 
     protected $fillable = ['semester_id', 'code', 'description', 'amount', 'deadline', 'encoded_by'];
 
-    protected $with = ['user', 'semester'];
+    protected $with = ['user'];
 
     public function user()
     {
-        return $this->belongsTo(UserLogin::class);
-    }
-
-    public function semester()
-    {
-        return $this->belongsTo(Semester::class);
+        return $this->belongsTo(Student::class);
     }
 }

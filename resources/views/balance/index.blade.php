@@ -16,35 +16,81 @@
                             class="dark" placeholder="Search"> </li>
                 </ul>
             </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="first" value="option1">
+                <label class="form-check-label" for="first">1 Semester</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="second" value="option2">
+                <label class="form-check-label" for="Second">2 Semester</label>
+            </div>
+
+            <select name="acad-year" id="acad-year">
+                <option value="">2021-2022</option>
+                <option value="">2022-2023</option>
+                <option value="">2023-2024</option>
+            </select>
         </nav>
         <div class="table-responsive mt-3">
             <table class="table">
                 <thead>
                     <tr>
-                        <th scope="col">Description</th>
+                    <tr>
+                        <th>No.</th>
+                        <th>Description</th>
+                        <th>Date</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                        <th>Encoder</th>
+                    </tr>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($balances as $key => $balance)
+                        <tr>
+                            <td>{{ ++$key }}</td>
+                            <td>{{ $balance->description }}</td>
+                            <td>{{ $balance->date_paid }}</td>
+                            <td> ₱ {{ number_format($balance->balance_amount, 2) }}</td>
+                            <td> {{ $balance->status }}</td>
+                            <td> {{ $balance->encoder }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+
+                <section>
+                    <h2>Account Balance</h2>
+                    <p>Your current balance is $500.00.</p>
+                </section>
+
+
+
+                {{-- <thead>
+                    <tr>
+                        <th scope="col">Activity</th>
                         <th scope="col">Mode</th>
                         <th scope="col">Date Paid</th>
                         <th scope="col" class="">Amount</th>
-                    </tr>
-                </thead>
-                <tbody style="background-color: #333">
+                    </tr> --}}
+                {{-- </thead> --}}
+                {{-- <tbody style="background-color: #333">
                     @foreach ($records as $key => $record)
                         <tr>
                             <td scope="row" class="text-white">
                                 <span class="fa fa-briefcase mr-1"></span>
-                                {{ ++$key }} {{ $record->spr_description }}
+                                {{ ++$key }} {{ $record->description }}
                             </td>
                             <td>
                                 <span class="row text-white">
-                                    {{ $record->spr_mode_of_payment }}
+                                    {{ $record->mode }}
                                 </span>
                             </td>
                             <td class="text-white">
-                                {{ Carbon\Carbon::parse($record->spr_paid_date)->format('F j, Y') }}
+                                {{ Carbon\Carbon::parse($record->paid_date)->format('F j, Y') }}
                             </td>
 
                             <td class="text-white">
-                                {{ '₱ ' . number_format($record->spr_amount, 2) }}
+                                {{ '₱ ' . number_format($record->amount, 2) }}
                             </td>
 
                             <td>
@@ -56,16 +102,15 @@
                             </td>
                         </tr>
                     @endforeach
-                </tbody>
+                    {{-- {{}} --}}
+                {{-- </tbody> --}}
             </table>
-            @if (!count($records))
-                <center>
-                    <p class=" text-light pl-1">No transaction has been made.</p>
-                </center>
-            @endif
+            {{-- <center>
+                <p class=" text-muted pl-1">No transaction has been made.</p>
+            </center> --}}
         </div>
         <!-- Modal -->
-        <div class="modal fade" id="recordModal" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        {{-- <div class="modal fade" id="recordModal" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -78,6 +123,6 @@
                 </div>
             </div>
         </div>
-    </div>
-    <!--Container Main end-->
-@endsection
+    </div> --}}
+        <!--Container Main end-->
+    @endsection

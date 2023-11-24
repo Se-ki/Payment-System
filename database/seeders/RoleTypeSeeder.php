@@ -2,19 +2,19 @@
 
 namespace Database\Seeders;
 
-use App\Models\Courses;
-use App\Models\PaymentRecords;
-use App\Models\User;
+use App\Models\RoleType;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class PaymentRecordsSeeder extends Seeder
+class RoleTypeSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        PaymentRecords::factory(20)->create();
+        RoleType::create(["type" => "Student"]);
+        RoleType::create(["type" => "Collector"]);
+        RoleType::create(["type" => "Admin"]);
     }
 }

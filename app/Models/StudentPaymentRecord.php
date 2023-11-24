@@ -12,6 +12,6 @@ class StudentPaymentRecord extends Model
     protected $fillable = ['receipt_number', 'reference_number', 'description', 'mode', 'paid_date', 'amount'];
     public function user()
     {
-        return $this->belongsTo(UserLogin::class);
+        return $this->belongsTo(Student::class, foreignKey: 'student_id');
     }
 }

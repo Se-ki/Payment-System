@@ -1,5 +1,5 @@
 <?php
-namespace App\helper;
+namespace App\Helper;
 
 class PS
 {

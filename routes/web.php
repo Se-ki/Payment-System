@@ -2,9 +2,9 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\PaymentRecordsController;
-use App\Http\Controllers\PaymentsController;
-use App\Models\Payments;
+use App\Http\Controllers\StudentPaymentRecordController;
+use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\StudentBalancePaymentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,18 +27,19 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     //student route
     Route::middleware('isStudent')->group(function () {
-        Route::get('/payments', [PaymentsController::class, 'index'])->name('payments.index');
-        Route::post('/payments/pay', [PaymentRecordsController::class, 'store'])->name('payments.pay');
-        Route::get('/records', [PaymentRecordsController::class, 'index'])->name("records.index");
-        Route::resource('payments', PaymentsController::class);
-        Route::resource('records', PaymentRecordsController::class);
+        Route::get('/payments', [PaymentController::class, 'index'])->name('payments.index');
+        Route::post('/payments/pay', [StudentPaymentRecordController::class, 'store'])->name('payments.pay');
+        Route::get('/records', [StudentPaymentRecordController::class, 'index'])->name("records.index");
+        Route::get('/balance', [StudentBalancePaymentController::class, 'index'])->name("balance.index");
+        Route::resource('payments', PaymentController::class);
+        Route::resource('records', StudentPaymentRecordController::class);
     });
 
     //admin route
     Route::middleware('isAdmin')->group(function () {
         //route here
-        Route::get('/payments/create', [PaymentsController::class, 'create'])->name('payments.create');
-        Route::post('/payments/store', [PaymentsController::class, 'store'])->name('payments-store');
+        Route::get('/payments/create', [PaymentController::class, 'create'])->name('payments.create');
+        Route::post('/payments/store', [PaymentController::class, 'store'])->name('payments-store');
     });
 });
 

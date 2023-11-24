@@ -12,10 +12,14 @@ return new class extends Migration {
     {
         Schema::create('student_balance_payments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_login_id')->constrained(table: "user_logins");
-            $table->string('description');
-            $table->integer('balance_amount');
-            $table->date('date_paid');
+            $table->foreignId('student_id')->constrained();
+            $table->string('sbp_description');
+            $table->bigInteger('sbp_receipt_number');
+            $table->string('sbp_paid_amount');
+            $table->string('sbp_paid_change');
+            $table->string('sbp_balance_amount');
+            $table->string("sbp_semester");
+            $table->date('sbp_date_paid');
             $table->string('status');
             $table->string('encoder');
             $table->timestamps();

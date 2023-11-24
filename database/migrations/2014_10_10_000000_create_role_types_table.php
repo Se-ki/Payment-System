@@ -10,15 +10,9 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('payments', function (Blueprint $table) {
+        Schema::create('role_types', function (Blueprint $table) {
             $table->id();
-            $table->foreignId("student_id")->constrained();
-            $table->string('description');
-            $table->integer('amount');
-            $table->date('date_post');
-            $table->date('deadline');
-            $table->string('record_by');
-            $table->string('p_semester');
+            $table->string("type");
             $table->timestamps();
         });
     }
@@ -28,6 +22,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('payments');
+        Schema::dropIfExists('role_types');
     }
 };

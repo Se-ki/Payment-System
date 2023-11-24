@@ -6,7 +6,8 @@
             srcset=""></span>
     <li class="nav-item dropdown">
         <a class="dropdown-toggle" data-bs-toggle="dropdown">
-            {{ Auth::user()->lastname }}
+            {{ Auth::user()->student->lastname }}, {{ Auth::user()->student->firstname }} |
+            {{ Auth::user()->role->type }}
         </a>
         <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="{{ url('/profile') }}">My info</a></li>

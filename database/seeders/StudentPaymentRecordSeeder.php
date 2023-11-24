@@ -12,6 +12,6 @@ class StudentPaymentRecordSeeder extends Seeder
      */
     public function run(): void
     {
-        StudentPaymentRecord::factory(20)->create();
+        //
     }
 }

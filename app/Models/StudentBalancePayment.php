@@ -11,6 +11,6 @@ class StudentBalancePayment extends Model
 
     public function userLogin()
     {
-        return $this->belongsTo(UserLogin::class);
+        return $this->belongsTo(Student::class);
     }
 }

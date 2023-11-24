@@ -16,14 +16,18 @@ class StudentPaymentRecordFactory extends Factory
      */
     public function definition(): array
     {
+        $uniqueIdentifier = str_pad(mt_rand(1, 9999), 4, '0', STR_PAD_LEFT);
+        $currentDate = now()->format('Ymd');
+        $generatedCode = $currentDate . $uniqueIdentifier;
         return [
-            'user_login_id' => fake()->randomElement([1, 2, 3]),
-            'receipt_number' => fake()->numberBetween(100000, 999999),
-            'reference_number' => fake()->numberBetween(9876543212345, 1234567890987),
-            'description' => fake()->sentence(3),
-            'mode' => "GCASH",
-            'paid_date' => fake()->dateTimeThisYear(),
-            'amount' => fake()->numberBetween(100, 2000)
+            'student_id' => $this->faker->randomElement([1, 2, 3]),
+            'spr_description' => fake()->sentence(3),
+            'spr_receipt_number' => $generatedCode,
+            'spr_reference_number' => fake()->numberBetween(9876543212345, 1234567890987),
+            'spr_paid_date' => fake()->dateTimeThisYear(),
+            'spr_amount' => fake()->numberBetween(100, 2000),
+            "spr_semester" => $this->faker->randomElement(["1st Semester", "2nd Semester"]),
+            'spr_mode_of_payment' => "GCASH",
         ];
     }
 }

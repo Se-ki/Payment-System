@@ -46,7 +46,7 @@
                             </td>
 
                             <td class="">
-                                {{ $payment->encoded_by }}
+                                {{ $payment->record_by }}
                             </td>
                             <td>
                                 <a class="btn btn-primary" data-toggle="modal" id="paymentButton"

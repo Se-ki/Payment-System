@@ -6,11 +6,11 @@
                 <span class="nav_logo-name" style="font:bolder">CEIT E-PAYMENT
                 </span>
             </a>
-            @if (Auth::user()->role === 'student')
+            @if (Auth::user()->role_type_id === 1)
                 <div class="nav_list">
                     <a href="/" class="nav_link {{ request()->path() === '/' ? 'active' : '' }}">
-                        <i class='bx bxs-dashboard nav_icon'></i>
-                        <span class="nav_name">Dashboard</span>
+                        <i class='bx bxs-home nav_icon'></i>
+                        <span class="nav_name">Home</span>
                     </a>
                     <a href="{{ route('payments.index') }}"
                         class="nav_link {{ request()->path() === 'payments' ? 'active' : '' }} ">
@@ -19,13 +19,25 @@
                     </a>
                     <a href="{{ route('records.index') }}"
                         class="nav_link {{ request()->path() === 'records' ? 'active' : '' }}">
-                        <i class='bx bx-list-ol nav_icon'></i>
+                        <i class='bx bx-receipt nav_icon'></i>
                         <span class="nav_name">Student Records</span>
+                    </a>
+                    <a href="{{ route('balance.index') }}"
+                        class="nav_link {{ request()->path() === 'balance' ? 'active' : '' }}">
+                        <i class='bx bxs-credit-card nav_icon'></i>
+                        <span class="nav_name">Balance</span>
                     </a>
                     <a href="{{ url('/profile') }}"
                         class="nav_link {{ request()->path() === 'profile' ? 'active' : '' }}">
-                        <i class='bx bxs-user-badge nav_icon'></i>
-                        <span class="nav_name">Profile</span>
+                        <i class='bx bx-cog '></i>
+                        <span class="nav_name">Settings</span>
+                    </a>
+                </div>
+            @elseif (Auth::user()->role_type_id->type === 2)
+                <div class="nav_list">
+                    <a href="/" class="nav_link {{ request()->path() === '/' ? 'active' : '' }}">
+                        <i class='bx bxs-dashboard nav_icon'></i>
+                        <span class="nav_name">Dashboard</span>
                     </a>
                 </div>
             @else
@@ -35,19 +47,11 @@
                         <span class="nav_name">Dashboard</span>
                     </a>
                 </div>
-                <div class="nav_list">
-                    <a href="{{ route('payments.create') }}"
-                        class="nav_link {{ request()->path() === 'payments/create' ? 'active' : '' }}">
-                        <i class='bx bx-list-plus nav_icon'></i>
-                        <span class="nav_name">Add Payment</span>
-                    </a>
-                </div>
-                <a href="{{ url('/profile') }}"
-                    class="nav_link {{ request()->path() === 'profile' ? 'active' : '' }}">
-                    <i class='bx bxs-user-badge nav_icon'></i>
-                    <span class="nav_name">Profile</span>
-                </a>
             @endif
+            <a href="{{ url('/profile') }}" class="nav_link {{ request()->path() === 'profile' ? 'active' : '' }}">
+                <i class='bx bxs-user-badge nav_icon'></i>
+                <span class="nav_name">Profile</span>
+            </a>
         </div> <a href="{{ route('logout') }}" class="nav_link"
             onclick="event.preventDefault(); document.getElementById('logout-form').submit();"> <i
                 class='bx bx-log-out nav_icon'></i> <span class="nav_name">Logout</span> </a>
