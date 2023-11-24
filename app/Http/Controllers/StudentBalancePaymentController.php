@@ -11,7 +11,7 @@ class StudentBalancePaymentController extends Controller
 {
     public function index()
     {
-        return view('balance.index', ['balances' => StudentBalancePayment::latest("sbp_paid_date")->where('student_id', Auth::user()->student->id)->get()]);
+        return view('balance.index', ['balances' => StudentBalancePayment::latest("sbp_date_paid")->where('student_id', Auth::user()->student->id)->get()]);
     }
     public function create()
     {

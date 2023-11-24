@@ -26,7 +26,7 @@ class StudentBalancePaymentFactory extends Factory
             'sbp_paid_amount' => fake()->numberBetween(100, 2000),
             'sbp_paid_change' => fake()->numberBetween(100, 2000),
             'sbp_balance_amount' => fake()->numberBetween(100, 2000),
-            "sbp_semester" => $this->faker->randomElement(["1st Semester", "2nd Semester"]),
+            "sbp_semester" => $this->faker->randomElement([1, 2]),
             'sbp_date_paid' => fake()->dateTimeThisYear(),
             'status' => fake()->randomElement(['Complete', 'Pending']),
             'encoder' => fake()->firstName()

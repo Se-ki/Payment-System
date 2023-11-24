@@ -27,15 +27,10 @@
                         <i class='bx bxs-credit-card nav_icon'></i>
                         <span class="nav_name">Balance</span>
                     </a>
-                    <a href="{{ url('/profile') }}"
-                        class="nav_link {{ request()->path() === 'profile' ? 'active' : '' }}">
-                        <i class='bx bx-cog '></i>
-                        <span class="nav_name">Settings</span>
-                    </a>
                 </div>
-            @elseif (Auth::user()->role_type_id->type === 2)
+            @elseif (Auth::user()->role_type_id === 2)
                 <div class="nav_list">
-                    <a href="/" class="nav_link {{ request()->path() === '/' ? 'active' : '' }}">
+                    <a href="{{ url('/') }}" class="nav_link {{ request()->path() === '/' ? 'active' : '' }}">
                         <i class='bx bxs-dashboard nav_icon'></i>
                         <span class="nav_name">Dashboard</span>
                     </a>
@@ -51,6 +46,10 @@
             <a href="{{ url('/profile') }}" class="nav_link {{ request()->path() === 'profile' ? 'active' : '' }}">
                 <i class='bx bxs-user-badge nav_icon'></i>
                 <span class="nav_name">Profile</span>
+            </a>
+            <a href="#" class="nav_link {{ request()->path() === '' ? 'active' : '' }}">
+                <i class='bx bx-cog '></i>
+                <span class="nav_name">Settings</span>
             </a>
         </div> <a href="{{ route('logout') }}" class="nav_link"
             onclick="event.preventDefault(); document.getElementById('logout-form').submit();"> <i

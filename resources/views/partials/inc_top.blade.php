@@ -1,3 +1,5 @@
+<link rel="icon" href="{{ asset('img/icon-no-bg.png') }}">
+
 {{-- BOOTSTRAP --}}
 <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
 
