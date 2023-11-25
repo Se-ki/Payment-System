@@ -13,8 +13,6 @@ class StudentPaymentRecordController extends Controller
 {
     public function index()
     {
-        // $records = StudentPaymentRecord::latest()->where('student_id', Auth::user()->student->id)->get();
-        // dd($records);
         return view('records.index', [
             'header' => "Student Records",
             "records" => StudentPaymentRecord::latest("spr_paid_date")->where('student_id', Auth::user()->student->id)->get()
