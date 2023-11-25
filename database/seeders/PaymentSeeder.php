@@ -44,8 +44,13 @@ class PaymentSeeder extends Seeder
             "year_level" => "3",
             "address" => "Cabadbaran City",
         ]);
+        $student5 = Student::factory()->create([
+            "firstname" => "John",
+            "middlename" => "Pedro",
+            "lastname" => "Barbershop",
+        ]);
 
-        $user1 = LoginUser::factory()->create([
+        LoginUser::factory()->create([
             "student_id" => $student1->id,
             'username' => 'christiankyle.autor',
             'email' => 'christiankyle.autor@csucc.edu.ph',
@@ -53,15 +58,15 @@ class PaymentSeeder extends Seeder
             // 'email_verified_at' => NOW()
         ]);
 
-        $user2 = LoginUser::factory()->create([
+        LoginUser::factory()->create([
             "student_id" => $student2->id,
             'username' => 'jaymar.salas',
             'email' => 'jaymar.salas@csucc.edu.ph',
             'role_type_id' => 1,
             'email_verified_at' => NOW()
         ]);
-
-        $user3 = LoginUser::factory()->create([
+        
+        LoginUser::factory()->create([
             "student_id" => $student3->id,
             'username' => 'ahrrol.cervantes',
             'email' => 'ahrrol.cervantes@csucc.edu.ph',
@@ -74,6 +79,13 @@ class PaymentSeeder extends Seeder
             'username' => 'admin',
             'email' => 'admin@admin.com',
             'role_type_id' => 3,
+            'email_verified_at' => NOW()
+        ]);
+        LoginUser::factory()->create([
+            "student_id" => $student5->id,
+            'username' => 'collector',
+            'email' => 'collector@collector.com',
+            'role_type_id' => 2,
             'email_verified_at' => NOW()
         ]);
 

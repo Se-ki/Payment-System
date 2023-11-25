@@ -18,7 +18,7 @@ return new class extends Migration {
             $table->bigInteger('spr_reference_number')->unique();
             $table->date('spr_paid_date');
             $table->float('spr_amount');
-            $table->string('spr_semester');
+            $table->integer('spr_semester')->comment("1 - 1st Semester, 2 - 2nd Semester");
             $table->string('spr_mode_of_payment');
             $table->string('spr_proof_of_payment_photo')->nullable();
             $table->timestamps();

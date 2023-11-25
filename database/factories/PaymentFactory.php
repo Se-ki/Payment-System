@@ -22,7 +22,7 @@ class PaymentFactory extends Factory
             "amount" => $this->faker->numberBetween(100, 2000),
             "date_post" => $this->faker->dateTimeBetween('-2 years', '1 year'),
             "record_by" => $this->faker->name(),
-            "p_semester" => $this->faker->randomElement(["1st Semester", "2nd Semester"]),
+            "p_semester" => $this->faker->randomElement([1, 2]),
             "deadline" => $this->faker->dateTimeThisYear(),
             "created_at" => $this->faker->dateTimeBetween('-2 years', '1 year')
         ];

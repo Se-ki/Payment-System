@@ -26,7 +26,7 @@ class StudentPaymentRecordFactory extends Factory
             'spr_reference_number' => fake()->numberBetween(9876543212345, 1234567890987),
             'spr_paid_date' => fake()->dateTimeThisYear(),
             'spr_amount' => fake()->numberBetween(100, 2000),
-            "spr_semester" => $this->faker->randomElement(["1st Semester", "2nd Semester"]),
+            "spr_semester" => $this->faker->randomElement([1, 2]),
             'spr_mode_of_payment' => "GCASH",
         ];
     }

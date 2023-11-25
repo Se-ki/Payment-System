@@ -18,7 +18,7 @@ return new class extends Migration {
             $table->string('sbp_paid_amount');
             $table->string('sbp_paid_change');
             $table->string('sbp_balance_amount');
-            $table->string("sbp_semester");
+            $table->integer('sbp_semester')->comment("1 - 1st Semester, 2 - 2nd Semester");
             $table->date('sbp_date_paid');
             $table->string('status');
             $table->string('encoder');
