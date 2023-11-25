@@ -49,9 +49,9 @@
                     @foreach ($balances as $key => $balance)
                         <tr>
                             <td>{{ ++$key }}</td>
-                            <td>{{ $balance->description }}</td>
-                            <td>{{ $balance->date_paid }}</td>
-                            <td> ₱ {{ number_format($balance->balance_amount, 2) }}</td>
+                            <td>{{ $balance->sbp_description }}</td>
+                            <td>{{ $balance->sbp_date_paid }}</td>
+                            <td> ₱ {{ number_format($balance->sbp_paid_amount, 2) }}</td>
                             <td> {{ $balance->status }}</td>
                             <td> {{ $balance->encoder }}</td>
                         </tr>

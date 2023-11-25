@@ -33,7 +33,7 @@
                         <span class="nav_name">Settings</span>
                     </a>
                 </div>
-            @elseif (Auth::user()->role_type_id->type === 2)
+            @elseif (Auth::user()->role_type_id === 2)
                 <div class="nav_list">
                     <a href="/" class="nav_link {{ request()->path() === '/' ? 'active' : '' }}">
                         <i class='bx bxs-dashboard nav_icon'></i>
