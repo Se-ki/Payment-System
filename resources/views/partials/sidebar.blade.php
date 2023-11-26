@@ -13,7 +13,7 @@
                         <span class="nav_name">Home</span>
                     </a>
                     <a href="{{ route('payments.index') }}/1"
-                        class="nav_link {{ (request()->path() === 'payments/' . request()->route('semester') ? 'active' : request()->path() === 'payments/' . request()->route('semester') . '/' . isset(request()->route('year')->id)) ?? request()->route('year')->id ? 'active' : null }} ">
+                        class="nav_link {{ (request()->path() === 'payments/' . request()->route('semester') ? 'active' : request()->path() === 'payments/' . request()->route('semester') . '/' . request()->route('year')->id ?? isset(request()->route('year')->id)) ? 'active' : null }} ">
                         <i class='bx bx-grid-alt nav_icon'></i>
                         <span class="nav_name">Payments</span>
                     </a>
