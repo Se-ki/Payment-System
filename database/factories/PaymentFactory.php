@@ -18,11 +18,12 @@ class PaymentFactory extends Factory
     public function definition(): array
     {
         return [
+            'academic_year_id' => $this->faker->randomElement([1, 2, 3, 4, 5]),
             "description" => $this->faker->sentence(2),
             "amount" => $this->faker->numberBetween(100, 2000),
             "date_post" => $this->faker->dateTimeBetween('-2 years', '1 year'),
             "record_by" => $this->faker->name(),
-            "p_semester" => $this->faker->randomElement(["1st Semester", "2nd Semester"]),
+            "p_semester" => $this->faker->randomElement([1, 2]),
             "deadline" => $this->faker->dateTimeThisYear(),
             "created_at" => $this->faker->dateTimeBetween('-2 years', '1 year')
         ];

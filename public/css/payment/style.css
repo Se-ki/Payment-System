@@ -27,7 +27,19 @@ body {
 }
 
 a {
-    text-decoration: none
+    text-decoration: none;
+}
+.form{
+    float: right;
+    margin-right: 10px; 
+    
+}
+#acad-year{
+    
+    border-color: transparent;
+    background-color: rgb(241, 241, 241);
+    margin-right: 10px;
+    border-radius: 9px;
 }
 
 .header {

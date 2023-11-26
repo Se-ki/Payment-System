@@ -2,20 +2,38 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AcademicYear;
 use App\Models\Payment;
-use App\Models\Payments;
 use App\Models\Student;
-use App\Models\UserLogin;
 use Illuminate\Http\Request;
+use Illuminate\Routing\RedirectController;
 use Illuminate\Support\Facades\Auth;
 
 class PaymentController extends Controller
 {
-    //
-    public function index()
+    public function index(string $semesterId = null, AcademicYear $year = null)
     {
+        if (!$semesterId && !isset($year->id)) {
+            return abort(404);
+        }
+
+        if (isset($year->id) && $semesterId) {
+            $payments = Payment::latest()
+                ->where('student_id', Auth::user()->student->id)
+                ->where('p_semester', $semesterId)
+                ->where('academic_year_id', $year->id)
+                ->get();
+        } else if ($semesterId && !isset($year->id)) {
+            $payments = Payment::latest()
+                ->where('student_id', Auth::user()->student->id)
+                ->where('p_semester', $semesterId)
+                ->where('academic_year_id', AcademicYear::orderBy('id', 'DESC')->get()[0]->id)
+                ->get();
+        }
         return view('payments.index', [
-            'payments' => Payment::latest()->where('student_id', Auth::user()->student->id)->get()
+            'payments' => $payments,
+            'academics' => AcademicYear::orderBy('id', 'DESC')->get(),
+            'currentYear' => $year
         ]);
     }
     public function create()
@@ -40,7 +58,6 @@ class PaymentController extends Controller
         }
         return redirect('/payments/create');
     }
-
     public function show($id)
     {
         return view('payments.show', ['payment' => Payment::findOrFail($id)]);

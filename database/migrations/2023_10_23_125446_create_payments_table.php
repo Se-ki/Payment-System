@@ -12,13 +12,14 @@ return new class extends Migration {
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId("student_id")->constrained();
+            $table->foreignId("student_id")->constrained()->onDelete("cascade");
+            $table->foreignId('academic_year_id')->constrained();
             $table->string('description');
-            $table->integer('amount');
+            $table->float('amount');
             $table->date('date_post');
             $table->date('deadline');
             $table->string('record_by');
-            $table->string('p_semester');
+            $table->integer('p_semester')->comment("1-1st Semester, 2-2nd Semester");
             $table->timestamps();
         });
     }

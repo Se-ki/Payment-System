@@ -12,13 +12,14 @@ return new class extends Migration {
     {
         Schema::create('student_balance_payments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('student_id')->constrained();
+            $table->foreignId('student_id')->constrained()->onDelete("cascade");
+            $table->foreignId('academic_year_id')->constrained();
             $table->string('sbp_description');
             $table->bigInteger('sbp_receipt_number');
-            $table->string('sbp_paid_amount');
-            $table->string('sbp_paid_change');
-            $table->string('sbp_balance_amount');
-            $table->string("sbp_semester");
+            $table->float('sbp_paid_amount');
+            $table->float('sbp_paid_change');
+            $table->float('sbp_balance_amount');
+            $table->integer("sbp_semester")->comment("1-1st Semester, 2-2nd Semester");
             $table->date('sbp_date_paid');
             $table->string('status');
             $table->string('encoder');

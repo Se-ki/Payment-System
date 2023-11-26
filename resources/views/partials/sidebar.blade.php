@@ -12,8 +12,8 @@
                         <i class='bx bxs-home nav_icon'></i>
                         <span class="nav_name">Home</span>
                     </a>
-                    <a href="{{ route('payments.index') }}"
-                        class="nav_link {{ request()->path() === 'payments' ? 'active' : '' }} ">
+                    <a href="{{ route('payments.index') }}/1"
+                        class="nav_link {{ (request()->path() === 'payments/' . request()->route('semester') ? 'active' : request()->path() === 'payments/' . request()->route('semester') . '/' . isset(request()->route('year')->id)) ?? request()->route('year')->id ? 'active' : null }} ">
                         <i class='bx bx-grid-alt nav_icon'></i>
                         <span class="nav_name">Payments</span>
                     </a>
@@ -26,11 +26,6 @@
                         class="nav_link {{ request()->path() === 'balance' ? 'active' : '' }}">
                         <i class='bx bxs-credit-card nav_icon'></i>
                         <span class="nav_name">Balance</span>
-                    </a>
-                    <a href="{{ url('/profile') }}"
-                        class="nav_link {{ request()->path() === 'profile' ? 'active' : '' }}">
-                        <i class='bx bx-cog '></i>
-                        <span class="nav_name">Settings</span>
                     </a>
                 </div>
             @elseif (Auth::user()->role_type_id === 2)
@@ -51,6 +46,10 @@
             <a href="{{ url('/profile') }}" class="nav_link {{ request()->path() === 'profile' ? 'active' : '' }}">
                 <i class='bx bxs-user-badge nav_icon'></i>
                 <span class="nav_name">Profile</span>
+            </a>
+            <a href="#" class="nav_link {{ request()->path() === '' ? 'active' : '' }}">
+                <i class='bx bx-cog '></i>
+                <span class="nav_name">Settings</span>
             </a>
         </div> <a href="{{ route('logout') }}" class="nav_link"
             onclick="event.preventDefault(); document.getElementById('logout-form').submit();"> <i

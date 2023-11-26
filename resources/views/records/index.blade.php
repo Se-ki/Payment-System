@@ -1,6 +1,6 @@
 @extends('layouts.main')
 @section('content')
-    <link rel="stylesheet" href="{{ asset('css/transaction/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/records/style.css') }}">
     @include('partials.header')
     @include('partials.sidebar')
     <!--Container Main start-->

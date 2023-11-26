@@ -17,4 +17,9 @@ class Payment extends Model
     {
         return $this->belongsTo(Student::class);
     }
+
+    public function academic()
+    {
+        return $this->belongsTo(AcademicYear::class, foreignKey: 'academic_year_id');
+    }
 }

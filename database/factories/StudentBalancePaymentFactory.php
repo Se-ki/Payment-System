@@ -21,12 +21,13 @@ class StudentBalancePaymentFactory extends Factory
         $generatedCode = $currentDate . $uniqueIdentifier;
         return [
             'student_id' => $this->faker->randomElement([1, 2, 3]),
+            'academic_year_id' => $this->faker->randomElement([1, 2, 3, 4, 5]),
             'sbp_description' => fake()->sentence(3),
             'sbp_receipt_number' => $generatedCode,
             'sbp_paid_amount' => fake()->numberBetween(100, 2000),
             'sbp_paid_change' => fake()->numberBetween(100, 2000),
             'sbp_balance_amount' => fake()->numberBetween(100, 2000),
-            "sbp_semester" => $this->faker->randomElement(["1st Semester", "2nd Semester"]),
+            "sbp_semester" => $this->faker->randomElement([1, 2]),
             'sbp_date_paid' => fake()->dateTimeThisYear(),
             'status' => fake()->randomElement(['Complete', 'Pending']),
             'encoder' => fake()->firstName()

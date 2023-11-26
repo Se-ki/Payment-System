@@ -43,7 +43,7 @@
                             {{ Auth::user()->student->course->name }}
                         </p>
                         <p class="text-muted mb-4">
-                            Year Level {{ Auth::user()->student->year_level }}
+                            {{ App\Helper\PS::studentYearLevel(Auth::user()->student->year_level) }}
                         </p>
                     </div>
                 </div>
@@ -102,7 +102,7 @@
                             </div>
                             <div class="col-sm-9">
                                 <p class="text-muted mb-0">
-                                    {{ Auth::user()->student->year_level }}
+                                    {{ App\Helper\PS::studentYearLevel(Auth::user()->student->year_level) }}
                                 </p>
                             </div>
                         </div>

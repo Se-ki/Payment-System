@@ -17,8 +17,8 @@ use App\Http\Controllers\StudentBalancePaymentController;
 |
 */
 
-
 Route::middleware(['auth', 'verified'])->group(function () {
+    //these are the general purpose routes
     Route::get('/', fn() => view("dashboard"));
 
     Route::get('/profile', function () {
@@ -27,12 +27,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     //student route
     Route::middleware('isStudent')->group(function () {
-        Route::get('/payments', [PaymentController::class, 'index'])->name('payments.index');
-        Route::post('/payments/pay', [StudentPaymentRecordController::class, 'store'])->name('payments.pay');
+        Route::get('/payments/{semester?}/{year?}', [PaymentController::class, 'index'])->name('payments.index')->where(['semester' => '^[1-2]$']);
+        Route::post('/payment/pay', [StudentPaymentRecordController::class, 'store'])->name('payment.pay');
         Route::get('/records', [StudentPaymentRecordController::class, 'index'])->name("records.index");
         Route::get('/balance', [StudentBalancePaymentController::class, 'index'])->name("balance.index");
-        Route::resource('payments', PaymentController::class);
-        Route::resource('records', StudentPaymentRecordController::class);
+    });
+
+    //collector route
+    Route::middleware("isCollector")->group(function () {
+        //route here
     });
 
     //admin route
@@ -41,6 +44,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/payments/create', [PaymentController::class, 'create'])->name('payments.create');
         Route::post('/payments/store', [PaymentController::class, 'store'])->name('payments-store');
     });
+
+    Route::resource('payment', PaymentController::class);
+    Route::resource('records', StudentPaymentRecordController::class);
 });
 
 Route::middleware('auth')->prefix('user')->group(function () {

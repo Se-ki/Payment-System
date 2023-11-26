@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\PaymentRecords;
 use App\Models\Student;
 use App\Models\StudentPaymentRecord;
-use App\Models\UserLogin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -21,12 +19,12 @@ class StudentPaymentRecordController extends Controller
     public function store(Request $request)
     {
         $record = new StudentPaymentRecord([
-            'receipt_number' => fake()->numberBetween(100000, 999999),
-            'reference_number' => $request->referenceno,
-            'description' => $request->description,
-            'mode' => $request->paymentmethod,
-            'paid_date' => now(),
-            'amount' => $request->amount
+            'spr_receipt_number' => fake()->numberBetween(100000, 999999),
+            'spr_reference_number' => $request->referenceno,
+            'spr_description' => $request->description,
+            'spr_mode_of_payment' => $request->paymentmethod,
+            'spr_paid_date' => now(),
+            'spr_amount' => $request->amount
         ]);
 
         $user = Student::find(Auth::user()->id);
