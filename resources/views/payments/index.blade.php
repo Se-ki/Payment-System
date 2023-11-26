@@ -11,12 +11,12 @@
                 {{ isset($currentYear) && $currentYear != '[]' ? $currentYear->year : $academics[0]->year }}
             </button>
             <ul class="dropdown-menu">
-                <li><a class="dropdown-item {{ (request()->path() === 'payments' ? 'active' : request()->path() === 'payments/' . request()->route('semester')) ? 'active' : null }}"
-                        href="/payments/{{ request()->route('semester') }}">{{ $academics[0]->year }}</a>
+                <li><a class="dropdown-item {{ request()->path() === 'payments' ? 'active' : (request()->path() === 'payments/' . request()->route('semester') ? 'active' : null) }}"
+                        href="{{ route('payments.index', ['semester' => 1]) }}">{{ $academics[0]->year }}</a>
                 </li>
                 @foreach ($academics->skip(1) as $academic)
                     <li><a class="dropdown-item {{ isset($currentYear) && $currentYear->is($academic) ? 'active' : null }}"
-                            href="{{ route('payments.index') }}/{{ request()->route('semester') . '/' . $academic->id }}">{{ $academic->year }}</a>
+                            href="{{ route('payments.index', ['semester' => request()->route('semester'), 'year' => $academic->id]) }}">{{ $academic->year }}</a>
                     </li>
                 @endforeach
             </ul>
@@ -25,7 +25,7 @@
         <div class="form">
             <div class="form-check form-check-inline">
                 <a
-                    href="{{ route('payments.index') }}/{{ isset(request()->route('year')->id) ? '1' . '/' . request()->route('year')->id : '1' }}">
+                    href="{{ route('payments.index', ['semester' => 1, 'year' => request()->route('year')->id ?? isset(request()->route('year')->id)]) }}">
                     <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1"
                         value="option1" {{ request()->route('semester') == 1 ? 'checked' : '' }}>
                 </a>
@@ -33,7 +33,7 @@
             </div>
             <div class="form-check form-check-inline">
                 <a
-                    href="{{ route('payments.index') }}/{{ isset(request()->route('year')->id) ? '2' . '/' . request()->route('year')->id : '2' }}">
+                    href="{{ route('payments.index', ['semester' => 2, 'year' => request()->route('year')->id ?? isset(request()->route('year')->id)]) }}">
                     <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2"
                         value="option2" {{ request()->route('semester') == 2 ? 'checked' : '' }}>
                 </a>

@@ -1,3 +1,4 @@
+{{-- {{ dd(isset(request()->route('year')->id) ? request()->route('year')->id : null) }} --}}
 <div class="l-navbar" id="nav-bar">
     <nav class="nav">
         <div>
@@ -12,8 +13,8 @@
                         <i class='bx bxs-home nav_icon'></i>
                         <span class="nav_name">Home</span>
                     </a>
-                    <a href="{{ route('payments.index') }}/1"
-                        class="nav_link {{ (request()->path() === 'payments/' . request()->route('semester') ? 'active' : request()->path() === 'payments/' . request()->route('semester') . '/' . request()->route('year')->id ?? isset(request()->route('year')->id)) ? 'active' : null }} ">
+                    <a href="{{ route('payments.index', ['semester' => 1, 'year' => request()->route('year') ? request()->route('year')->id : null]) }}"
+                        class="nav_link {{ request()->route('semester') ? 'active' : (request()->route('semester') && request()->route('year') ? 'active' : null) }}">
                         <i class='bx bx-grid-alt nav_icon'></i>
                         <span class="nav_name">Payments</span>
                     </a>
