@@ -30,7 +30,7 @@
                 </div>
             @elseif (Auth::user()->role_type_id === 2)
                 <div class="nav_list">
-                    <a href="/" class="nav_link {{ request()->path() === '/' ? 'active' : '' }}">
+                    <a href="{{ url('/') }}" class="nav_link {{ request()->path() === '/' ? 'active' : '' }}">
                         <i class='bx bxs-dashboard nav_icon'></i>
                         <span class="nav_name">Dashboard</span>
                     </a>

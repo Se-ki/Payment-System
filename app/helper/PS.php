@@ -17,16 +17,16 @@ class PS
         return $result;
     }
 
-    public static function studentYearLevel($year)
+    public static function studentYearLevel($year_level)
     {
-        if ($year === 1) {
-            return $year . "st year";
-        } else if ($year === 2) {
-            return $year . "nd year";
-        } else if ($year === 3) {
-            return $year . "rd year";
+        if ($year_level == 1) {
+            return $year_level . "st year";
+        } else if ($year_level == 2) {
+            return $year_level . "nd year";
+        } else if ($year_level == 3) {
+            return $year_level . "rd year";
         } else {
-            return $year . "th year";
+            return $year_level . "th year";
         }
     }
 }

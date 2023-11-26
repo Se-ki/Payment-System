@@ -24,7 +24,6 @@
                 <input class="form-check-input" type="radio" name="inlineRadioOptions" id="second" value="option2">
                 <label class="form-check-label" for="Second">2 Semester</label>
             </div>
-
             <select name="acad-year" id="acad-year">
                 <option value="">2021-2022</option>
                 <option value="">2022-2023</option>
