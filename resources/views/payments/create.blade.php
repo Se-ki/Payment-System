@@ -9,7 +9,7 @@
         <input type="text" name="description" placeholder="Description">
         <input type="text" name="amount" placeholder="Amount">
         <input type="date" name="deadline" placeholder="Deadline">
-        <select name="semesters" id="">
+        <select name="semester" id="">
             <option value="1">1st Semester</option>
             <option value="2">2nd Semester</option>
         </select>

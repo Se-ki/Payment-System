@@ -15,7 +15,7 @@
                     </a>
                     <a href="{{ route('payments.index', ['semester' => 1, 'year' => request()->route('year') ? request()->route('year')->id : null]) }}"
                         class="nav_link {{ request()->route('semester') ? 'active' : (request()->route('semester') && request()->route('year') ? 'active' : null) }}">
-                        <i class='bx bx-grid-alt nav_icon'></i>
+                        <i class="fa-solid fa-file-invoice nav_icon"></i>
                         <span class="nav_name">Payments</span>
                     </a>
                     <a href="{{ route('records.index') }}"
@@ -36,11 +36,32 @@
                         <span class="nav_name">Dashboard</span>
                     </a>
                 </div>
+                <div class="nav_list">
+                    <a href="{{ route('balance.student.index') }}"
+                        class="nav_link {{ request()->path() === 'student/walkin' ? 'active' : null }}">
+                        <i class="fa-solid fa-person-walking nav_icon"></i>
+                        <span class="nav_name">Walk In</span>
+                    </a>
+                </div>
             @else
                 <div class="nav_list">
-                    <a href="/" class="nav_link {{ request()->path() === '/' ? 'active' : '' }}">
+                    <a href="{{ url('/') }}" class="nav_link {{ request()->path() === '/' ? 'active' : '' }}">
                         <i class='bx bxs-dashboard nav_icon'></i>
                         <span class="nav_name">Dashboard</span>
+                    </a>
+                </div>
+                <div class="nav_list">
+                    <a href="{{ route('balance.student.index') }}"
+                        class="nav_link {{ request()->path() === 'student/walkin' ? 'active' : '' }}">
+                        <i class="fa-solid fa-person-walking nav_icon"></i>
+                        <span class="nav_name">Walk In</span>
+                    </a>
+                </div>
+                <div class="nav_list">
+                    <a href="{{ route('payments.create') }}"
+                        class="nav_link {{ request()->path() === 'payments/create' ? 'active' : '' }}">
+                        <i class="fa-solid fa-file-circle-plus nav_icon"></i>
+                        <span class="nav_name">Add Payment</span>
                     </a>
                 </div>
             @endif

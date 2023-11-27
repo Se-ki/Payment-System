@@ -18,7 +18,7 @@
                         date_default_timezone_set('Asia/Manila');
                     @endphp
                     <p class="small text-muted mb-1">Date Paid</p>
-                    {{ date('F d, Y h:i:s A') }}
+                    {{ date('F d, Y ') }}
                     <input type="hidden" name="datepaid" value="{{ date('F d, Y h:i:s A') }}" class="form-control"
                         id="" readonly>
                 </div>

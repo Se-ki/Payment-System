@@ -7,17 +7,17 @@ use App\Models\StudentPaymentRecord;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class StudentPaymentRecordController extends Controller
-{
-    public function index()
-    {
+class StudentPaymentRecordController extends Controller {
+    public function index() {
         return view('records.index', [
             'header' => "Student Records",
             "records" => StudentPaymentRecord::latest("spr_paid_date")->where('student_id', Auth::user()->student->id)->get()
         ]);
     }
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
+        $uniqueIdentifier = str_pad(mt_rand(1, 9999), 4, '0', STR_PAD_LEFT);
+        $currentDate = now()->format('Ymd');
+        $generatedCode = $currentDate.$uniqueIdentifier;
         $record = new StudentPaymentRecord([
             'spr_receipt_number' => fake()->numberBetween(100000, 999999),
             'spr_reference_number' => $request->referenceno,
@@ -35,8 +35,7 @@ class StudentPaymentRecordController extends Controller
 
         return redirect('/payments');
     }
-    public function show($id)
-    {
+    public function show($id) {
         return view('records.show', ["record" => StudentPaymentRecord::findOrFail($id)]);
     }
 }

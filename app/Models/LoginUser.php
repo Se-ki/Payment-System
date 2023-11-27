@@ -9,8 +9,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class LoginUser extends Authenticatable implements MustVerifyEmail
-{
+class LoginUser extends Authenticatable implements MustVerifyEmail {
     use HasApiTokens, HasFactory, Notifiable;
 
     /**
@@ -44,12 +43,10 @@ class LoginUser extends Authenticatable implements MustVerifyEmail
         'password' => 'hashed',
     ];
 
-    public function student()
-    {
-        return $this->belongsTo(Student::class);
+    public function student() {
+        return $this->belongsTo(Student::class, foreignKey: 'student_id');
     }
-    public function role()
-    {
+    public function role() {
         return $this->belongsTo(RoleType::class, foreignKey: 'role_type_id');
     }
 }

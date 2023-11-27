@@ -32,39 +32,133 @@
         </div>
     @elseif (Auth::user()->role_type_id === 2)
         <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-md-8">
-                    <div class="card">
-                        <div class="card-header">{{ __('Collector Dashboard') }}</div>
-                        <div class="card-body">
-                            @if (session('status'))
-                                <div class="alert alert-success" role="alert">
-                                    {{ session('status') }}
-                                </div>
-                            @endif
 
-                            {{ __('You are logged in!') }}
+            <div class="container">
+                <p style="font-weight: bold; font-size: 40px;">Welcome to <span
+                        style="font-size: 50px; color: blue;">E</span>-Payment, {{ Auth::user()->student->firstname }}
+                </p>
+
+                <div class="admin height-100">
+                    <div id="main-content" class="container allContent-section py-4">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <div class="card">
+                                    <i class="icon-card fa fa-users  mb-2"></i>
+                                    <h4 style="color:white;">Total Users</h4>
+                                    <h5 style="color:white;">
+                                        <!-- condition diri nya -->
+
+                                    </h5>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="card">
+                                    <i class='icon-card bx bxs-wallet mb-2'></i>
+                                    <h4 style="color:white;">Total Amount</h4>
+                                    <h5 style="color:white;">
+                                        <!-- condition diri nya -->
+                                    </h5>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="card">
+                                    <i class="icon-card fa fa-list mb-2"></i>
+                                    <h4 style="color:white;">Total Bills</h4>
+                                    <h5 style="color:white;">
+                                        <!-- condition diri nya -->
+                                    </h5>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="card">
+                                    <i class='icon-card bx bx-money-withdraw mb-2'></i>
+                                    <h4 style="color:white;">Total Paid</h4>
+                                    <h5 style="color:white;">
+                                        <!-- condition diri nya -->
+                                    </h5>
+                                </div>
+                            </div>
                         </div>
+                        <hr>
+                        <div class="">
+                            <img src="{{ asset('img/bg-csucc.jpg') }}" style="height: 94vh; width: 100%; " />
+                        </div>
+                        <section class="footer_section py-3"
+                            style="background-color: #506e50; padding-left: 200px; height: 8vh; ">
+                            <div class="container">
+                                <p class="text-light">
+                                    &copy; <span id="displayYear"></span> All Rights Reserved By CSUCC Cabadbaran City
+                                    Campus,
+                                    Created By CKA - AC - JS
+                                </p>
+                            </div>
+                        </section>
                     </div>
                 </div>
             </div>
         </div>
     @else
         <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-md-8">
-                    <div class="card">
-                        <div class="card-header">{{ __('Admin Dashboard') }}</div>
 
-                        <div class="card-body">
-                            @if (session('status'))
-                                <div class="alert alert-success" role="alert">
-                                    {{ session('status') }}
+            <div class="container">
+                <p style="font-weight: bold; font-size: 40px;">Welcome to <span
+                        style="font-size: 50px; color: blue;">E</span>-Payment!</p>
+
+                <div class="admin height-100">
+                    <div id="main-content" class="container allContent-section py-4">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <div class="card">
+                                    <i class="icon-card fa fa-users  mb-2"></i>
+                                    <h4 style="color:white;">Total Users</h4>
+                                    <h5 style="color:white;">
+                                        <!-- condition diri nya -->
+
+                                    </h5>
                                 </div>
-                            @endif
-
-                            {{ __('You are logged in!') }}
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="card">
+                                    <i class='icon-card bx bxs-wallet mb-2'></i>
+                                    <h4 style="color:white;">Total Amount</h4>
+                                    <h5 style="color:white;">
+                                        <!-- condition diri nya -->
+                                    </h5>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="card">
+                                    <i class="icon-card fa fa-list mb-2"></i>
+                                    <h4 style="color:white;">Total Bills</h4>
+                                    <h5 style="color:white;">
+                                        <!-- condition diri nya -->
+                                    </h5>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="card">
+                                    <i class='icon-card bx bx-money-withdraw mb-2'></i>
+                                    <h4 style="color:white;">Total Paid</h4>
+                                    <h5 style="color:white;">
+                                        <!-- condition diri nya -->
+                                    </h5>
+                                </div>
+                            </div>
                         </div>
+                        <hr>
+                        <div class="">
+                            <img src="{{ asset('img/bg-csucc.jpg') }}" style="height: 94vh; width: 100%; " />
+                        </div>
+                        <section class="footer_section py-3"
+                            style="background-color: #506e50; padding-left: 200px; height: 8vh; ">
+                            <div class="container">
+                                <p class="text-light">
+                                    &copy; <span id="displayYear"></span> All Rights Reserved By CSUCC Cabadbaran City
+                                    Campus,
+                                    Created By CKA - AC - JS
+                                </p>
+                            </div>
+                        </section>
                     </div>
                 </div>
             </div>

@@ -196,9 +196,3 @@ td {
 .description-capitalization {
     text-transform: capitalize;
 }
-
-.dropdown-menu {
-    overflow: hidden;
-    overflow-y: auto;
-    max-height: calc(100vh - 400px);
-  }

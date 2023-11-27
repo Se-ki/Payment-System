@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StudentPaymentRecordController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\StudentBalancePaymentController;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,9 +22,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     //these are the general purpose routes
     Route::get('/', fn() => view("dashboard"));
 
-    Route::get('/profile', function () {
-        return view('profile.index');
-    });
+    Route::get('/profile', fn() => view('profile.index'));
 
     //student route
     Route::middleware('isStudent')->group(function () {
@@ -33,9 +32,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/balance', [StudentBalancePaymentController::class, 'index'])->name("balance.index");
     });
 
+
+    Route::get('student/walkin', [StudentBalancePaymentController::class, 'listOfStudent'])->name("balance.student.index");
+    Route::get('student/list/payments', [StudentBalancePaymentController::class, 'listOfPayments'])->name("balance.student.payment.index");
+    Route::get('student/walkin/form', [StudentBalancePaymentController::class, 'create'])->name("balance.create");
+
     //collector route
     Route::middleware("isCollector")->group(function () {
         //route here
+
     });
 
     //admin route
@@ -44,6 +49,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/payments/create', [PaymentController::class, 'create'])->name('payments.create');
         Route::post('/payments/store', [PaymentController::class, 'store'])->name('payments-store');
     });
+
 
     Route::resource('payment', PaymentController::class);
     Route::resource('records', StudentPaymentRecordController::class);
@@ -55,4 +61,4 @@ Route::middleware('auth')->prefix('user')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';
