@@ -6,6 +6,7 @@ use App\Models\Student;
 use App\Models\StudentPaymentRecord;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class StudentPaymentRecordController extends Controller {
     public function index() {
@@ -15,25 +16,30 @@ class StudentPaymentRecordController extends Controller {
         ]);
     }
     public function store(Request $request) {
+        $name = $request->file('proof_of_payment_photo')->getClientOriginalName();
+        $request->file('proof_of_payment_photo')->storeAs('public/proof_of_payment_photo/', $name);
         $uniqueIdentifier = str_pad(mt_rand(1, 9999), 4, '0', STR_PAD_LEFT);
         $currentDate = now()->format('Ymd');
         $generatedCode = $currentDate.$uniqueIdentifier;
         $record = new StudentPaymentRecord([
-            'spr_receipt_number' => fake()->numberBetween(100000, 999999),
+            'academic_year_id' => $request->year_id,
+            'spr_receipt_number' => $generatedCode,
             'spr_reference_number' => $request->referenceno,
             'spr_description' => $request->description,
             'spr_mode_of_payment' => $request->paymentmethod,
+            'spr_proof_of_payment_photo' => $name,
             'spr_paid_date' => now(),
-            'spr_amount' => $request->amount
+            'spr_amount' => $request->amount,
+            'spr_semester' => $request->spr_semester,
         ]);
 
         $user = Student::find(Auth::user()->id);
 
-        $user->records()->save($record);
+        $user->record()->save($record);
 
-        // PaymentsController::destroy();
+        PaymentController::destroy($request->paymentid);
 
-        return redirect('/payments');
+        return redirect()->back();
     }
     public function show($id) {
         return view('records.show', ["record" => StudentPaymentRecord::findOrFail($id)]);

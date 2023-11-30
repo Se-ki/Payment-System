@@ -4,13 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\StudentBalancePayment;
 use Illuminate\Support\Facades\Auth;
+use App\Helper\PS;
 
 class StudentBalancePaymentController extends Controller {
     public function index() {
         return view('balance.index', ['balances' => StudentBalancePayment::latest("sbp_date_paid")->where('student_id', Auth::user()->student->id)->get()]);
     }
     public function create() {
-        if(Auth::user()->role_type_id !== 2 && Auth::user()->role_type_id !== 3) {
+        if(PS::checkIfCollectorOrAdmin()) {
             return redirect('/');
         }
         return view('balance.create');
@@ -33,13 +34,13 @@ class StudentBalancePaymentController extends Controller {
         //
     }
     public function listOfStudent() {
-        if(Auth::user()->role_type_id !== 2 && Auth::user()->role_type_id !== 3) {
+        if(PS::checkIfCollectorOrAdmin()) {
             return redirect('/');
         }
         return view('balance.student.index');
     }
     public function listOfPayments() {
-        if(Auth::user()->role_type_id !== 2 && Auth::user()->role_type_id !== 3) {
+        if(PS::checkIfCollectorOrAdmin()) {
             return redirect('/');
         }
         return view('balance.student.payment.index');

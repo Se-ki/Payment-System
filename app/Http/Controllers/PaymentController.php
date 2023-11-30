@@ -57,7 +57,7 @@ class PaymentController extends Controller {
     public function show($id) {
         return view('payments.show', ['payment' => Payment::findOrFail($id)]);
     }
-    public static function destroy() {
-
+    public static function destroy($id) {
+        Payment::findOrFail($id)->delete();
     }
 }

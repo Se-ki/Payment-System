@@ -46,7 +46,6 @@
                             <td class="text-white">
                                 {{ '₱ ' . number_format($record->spr_amount, 2) }}
                             </td>
-
                             <td>
                                 <a style="color: blue; cursor:pointer" data-toggle="modal" id="recordButton"
                                     data-target="#recordModal" data-attr="{{ route('records.show', $record->id) }}"

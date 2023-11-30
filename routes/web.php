@@ -40,7 +40,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     //collector route
     Route::middleware("isCollector")->group(function () {
         //route here
-
     });
 
     //admin route

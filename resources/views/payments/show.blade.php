@@ -1,10 +1,11 @@
 <div class="card">
     <div class="card-body">
         <h4 style="margin-bottom: 2rem">Payment Method</h4>
-        <form action="{{ route('payment.pay') }}" method="POST">
+        <form action="{{ route('payment.pay') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <input type="hidden" name="paymentid" value={{ $payment->id }}>
-            <input type="hidden" name="semester" value={{ $payment->p_semester }}>
+            <input type="hidden" name="spr_semester" value={{ $payment->p_semester }}>
+            <input type="hidden" name="year_id" value={{ $payment->academic_year_id }}>
             <div class="col-sm-20">
                 <div class="form-check">
                     <input class="form-check-input" type="radio" name="paymentmethod" value="GCASH" checked>
@@ -44,7 +45,7 @@
                 </div>
                 <div class="col mt-3">
                     <p class="small mb-1" id="refLabel">Proof of Payment</p>
-                    <input type="file" name="proof_of_payment_picture" class="form-control"
+                    <input type="file" name="proof_of_payment_photo" class="form-control"
                         accept="image/png, image/jpeg" required>
                 </div>
             </div>
