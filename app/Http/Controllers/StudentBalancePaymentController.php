@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\StudentBalancePayment;
 use Illuminate\Support\Facades\Auth;
 use App\Helper\PS;
+use App\Models\LoginUser;
+use App\Models\Payment;
+use App\Models\Student;
 
 class StudentBalancePaymentController extends Controller {
     public function index() {
@@ -37,12 +40,12 @@ class StudentBalancePaymentController extends Controller {
         if(PS::checkIfCollectorOrAdmin()) {
             return redirect('/');
         }
-        return view('balance.student.index');
+        return view('balance.student.index', ['users' => LoginUser::where('role_type_id', 1)->get()]);
     }
-    public function listOfPayments() {
+    public function listOfPayments(LoginUser $student) {
         if(PS::checkIfCollectorOrAdmin()) {
             return redirect('/');
         }
-        return view('balance.student.payment.index');
+        return view('balance.student.payment.index', ['payments' => Payment::latest()->where('student_id', $student->id)->get()]);
     }
 }

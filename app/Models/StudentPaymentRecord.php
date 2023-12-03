@@ -22,4 +22,7 @@ class StudentPaymentRecord extends Model {
     public function user() {
         return $this->belongsTo(Student::class, foreignKey: 'student_id');
     }
+    public function academic() {
+        return $this->belongsTo(AcademicYear::class, foreignKey: 'academic_year_id');
+    }
 }

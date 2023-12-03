@@ -30,7 +30,8 @@
                 <p class="small text-muted mb-1">Proof of Payment</p>
                 {{-- <img src="{{ asset('storage/images/' . $record->spr_proof_of_payment_photo) }}" height="300"
                     width=""> --}}
-                <a href="{{ asset('storage/proof_of_payment_photo/' . $record->spr_proof_of_payment_photo) }}">
+                <a href="{{ asset('storage/proof_of_payment_photo/' . $record->spr_proof_of_payment_photo) }}"
+                    target="_blank">
                     <img src="{{ asset('storage/proof_of_payment_photo/' . $record->spr_proof_of_payment_photo) }}"
                         alt="" height="300" width="150">
                 </a>

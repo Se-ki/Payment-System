@@ -30,6 +30,7 @@ class PaymentController extends Controller {
                 ->get();
         }
         return view('payments.index', [
+            'header' => "Payments",
             'payments' => $payments,
             'academics' => AcademicYear::orderBy('id', 'DESC')->get(),
             'currentYear' => $year

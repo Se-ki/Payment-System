@@ -4,7 +4,7 @@
     </div>
     <span class=""><img src="{{ asset('img/logo-no-bg.png') }}" width="120px" height="50px" alt=""
             srcset=""></span>
-    <li class=" nav-item dropdown">
+    <li class="nav-item dropdown">
         <a class="dropdown-toggle" data-bs-toggle="dropdown">
             {{ Auth::user()->student->lastname }}, {{ Auth::user()->student->firstname }} |
             {{ Auth::user()->role->type }}
