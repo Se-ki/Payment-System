@@ -37,3 +37,22 @@ $(document).on('click', '#recordButton', function (event) {
         timeout: 8000
     })
 });
+
+//description modal
+$(document).on('click', '#descriptionButton', function (event) {
+    event.preventDefault();
+    let href = $(this).attr('data-attr');
+    $.ajax({
+        url: href,
+        success: function (result) {
+            $('#descriptionModal').modal("show");
+            $('#descriptionBody').html(result).show();
+        },
+        error: function (jqXHR, testStatus, error) {
+            console.log(error);
+            alert("Page " + href + " cannot open. Error:" + error);
+            $('#loader').hide();
+        },
+        timeout: 8000
+    })
+});

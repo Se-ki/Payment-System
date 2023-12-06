@@ -7,8 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Student extends Model {
     use HasFactory;
-    
-    protected $with = ['payment'];
+
+    // protected $with = ['payment', 'course'];
 
     public function payment() {
         return $this->hasMany(Payment::class);

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\AcademicYear;
+use App\Models\Description;
 use App\Models\LoginUser;
 use App\Models\Payment;
 use App\Models\Student;
@@ -12,10 +13,6 @@ use Illuminate\Support\Facades\Auth;
 
 class PaymentController extends Controller {
     public function index(string $semesterId = null, AcademicYear $year = null) {
-        if(!$semesterId && !$year) {
-            return abort(404);
-        }
-
         if(isset($year->id) && $semesterId) {
             $payments = Payment::latest()
                 ->where('student_id', Auth::user()->student->id)
@@ -28,6 +25,10 @@ class PaymentController extends Controller {
                 ->where('p_semester', $semesterId)
                 ->where('academic_year_id', AcademicYear::orderBy('id', 'DESC')->get()[0]->id)
                 ->get();
+        } else {
+            $payments = Payment::latest()
+                ->where('student_id', Auth::user()->student->id)
+                ->get();
         }
         return view('payments.index', [
             'header' => "Payments",
@@ -37,15 +38,18 @@ class PaymentController extends Controller {
         ]);
     }
     public function create() {
-        return view('payments.create');
+        return view('payments.create', [
+            'descriptions' => Description::where('status', 1)->orderBy('id', 'DESC')->get(),
+            'payments' => Payment::latest()->get(),
+        ]);
     }
     public function store(Request $request) {
         $academic_years = AcademicYear::orderBy('id', 'DESC')->get();
         $login_users = LoginUser::where('role_type_id', 1)->get();
         foreach($login_users as $user) {
             $user->student->payment()->save(new Payment([
-                'academic_year_id' => $academic_years[0]->id,
-                "description" => $request->description,
+                'academic_year_id' => $academic_years->first()->id,
+                "description_id" => $request->description_id,
                 'amount' => $request->amount,
                 'date_post' => NOW(),
                 'deadline' => $request->deadline,

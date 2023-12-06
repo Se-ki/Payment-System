@@ -13,14 +13,14 @@
                         <i class='bx bxs-home nav_icon'></i>
                         <span class="nav_name">Home</span>
                     </a>
-                    <a href="{{ route('payments.index', ['semester' => 1, 'year' => request()->route('year') ? request()->route('year')->id : null]) }}"
-                        class="nav_link {{ request()->path() === 'payments/' . request()->route('semester') ? 'active' : (request()->path() === 'payments/' . request()->route('semester') . '/' . (request()->route('year')->id ?? null) ? 'active' : null) }}">
+                    <a href="{{ route('payments.index') }}"
+                        class="nav_link {{ request()->path() === 'payments' ? 'active' : (request()->path() === 'payments/' . request()->route('semester') . '/' . (request()->route('year')->id ?? null) ? 'active' : (request()->path() === 'payments/' . request()->route('semester') ? 'active' : null)) }}">
                         <i class="fa-solid fa-file-invoice nav_icon"></i>
                         <span class="nav_name">Payments</span>
                     </a>
 
-                    <a href="{{ route('records.index', ['semester' => 1, 'year' => request()->route('year') ? request()->route('year')->id : null]) }}"
-                        class="nav_link {{ request()->path() === 'records/' . request()->route('semester') ? 'active' : (request()->path() === 'records/' . request()->route('semester') . '/' . (request()->route('year')->id ?? null) ? 'active' : null) }}">
+                    <a href="{{ route('records.index', ['year' => request()->route('year') ? request()->route('year')->id : null]) }}"
+                        class="nav_link {{ request()->path() === 'records' ? 'active' : (request()->path() === 'records/' . request()->route('semester') . '/' . (request()->route('year')->id ?? null) ? 'active' : (request()->path() === 'records/' . request()->route('semester') ? 'active' : null)) }}">
                         <i class='bx bx-receipt nav_icon'></i>
                         <span class="nav_name">Student Records</span>
                     </a>
@@ -63,6 +63,13 @@
                         class="nav_link {{ request()->path() === 'payments/create' ? 'active' : '' }}">
                         <i class="fa-solid fa-file-circle-plus nav_icon"></i>
                         <span class="nav_name">Add Payment</span>
+                    </a>
+                </div>
+                <div class="nav_list">
+                    <a href="{{ route('descriptions.index') }}"
+                        class="nav_link {{ request()->path() === 'payments/description' ? 'active' : '' }}">
+                        <i class="fa-regular fa-rectangle-list nav_icon"></i>
+                        <span class="nav_name">List of Description</span>
                     </a>
                 </div>
             @endif

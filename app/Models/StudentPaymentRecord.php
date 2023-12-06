@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class StudentPaymentRecord extends Model {
     use HasFactory;
-
+    // protected $with = ['student', 'academic'];
     protected $fillable = [
         'academic_year_id',
         'spr_description',
@@ -19,7 +19,7 @@ class StudentPaymentRecord extends Model {
         'spr_mode_of_payment',
         'spr_proof_of_payment_photo',
     ];
-    public function user() {
+    public function student() {
         return $this->belongsTo(Student::class, foreignKey: 'student_id');
     }
     public function academic() {

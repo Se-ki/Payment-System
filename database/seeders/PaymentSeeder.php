@@ -2,20 +2,21 @@
 
 namespace Database\Seeders;
 
+use App\Models\Description;
 use App\Models\LoginUser;
 use App\Models\Payment;
 use App\Models\Student;
 use App\Models\StudentBalancePayment;
 use App\Models\StudentPaymentRecord;
+use Database\Factories\DescriptionFactory;
 use Illuminate\Database\Seeder;
 
-class PaymentSeeder extends Seeder
-{
+class PaymentSeeder extends Seeder {
     /**
      * Run the database seeds.
      */
-    public function run(): void
-    {
+    public function run(): void {
+        Description::factory(3)->create();
         $student1 = Student::factory()->create([
             "school_id" => "20211296",
             "firstname" => "Christian Kyle",
@@ -65,7 +66,7 @@ class PaymentSeeder extends Seeder
             'role_type_id' => 1,
             'email_verified_at' => NOW()
         ]);
-        
+
         LoginUser::factory()->create([
             "student_id" => $student3->id,
             'username' => 'ahrrol.cervantes',

@@ -3,51 +3,55 @@
     <link rel="stylesheet" href="{{ asset('css/balance/style.css') }}">
     @include('partials.header')
     @include('partials.sidebar')
-    {{-- <h1>diri na ang form nga mahimo</h1> --}}
     <div class="card">
         {{-- for header only --}}
         <div class="card-header">
-            <h1>WALK IN</h1>
+            <h1>{{ $student->firstname }} {{ $student->lastname }} Balance</h1>
         </div>
+
         {{-- for the body --}}
         <div class="card-body">
-            <form action="{{ route('balance.store', $payment->id) }}" method="POST" class="row g-3 mt-2 ">
+            <form action="{{ route('balance.update', $balance->id) }}" method="POST" class="row g-3 mt-2 ">
                 @csrf
+                @method('PATCH')
                 <div class="form-floating ">
-                    <input name="sbp_description" type="text" value="{{ $payment->description->name }}"
-                        class="form-control" id="floatingInput" placeholder="Description" readonly />
+                    <input name="sbp_description" type="text" value="{{ $balance->sbp_description }}" class="form-control"
+                        id="floatingInput" readonly />
                     <label for="floatingInput">Description</label>
                 </div>
 
                 <div class="form-floating">
-                    <input name="sbp_amount" type="text" value="{{ $payment->amount }}" class="form-control"
-                        id="amount" placeholder="Amount" readonly />
+                    <input value="{{ $balance->sbp_amount }}" name="sbp_amount" type="text" class="form-control"
+                        id="amount" readonly />
                     <label for="floatingPassword">Amount</label>
                 </div>
                 <div class="form-floating">
-                    <input name="sbp_balance_amount" type="text" value="" class="form-control" id="sbp_d"
-                        placeholder="Amount">
+                    <input value="{{ $balance->sbp_balance_amount }}" name="sbp_balance_amount" type="text"
+                        value="" class="form-control" id="sbp_d" />
                     <label for="floatingPassword">Balance Amount</label>
                 </div>
                 <div class="form-floating">
-                    <input name="sbp_paid_amount" type="text" class="form-control" id="amount" placeholder="Amount">
+                    <input value="{{ $balance->sbp_paid_amount }}" name="sbp_paid_amount" type="text"
+                        class="form-control" id="amount" />
                     <label for="floatingPassword">Paid Amount</label>
                 </div>
                 <div class="form-floating">
-                    <input name="sbp_paid_change" type="text" class="form-control" id="amount" placeholder="Amount">
+                    <input value="{{ $balance->sbp_paid_change }}" name="sbp_paid_change" type="text"
+                        class="form-control" id="amount" />
                     <label for="floatingPassword">Paid Change</label>
                 </div>
 
                 <div class="form-floating">
                     <select name="status" class="form-select" id="floatingSelect"
                         aria-label="Floating label select example">
-                        <option value="Complete">Complete</option>
-                        <option value="Pending">Pending</option>
+                        <option value="Complete" {{ $balance->status === 'Complete' ? 'selected' : null }}>Complete
+                        </option>
+                        <option value="Pending" {{ $balance->status === 'Pending' ? 'selected' : null }}>Pending</option>
                     </select>
                     <label for="floatingSelect">Status</label>
                 </div>
 
-                <button type="submit" class="btn btn-outline-danger">Pay</button>
+                <button type="submit" class="btn btn-outline-danger">Submit</button>
 
             </form>
         </div>

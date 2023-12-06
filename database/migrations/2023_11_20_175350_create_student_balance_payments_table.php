@@ -8,14 +8,14 @@ return new class extends Migration {
     /**
      * Run the migrations.
      */
-    public function up(): void
-    {
+    public function up(): void {
         Schema::create('student_balance_payments', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->foreignId('student_id')->constrained()->onDelete("cascade");
             $table->foreignId('academic_year_id')->constrained();
             $table->string('sbp_description');
             $table->bigInteger('sbp_receipt_number');
+            $table->float('sbp_amount');
             $table->float('sbp_paid_amount');
             $table->float('sbp_paid_change');
             $table->float('sbp_balance_amount');
@@ -30,8 +30,7 @@ return new class extends Migration {
     /**
      * Reverse the migrations.
      */
-    public function down(): void
-    {
+    public function down(): void {
         Schema::dropIfExists('balances');
     }
 };

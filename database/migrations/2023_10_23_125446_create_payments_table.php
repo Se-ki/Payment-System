@@ -8,13 +8,12 @@ return new class extends Migration {
     /**
      * Run the migrations.
      */
-    public function up(): void
-    {
+    public function up(): void {
         Schema::create('payments', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->foreignId("student_id")->constrained()->onDelete("cascade");
             $table->foreignId('academic_year_id')->constrained();
-            $table->string('description');
+            $table->foreignId('description_id')->constrained()->onDelete("cascade");
             $table->float('amount');
             $table->date('date_post');
             $table->date('deadline');
@@ -27,8 +26,7 @@ return new class extends Migration {
     /**
      * Reverse the migrations.
      */
-    public function down(): void
-    {
+    public function down(): void {
         Schema::dropIfExists('payments');
     }
 };

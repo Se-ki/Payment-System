@@ -8,18 +8,16 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Payment>
  */
-class PaymentFactory extends Factory
-{
+class PaymentFactory extends Factory {
     /**
      * Define the model's default state.
      *
      * @return array<string, mixed>
      */
-    public function definition(): array
-    {
+    public function definition(): array {
         return [
             'academic_year_id' => $this->faker->randomElement([1, 2, 3, 4, 5]),
-            "description" => $this->faker->sentence(2),
+            "description_id" => $this->faker->randomElement([1, 2, 3]),
             "amount" => $this->faker->numberBetween(100, 2000),
             "date_post" => $this->faker->dateTimeBetween('-2 years', '1 year'),
             "record_by" => $this->faker->name(),

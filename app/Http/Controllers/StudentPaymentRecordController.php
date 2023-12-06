@@ -11,10 +11,6 @@ use Illuminate\Support\Facades\Storage;
 
 class StudentPaymentRecordController extends Controller {
     public function index(int $semesterId = null, AcademicYear $year = null) {
-        // if(!$semesterId && !$year) {
-        //     return abort(404);
-        // }
-
         if(isset($year->id) && $semesterId) {
             $records = StudentPaymentRecord::latest()
                 ->where('student_id', Auth::user()->student->id)
@@ -39,10 +35,10 @@ class StudentPaymentRecordController extends Controller {
             'currentYear' => $year,
         ]);
     }
-    public function store(Request $request) {
+    public function store($id, Request $request) {
         $name = $request->file('proof_of_payment_photo')->getClientOriginalName();
         $extension = $request->file('proof_of_payment_photo')->getClientOriginalExtension();
-        if($extension !== 'jpg' || $extension !== 'png') {
+        if($extension !== 'jpg' && $extension !== 'png') {
             return redirect()->back()->with('error', true);
         }
         $request->file('proof_of_payment_photo')->storeAs('public/proof_of_payment_photo/', $name);
@@ -60,12 +56,11 @@ class StudentPaymentRecordController extends Controller {
             'spr_amount' => $request->amount,
             'spr_semester' => $request->spr_semester,
         ]);
-
         $user = Student::find(Auth::user()->id);
 
         $user->record()->save($record);
 
-        PaymentController::destroy($request->paymentid);
+        PaymentController::destroy($id);
 
         return redirect()->back();
     }

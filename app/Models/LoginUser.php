@@ -43,6 +43,9 @@ class LoginUser extends Authenticatable implements MustVerifyEmail {
         'password' => 'hashed',
     ];
 
+    protected $with = ['student', 'role'];
+
+
     public function student() {
         return $this->belongsTo(Student::class, foreignKey: 'student_id');
     }

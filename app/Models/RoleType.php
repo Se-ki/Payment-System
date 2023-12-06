@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class RoleType extends Model {
     use HasFactory;
-
     public function loginUser() {
         return $this->hasOne(LoginUser::class);
     }

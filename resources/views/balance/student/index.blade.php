@@ -3,20 +3,14 @@
     <link rel="stylesheet" href="{{ asset('css/balance/collector/style.css') }}">
     @include('partials.header')
     @include('partials.sidebar')
-    {{-- <h1>Here ang sa mga list sa student</h1> --}}
-    {{-- <a href="{{ route('balance.student.payment.index') }}" <span class="fa fa-eye text-primary "></span> View
-    </a> --}}
     <div class="card card-outline rounded-0 card-navy">
+        <span class="border-top border-black "></span>
         <div class="card-header">
             <h3 class="card-title">List of Student</h3>
-            {{-- <div class="card-tools">
-                <a href="" id="create_new" class="btn btn-flat btn-primary"><span class="fas fa-plus"></span> Create
-                    New</a>
-            </div> --}}
         </div>
         <div class="card-body">
             <div class="container-fluid">
-                <table class="table table-hover table-striped table-bordered" id="list">
+                <table id="example" class="table table-hover table-striped table-bordered" id="list">
                     <colgroup>
                         <col width="5%">
                         <col width="15%">
@@ -27,7 +21,7 @@
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Date Created</th>
+                            <th>ID</th>
                             <th>Name</th>
                             <th>Action</th>
                         </tr>
@@ -36,21 +30,25 @@
                         @foreach ($users as $key => $user)
                             <tr>
                                 <td> {{ ++$key }} </td>
-                                <td> {{ $user->student->created_at->format('F, m Y') }} </td>
+                                <td> {{ App\Helper\PS::addHyphenAfterFourNumbers($user->student->school_id) }} </td>
 
                                 <td> {{ $user->student->firstname }} {{ $user->student->middlename }}
                                     {{ $user->student->lastname }} </td>
                                 <td align="center">
                                     <li class="nav-item dropdown">
-                                        <a class="btn btn-flat p-1 btn-default btn-sm dropdown-toggle dropdown-icon"
+                                        <a class="btn btn-flat p-1 btn-default btn-sm dropdown-toggle btn-outline-primary dropdown-icon"
                                             data-bs-toggle="dropdown">
                                             Action
                                         </a>
                                         <div class="dropdown-menu" role="menu">
                                             <a class="dropdown-item edit_data"
                                                 href="{{ route('balance.student.payment.index', $user->username) }}"><span
-                                                    class="fa fa-edit text-primary"></span> View</a>
-                                            {{-- <div class="dropdown-divider"></div> --}}
+                                                    class="fa fa-edit text-primary fw-bold "></span> View</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item edit_data"
+                                                href="{{ route('balance.show', $user->username) }}"><span
+                                                    class="fa fa-regular fa-money-bill-1 text-danger fw-bold "></span>
+                                                Balance</a>
                                         </div>
                                     </li>
                                 </td>
@@ -61,4 +59,31 @@
             </div>
         </div>
     </div>
+    <script>
+        $(document).ready(function() {
+            $('#example').DataTable({
+                //disable sorting on last column
+                "columnDefs": [{
+                    "orderable": false,
+                    "targets": 3
+                }],
+                language: {
+                    //customize pagination prev and next buttons: use arrows instead of words
+                    'paginate': {
+                        'previous': '<span class="fa fa-chevron-left"></span>',
+                        'next': '<span class="fa fa-chevron-right"></span>'
+                    },
+                    //customize number of elements to be displayed
+                    "lengthMenu": 'Display <select class="form-control input-sm">' +
+                        '<option value="10">10</option>' +
+                        '<option value="20">20</option>' +
+                        '<option value="30">30</option>' +
+                        '<option value="40">40</option>' +
+                        '<option value="50">50</option>' +
+                        '<option value="-1">All</option>' +
+                        '</select> results'
+                }
+            })
+        });
+    </script>
 @endsection

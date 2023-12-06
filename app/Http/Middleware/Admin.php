@@ -19,6 +19,7 @@ class Admin {
            2- Collector
            3- Admin
        */
+
         return Auth::check() && Auth::user()->role_type_id === 3 ? $next($request) : redirect('login');
     }
 }

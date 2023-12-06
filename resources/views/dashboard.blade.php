@@ -5,29 +5,55 @@
     @include('partials.sidebar')
     @if (Auth::user()->role_type_id === 1)
         <div class="container">
-            <div class="row">
-                <div class="col-sm-6  ms-auto mt-2">
-                    <div class="card card-2">
-                        <div class="card-body">
-                            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                        </div>
-                        <div class="card-footer footer-1 ">
-                            <a href="#" class="v-more">More Details</a>
+            <p style=" font-size: 35px; font-style:oblique">Welcome to <span
+                    style="font-size: 50px; color: red; font-weight: bold;">E</span>-Payment,
+                {{ Auth::user()->student->firstname }} {{ Auth::user()->student->lastname }}! 👋
+            </p>
+
+            <div class="admin height-100">
+                <div id="main-content" class="container allContent-section py-4">
+
+                    {{-- <div class="row">
+                    <div class="col-sm-6  ms-auto mt-2">
+                        <div class="card card-2">
+                            <div class="card-body">
+                                <p class="card-text">With supporting text below as a natural lead-in to additional
+                                    content.</p>
+                            </div>
+                            <div class="card-footer footer-1 ">
+                                <a href="#" class="v-more">More Details</a>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="col-sm-6 mt-2 mb-2">
-                    <div class="card card-3">
-                        <div class="card-body">
-                            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                        </div>
-                        <div class="card-footer footer-2">
-                            <a href="#" class="View"> View More </a>
+                    <div class="col-sm-6 mt-2 mb-2">
+                        <div class="card card-3">
+                            <div class="card-body">
+                                <p class="card-text">With supporting text below as a natural lead-in to additional
+                                    content.</p>
+                            </div>
+                            <div class="card-footer footer-2">
+                                <a href="#" class="View"> View More </a>
+                            </div>
                         </div>
                     </div>
-                </div>
 
+                </div> --}}
+                    <hr style="height: 4px; color: black; background-color: rgb(0, 0, 0);">
+                    <div class="">
+                        <img src="{{ asset('img/bg-csucc.jpg') }}" style="height: 94vh; width: 100%; " />
+                    </div>
+                    <section class="footer_section py-3"
+                        style="background-color: #506e50; padding-left: 200px; height: 8vh; ">
+                        <div class="container">
+                            <p class="text-light">
+                                &copy; <span id="displayYear"></span> All Rights Reserved By CSUCC Cabadbaran City
+                                Campus,
+                                Created By CKA - AC - JS
+                            </p>
+                        </div>
+                    </section>
+                </div>
             </div>
         </div>
     @elseif (Auth::user()->role_type_id === 2)

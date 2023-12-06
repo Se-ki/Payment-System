@@ -1,20 +1,21 @@
+<link rel="stylesheet" href="{{ asset('css/payment/style.css') }}">
 <div class="card">
     <div class="card-body">
-        <h4 style="margin-bottom: 2rem">Payment Method</h4>
-        <form action="{{ route('payment.pay') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('payments.pay', $payment->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
-            <input type="hidden" name="paymentid" value={{ $payment->id }}>
             <input type="hidden" name="spr_semester" value={{ $payment->p_semester }}>
             <input type="hidden" name="year_id" value={{ $payment->academic_year_id }}>
-            <div class="col-sm-20">
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="paymentmethod" value="GCASH" checked>
-                    <label class="form-check-label" for="gridRadios2">
-                        <img src="{{ asset('img/gcash.png') }}" alt="gcash" width="95px" height="33px"
-                            style="position:relative; bottom: 4px;">
-                    </label>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="paymentmethod" value="GCASH" checked>
+                        <label class="form-check-label" for="gridRadios2">
+                            <img src="{{ asset('img/gcash.png') }}" alt="gcash" width="95px" height="33px"
+                                style="position:relative; bottom: 4px;">
+                        </label>
+                    </div>
                 </div>
-                <div class="col mb-3">
+                <div class="col-md-6 mb-3">
                     @php
                         date_default_timezone_set('Asia/Manila');
                     @endphp
@@ -23,12 +24,10 @@
                     <input type="hidden" name="datepaid" value="{{ date('F d, Y h:i:s A') }}" class="form-control"
                         id="" readonly>
                 </div>
-            </div>
-            <div class="row">
                 <div class="col">
                     <p class="small text-muted mb-1">Description</p>
-                    <input type="text" name="description" value="{{ $payment->description }}" class="form-control"
-                        id="" readonly>
+                    <input type="text" name="description" value="{{ $payment->description->name }}"
+                        class="form-control" id="" readonly>
                 </div>
                 <div class="col">
                     <p class="small text-muted mb-1">Amount</p>
@@ -50,7 +49,7 @@
                 </div>
             </div>
             <div class="">
-                <button class="btn btn-primary" type="submit"
+                <button class="button" type="submit"
                     style="display: block; justify-content:center; margin: auto; margin-top:20px;" id="submit">
                     Pay Now
                 </button>
