@@ -4,15 +4,29 @@
     @include('partials.header')
     @include('partials.sidebar')
     <!--Container Main start-->
-    <div class="wrapper rounded">
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-            Add Description Payment
-        </button>
-        <div class="col-auto mt-3 ">
-            <h2 class="fw-bold">Description List</h2>
+    <div class="card card-outline rounded-0 card-navy">
+        <span class="border-top border-black "></span>
+        <div class="card-header">
+            <div class="row">
+                <div class="col-auto">
+                    <h2 class="fw-bold">Description List</h2>
+                </div>
+
+                <div class="col-auto" style="margin-left:50px">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        Create Description Payment
+                    </button>
+                </div>
+            </div>
         </div>
         <main class="cd__main">
-            <table id="example" class="table table-striped" style="width:100%">
+            <table id="example" class="table table-hover table-striped table-bordered"  style="width:100%">
+                <colgroup>
+                    <col width="25%">
+                    <col width="25%">
+                    <col width="25%">
+                    
+                </colgroup>
                 <thead>
                     <tr>
                         <th scope="col">Description</th>

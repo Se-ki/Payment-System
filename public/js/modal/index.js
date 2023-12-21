@@ -56,3 +56,4 @@ $(document).on('click', '#descriptionButton', function (event) {
         timeout: 8000
     })
 });
+

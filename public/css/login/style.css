@@ -1,7 +1,10 @@
 body {
     color: #fff;
     font-family: 'Roboto', sans-serif;
-    background-color: #179b81;
+    background-image: url('../../img/Capture.PNG');
+    background-repeat: no-repeat;
+    background-size: cover;
+    overflow: hidden;
 }
 
 .form-control {
@@ -22,22 +25,38 @@ body {
 .login-form {
     width: 400px;
     margin: 0 auto;
-    padding: 118px 0;
 }
 
 .login-form form {
-    color: #999;
+    color: black;
     border-radius: 3px;
     margin-bottom: 15px;
-    background: #333;
+    background: whitesmoke;
+    opacity: 0.9;
     box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
     padding: 30px;
 }
 
+.fill {
+    color: gray;
+}
+
+.position-relative {
+    position: relative;
+}
+.invalid-feedback {
+    position: absolute;
+    margin-top: -5px;
+    left: 0;
+    width: 100%;
+    font-size: 13px;
+    font-weight: 500;
+}
 .login-form h2 {
-    color: #fff;
+    color: black;
     font-weight: bold;
     margin-top: 0;
+    text-align: center;
 }
 
 .login-form hr {
@@ -114,3 +133,106 @@ body {
     font-size: 7px;
     position: absolute;
 }
+
+
+/* insert css */
+.form-horizontal {
+    /* Add your form container styles here */
+    margin-top: 100px;
+    width: 400px;
+    /* Set the width of the form container */
+    padding: 20px;
+    /* Add some padding to the form container */
+    background-color: #f0f0f0;
+    /* Set the background color */
+    border: 1px solid #ccc;
+    /* Add a border */
+    border-radius: 5px;
+    /* Add some border radius for rounded corners */
+}
+
+h1 {
+    text-align: center;
+    color: #0c0101;
+    /* Text color for the heading */
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #0a0101;
+    /* Text color for labels */
+}
+
+
+input[type="text"],
+input[type="password"] {
+    width: 96%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 3px;
+}
+
+input[type="submit"] {
+    background-color: #a52626;
+    /* Blue button color */
+    color: #fff;
+    /* Text color for the button */
+    padding: 10px 20px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: #a52626;
+    /* Darker blue on hover */
+}
+
+.register {
+    text-align: center;
+    margin-top: 10px;
+
+}
+
+.register a {
+    text-decoration: none;
+    color: #d30516;
+    /* Link color */
+}
+
+.register a:hover {
+    text-decoration: underline;
+}
+
+#title {
+    text-align: center;
+    background-color: #a52626;
+    color: rgb(248, 241, 241);
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.service {
+    margin-top: -50px;
+}
+
+.transaction {
+    color: whitesmoke;
+    text-align: center;
+}
+
+.payment {
+    color: white;
+    font-size: 3rem;
+}
+
+.provide {
+    color: rgb(109, 226, 235);
+}
+
+.E {
+    color: red;
+}
+

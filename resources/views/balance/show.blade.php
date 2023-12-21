@@ -31,21 +31,31 @@
                             <td> {{ ++$key }} </td>
                             <td> {{ $balance->sbp_receipt_number }} </td>
                             <td> {{ $balance->sbp_description }} </td>
-                            <td> {{ number_format($balance->sbp_amount, 2) }} </td>
-                            <td> {{ number_format($balance->sbp_paid_amount, 2) }} </td>
-                            <td> {{ number_format($balance->sbp_paid_change, 2) }} </td>
-                            <td> {{ number_format($balance->sbp_balance_amount, 2) }} </td>
+                            <td> {{ Number::currency($balance->sbp_amount, in: 'PHP', locale: 'ph') }} </td>
+                            <td> {{ Number::currency($balance->sbp_paid_amount, in: 'PHP', locale: 'ph') }} </td>
+                            <td> {{ Number::currency($balance->sbp_paid_change, in: 'PHP', locale: 'ph') }} </td>
+                            <td> {{ Number::currency($balance->sbp_balance_amount, in: 'PHP', locale: 'ph') }} </td>
                             <td> {{ $balance->sbp_date_paid }} </td>
                             <td> {{ $balance->status }} </td>
-                            <td> {{ $balance->encoder }} </td>
+                            <td> {{ $balance->collector->lastname }},
+                                {{ $balance->collector->firstname }} {{ substr($balance->collector->middlename, 0, 1) }}.
+                            </td>
                             <td>
-                                <a href="{{ route('balance.edit', $balance->id) }}">
-                                    Form</a>
+                                @if ($balance->sbp_balance_amount != 0 && $balance->collector->id == Auth::user()->id)
+                                    <a href="{{ route('balance.edit', $balance->id) }}">Form</a>
+                                @elseif($balance->sbp_balance_amount == 0)
+                                    Paid
+                                @else
+                                    <small>Collected by {{ $balance->collector->lastname }},
+                                        {{ $balance->collector->firstname }}
+                                        {{ substr($balance->collector->middlename, 0, 1) }}.</small>
+                                @endif
                             </td>
                         </tr>
                     @endforeach
                 </tbody>
             </table>
+            <a href="{{ route('balance.student.index') }}">Back</a>
         </main>
     </div>
     <!--Container Main end-->

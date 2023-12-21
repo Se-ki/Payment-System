@@ -8,16 +8,11 @@
         <span class="border-top border-black "></span>
         <div class="card-header">
             <h3 class="card-title">List of Payment</h3>
+            <a href="{{ route('balance.student.index') }}">Back</a>
         </div>
         <div class="card-body">
-            <div class="container-fluid">
-                <table class="table table-hover table-striped table-bordered" id="list">
-                    <colgroup>
-                        <col width="5%">
-                        <col width="25%">
-                        <col width="10%">
-                        <col width="10%">
-                    </colgroup>
+            <main class="cd__main">
+                <table id="example" class="table table-hover table-striped table-bordered" id="list">
                     <thead>
                         <tr>
                             <th>#</th>
@@ -31,8 +26,8 @@
                             <tr>
                                 <td> {{ ++$key }} </td>
                                 <td> {{ $payment->description->name }} </td>
-                                <td> {{ number_format($payment->amount, 2) }} </td>
-                                <td align="center">
+                                <td> {{ Number::currency($payment->amount, in: 'PHP', locale: 'ph') }} </td>
+                                <td class="action">
                                     <a href="{{ route('balance.create', $payment->id) }}">
                                         <button type="button" class="btn btn-flat btn-primary p-1 btn-default btn-sm"
                                             style="width:70px">
@@ -44,7 +39,7 @@
                         @endforeach
                     </tbody>
                 </table>
-            </div>
+            </main>
         </div>
     </div>
     <script>

@@ -20,7 +20,7 @@ return new class extends Migration {
             $table->integer('year_level');
             $table->string('mobile_number');
             $table->string('address');
-            $table->string('profile_pic');
+            $table->string('profile_pic')->nullable();
             $table->timestamps();
         });
     }

@@ -9,7 +9,7 @@
         <div class="wrapper rounded">
             <div class="card-header">
                 <div class="col-auto mt-3 ">
-                    <h2 class="fw-bold">Student Balance Payments</h2>
+                    <h2 class="fw-bold">My Balance Payments</h2>
                 </div>
             </div>
             <main class="cd__main">
@@ -34,13 +34,15 @@
                                 <td> {{ ++$key }} </td>
                                 <td> {{ $balance->sbp_receipt_number }} </td>
                                 <td> {{ $balance->sbp_description }} </td>
-                                <td> {{ number_format($balance->sbp_amount, 2) }} </td>
-                                <td> {{ number_format($balance->sbp_paid_amount, 2) }} </td>
-                                <td> {{ number_format($balance->sbp_paid_change, 2) }} </td>
-                                <td> {{ number_format($balance->sbp_balance_amount, 2) }} </td>
+                                <td> {{ Number::currency($balance->sbp_amount, in: 'PHP', locale: 'ph') }} </td>
+                                <td> {{ Number::currency($balance->sbp_paid_amount, in: 'PHP', locale: 'ph') }} </td>
+                                <td> {{ Number::currency($balance->sbp_paid_change, in: 'PHP', locale: 'ph') }} </td>
+                                <td> {{ Number::currency($balance->sbp_balance_amount, in: 'PHP', locale: 'ph') }} </td>
                                 <td> {{ $balance->sbp_date_paid }} </td>
                                 <td> {{ $balance->status }} </td>
-                                <td> {{ $balance->encoder }} </td>
+                                <td> {{ $balance->collector->lastname }},
+                                    {{ $balance->collector->firstname }}
+                                    {{ substr($balance->collector->middlename, 0, 1) }}. </td>
                             </tr>
                         @endforeach
                     </tbody>

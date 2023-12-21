@@ -31,8 +31,8 @@
                 </div>
                 <div class="col">
                     <p class="small text-muted mb-1">Amount</p>
-                    <input type="text" value="{{ number_format($payment->amount, 2) }}" class="form-control"
-                        id="" readonly>
+                    <input type="text" value="{{ Number::currency($payment->amount, in: 'PHP', locale: 'ph') }}"
+                        class="form-control" id="" readonly>
                     <input type="hidden" name="amount" value="{{ $payment->amount }}">
                 </div>
             </div>
@@ -43,9 +43,10 @@
                         required>
                 </div>
                 <div class="col mt-3">
-                    <p class="small mb-1" id="refLabel">Proof of Payment</p>
-                    <input type="file" name="proof_of_payment_photo" class="form-control"
-                        accept="image/png, image/jpeg" required>
+                    <button id="yourBtn" type="button" class="form-control mt-4 btn btn-danger"><i
+                            class="fa-regular fa-images px-2"></i>Proof of Payment</button>
+                    <input style="height: 0px; width: 0px; overflow: hidden" id="upfile" type="file"
+                        name="proof_of_payment_photo" accept="image/png, image/jpeg" required />
                 </div>
             </div>
             <div class="">
@@ -57,3 +58,9 @@
         </form>
     </div>
 </div>
+<script>
+    document.getElementById('yourBtn').addEventListener('click', () => {
+        console.log('click')
+        document.getElementById("upfile").click();
+    })
+</script>

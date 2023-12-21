@@ -32,9 +32,9 @@
                                 <td> {{ ++$key }} </td>
                                 <td> {{ App\Helper\PS::addHyphenAfterFourNumbers($user->student->school_id) }} </td>
 
-                                <td> {{ $user->student->firstname }} {{ $user->student->middlename }}
-                                    {{ $user->student->lastname }} </td>
-                                <td align="center">
+                                <td> {{ $user->student->lastname }}, {{ $user->student->firstname }}
+                                    {{ substr($user->student->lastname, 0, 1) }}. </td>
+                                <td class="action">
                                     <li class="nav-item dropdown">
                                         <a class="btn btn-flat p-1 btn-default btn-sm dropdown-toggle btn-outline-primary dropdown-icon"
                                             data-bs-toggle="dropdown">
@@ -43,11 +43,11 @@
                                         <div class="dropdown-menu" role="menu">
                                             <a class="dropdown-item edit_data"
                                                 href="{{ route('balance.student.payment.index', $user->username) }}"><span
-                                                    class="fa fa-edit text-primary fw-bold "></span> View</a>
+                                                    class="fa fa-edit text-primary fw-bold m-2"></span>Payments</a>
                                             <div class="dropdown-divider"></div>
                                             <a class="dropdown-item edit_data"
                                                 href="{{ route('balance.show', $user->username) }}"><span
-                                                    class="fa fa-regular fa-money-bill-1 text-danger fw-bold "></span>
+                                                    class="fa fa-regular fa-money-bill-1 text-danger fw-bold m-2"></span>
                                                 Balance</a>
                                         </div>
                                     </li>

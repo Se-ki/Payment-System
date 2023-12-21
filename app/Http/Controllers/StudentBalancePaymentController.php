@@ -8,26 +8,33 @@ use App\Helper\PS;
 use App\Models\LoginUser;
 use App\Models\Payment;
 use App\Models\Student;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request as HttpRequest;
+use Illuminate\View\View;
+use NumberFormatter;
 
-class StudentBalancePaymentController extends Controller {
-    public function index() {
+class StudentBalancePaymentController extends Controller
+{
+    public function index(): View
+    {
         $balances = StudentBalancePayment::latest("sbp_date_paid")->where('student_id', Auth::user()->student->id)->get();
         return view('balance.index', [
             'header' => 'Student Balance Payments',
             'balances' => $balances,
         ]);
     }
-    public function create(Payment $payment) {
-        if(PS::checkIfCollectorOrAdmin()) {
+    public function create(Payment $payment): RedirectResponse|View
+    {
+        if (PS::checkIfCollectorOrAdmin()) {
             return redirect('/');
         }
         return view('balance.create', ['payment' => $payment]);
     }
 
-    public function show(LoginUser $student) {
+    public function show(LoginUser $student): RedirectResponse|View
+    {
         $user = $student->student;
-        if(PS::checkIfCollectorOrAdmin()) {
+        if (PS::checkIfCollectorOrAdmin()) {
             return redirect('/');
         }
         return view('balance.show', [
@@ -37,10 +44,11 @@ class StudentBalancePaymentController extends Controller {
         ]);
     }
 
-    public function store(Payment $payment, HttpRequest $request) {
+    public function store(Payment $payment, HttpRequest $request): RedirectResponse
+    {
         $uniqueIdentifier = str_pad(mt_rand(1, 9999), 4, '0', STR_PAD_LEFT);
         $currentDate = now()->format('Ymd');
-        $generatedCode = $currentDate.$uniqueIdentifier;
+        $generatedCode = $currentDate . $uniqueIdentifier;
         $balance = new StudentBalancePayment([
             'academic_year_id' => $payment->academic_year_id,
             'sbp_description' => $payment->description->name,
@@ -52,7 +60,7 @@ class StudentBalancePaymentController extends Controller {
             'sbp_semester' => $payment->p_semester,
             'sbp_date_paid' => NOW(),
             'status' => $request->status,
-            'encoder' => Auth::user()->student->firstname." ".Auth::user()->student->middlename." ".Auth::user()->student->lastname,
+            'collector_id' => Auth::user()->id,
         ]);
         $user = Student::find($payment->student_id);
 
@@ -60,26 +68,28 @@ class StudentBalancePaymentController extends Controller {
 
         PaymentController::destroy($payment->id);
 
-        return redirect()->back();
+        return redirect(route('balance.show', LoginUser::find($payment->student_id)->username));
     }
 
 
-    public function edit(StudentBalancePayment $balance) {
+    public function edit(StudentBalancePayment $balance): View
+    {
         return view('balance.edit', [
             'balance' => $balance,
             'student' => $balance->student,
         ]);
     }
 
-    public function update(StudentBalancePayment $balance, HttpRequest $request) {
-        // dd($request->all());
+    public function update(StudentBalancePayment $balance, HttpRequest $request): RedirectResponse
+    {
         $student = LoginUser::find($balance->student_id);
         StudentBalancePayment::find($balance->id)->update($request->all());
         return redirect(route('balance.show', $student->username));
     }
 
-    public function listOfStudent() {
-        if(PS::checkIfCollectorOrAdmin()) {
+    public function listOfStudent(): View|RedirectResponse
+    {
+        if (PS::checkIfCollectorOrAdmin()) {
             return redirect('/');
         }
         return view('balance.student.index', [
@@ -87,9 +97,10 @@ class StudentBalancePaymentController extends Controller {
             'users' => LoginUser::where('role_type_id', 1)->get(),
         ]);
     }
-    public function listOfPayments(LoginUser $student) {
+    public function listOfPayments(LoginUser $student): View|RedirectResponse
+    {
         $user = $student->student;
-        if(PS::checkIfCollectorOrAdmin()) {
+        if (PS::checkIfCollectorOrAdmin()) {
             return redirect('/');
         }
         return view('balance.student.payment.index', [

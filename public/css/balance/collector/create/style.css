@@ -1,6 +1,25 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
 @import url('https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
 
+* {
+    margin: 0;
+    padding: 0;
+}
+
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: inherit;
+}
+
+body {
+    background-color: #777;
+    font-family: 'Poppins', sans-serif
+}
+
+/*start ang para navbar side bar */
 :root {
     --header-height: 3rem;
     --nav-width: 68px;
@@ -28,9 +47,8 @@ body {
 }
 
 a {
-    text-decoration: none;
+    text-decoration: none
 }
-
 
 .header {
     width: 100%;
@@ -183,31 +201,27 @@ a {
     }
 }
 
+/*end para navbar side bar */
+
 .nav-item {
     list-style-type: none;
     cursor: pointer;
+}
+
+.dropdown-toggle {
     text-transform: capitalize;
 }
 
-th,
-td {
-    text-align: center;
-}
-
-.description-capitalization {
+.row {
     text-transform: capitalize;
+    /* box-sizing: 20px; */
 }
 
-.dropdown-menu {
-    overflow: hidden;
-    overflow-y: auto;
-    max-height: calc(100vh - 400px);
-}
+/* .bx{
+width: 100px;
+} */
 
-tr {
-    cursor: pointer;
-}
-
+/* start of the table css */
 body {
     min-height: 100vh;
     display: flex;
@@ -290,12 +304,7 @@ body {
     content: "\f112"
 }
 
-.cd__credit {
-    padding: 12px;
-    font-size: 9pt;
-    margin-top: 40px;
 
-}
 
 .cd__credit span:before {
     font-family: FontAwesome;
@@ -345,84 +354,19 @@ body {
     }
 }
 
-/* for the char2x css button */
-.button {
-    border: none;
-    font-size: 17px;
-    padding: 1em 2em;
-    position: relative;
-    display: grid;
-    place-items: center;
-    overflow: hidden;
-    z-index: 1;
-    background: #caf0f8;
-    border-radius: 8px;
-    box-shadow: 2px 2px 0 #333,
-        2px 2px 200px #003566 inset;
-    color: #fff;
+/* start of the table css */
+
+/* start of form css  */
+.card {
+    width: 800px;
 }
 
-.button:active {
-    transform: scale(.98);
+label {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
 }
 
-.button:hover {
-    box-shadow: 2px 2px 0 #333,
-        2px 2px 200px #ffba08 inset;
-
-}
-
-.button::before {
-    content: '';
-    position: absolute;
-    left: -41%;
-    width: 150%;
-    height: 300%;
-    border-radius: 50%;
-    box-shadow: 2px 2px 0 #333,
-        0 0 0 8px #90e0ef inset,
-        0 0 0 16px #48cae4 inset,
-        0 0 0 24px #00b4d8 inset,
-        0 0 0 32px #0096c7 inset,
-        0 0 0 40px #0077b6 inset;
-
-    z-index: -1;
-    transition: .2s;
-}
-
-.button:active::before {
-    opacity: .001;
-    box-shadow: 2px 2px 200px #03045e inset;
-}
-
-.button:hover::before {
-    box-shadow: 2px 2px 0 #333,
-        0 0 0 8px #d00000 inset,
-        0 0 0 16px #dc2f02 inset,
-        0 0 0 24px #e85d04 inset,
-        0 0 0 32px #f48c06 inset,
-        0 0 0 40px #faa307 inset;
-    left: -9%;
-    width: 200%;
-    height: 600%;
-}
-
-#yourBtn {
-    /* position: relative;
-    top: 150px;
-    font-family: calibri;
-    width: 150px;
-    padding: 10px;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border: 1px dashed #BBB;
-    text-align: center;
-    background-color: #DDD;
-    cursor: pointer; */
-  }
-
-  .form-check-label{
-    text-decoration: none;
-    color: black;
-    cursor: pointer;
-  }
+/* .btn {
+    width: 200px;
+    margin-left: 100px;
+} */

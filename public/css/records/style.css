@@ -335,3 +335,9 @@ body{
     }
 }
 /* start of the table css */
+
+.form-check-label{
+    text-decoration: none;
+    color: black;
+    cursor: pointer;
+  }

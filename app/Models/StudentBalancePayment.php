@@ -6,7 +6,8 @@ use App\Traits\UUID;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class StudentBalancePayment extends Model {
+class StudentBalancePayment extends Model
+{
     use HasFactory, UUID;
     protected $fillable = [
         'academic_year_id',
@@ -19,10 +20,15 @@ class StudentBalancePayment extends Model {
         'sbp_semester',
         'sbp_date_paid',
         'status',
-        'encoder'
+        'collector_id'
     ];
-    // protected $with = ['student'];
-    public function student() {
+    protected $with = ['student'];
+    public function student()
+    {
         return $this->belongsTo(Student::class);
+    }
+    public function collector()
+    {
+        return $this->belongsTo(Student::class, foreignKey: 'collector_id');
     }
 }

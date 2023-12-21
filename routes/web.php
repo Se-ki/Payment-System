@@ -20,18 +20,21 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth', 'verified', 'preventBackButton'])->group(function () {
     //these are the general purpose routes
     Route::get('/', fn() => view("dashboard"));
 
-    Route::get('profile', fn() => view('profile.index'));
+    Route::get('profile', fn() => view('profile.index'))->name('profile');
+    Route::patch('profile/{id}', [ProfileController::class, 'update'])->name('student.profile.update');
 
+    //this route is only for admin and students
+    Route::get('records', [StudentPaymentRecordController::class, 'index'])->name("records.index");
 
     //student route
     Route::middleware('isStudent')->group(function () {
-        Route::get('payments/{semester?}/{year?}', [PaymentController::class, 'index'])->name('payments.index')->where(['semester' => '^[1-2]$']);
+        // Route::get('records/{semester?}/{year?}', [StudentPaymentRecordController::class, 'index'])->name("records.index")->where(['semester' => '^[1-2]$']);
+        Route::get('payments', [PaymentController::class, 'index'])->name('payments.index')->where(['semester' => '^[1-2]$']);
         Route::post('payments/pay/{id}', [StudentPaymentRecordController::class, 'store'])->name('payments.pay');
-        Route::get('records/{semester?}/{year?}', [StudentPaymentRecordController::class, 'index'])->name("records.index")->where(['semester' => '^[1-2]$']);
         Route::get('balance/{semester?}/{year?}', [StudentBalancePaymentController::class, 'index'])->name("balance.index");
     });
 
@@ -62,11 +65,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('record', StudentPaymentRecordController::class);
     Route::resource('description', DescriptionController::class);
 });
-
 Route::middleware('auth')->prefix('user')->group(function () {
     Route::get('profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

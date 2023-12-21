@@ -5,7 +5,6 @@
     @include('partials.sidebar')
 
     <!--Container Main start-->
-
     <div class="card card-outline rounded-0 card-navy   ">
         <span class="border-top border-black "></span>
         <div class="card-header ">
@@ -18,19 +17,19 @@
                     <div class="col-auto mt-4" style="margin-left: 575px">
                         <div class="form-check form-check-inline">
                             <a
-                                href="{{ route('payments.index', ['semester' => 1, 'year' => request()->route('year')->id ?? isset(request()->route('year')->id)]) }}">
+                                href="{{ route('payments.index') }}?semester=1{{ request('year') ? '&' : '' }}{{ http_build_query(request()->except('semester')) }}">
                                 <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1"
-                                    value="option1" {{ request()->route('semester') == 1 ? 'checked' : '' }}>
+                                    value="option1" {{ request('semester') == 1 ? 'checked' : '' }}>
+                                <label class="form-check-label">1 Semester</label>
                             </a>
-                            <label class="form-check-label" for="inlineRadio1">1 Semester</label>
                         </div>
                         <div class="form-check form-check-inline">
                             <a
-                                href="{{ route('payments.index', ['semester' => 2, 'year' => request()->route('year')->id ?? isset(request()->route('year')->id)]) }}">
+                                href="{{ route('payments.index') }}?semester=2{{ request('year') ? '&' : '' }}{{ http_build_query(request()->except('semester')) }}">
                                 <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2"
-                                    value="option2" {{ request()->route('semester') == 2 ? 'checked' : '' }}>
+                                    value="option2" {{ request('semester') == 2 ? 'checked' : '' }}>
+                                <label class="form-check-label">2 Semester</label>
                             </a>
-                            <label class="form-check-label" for="inlineRadio2">2 Semester</label>
                         </div>
                     </div>
                     <div class="col-auto drpdwn">
@@ -39,17 +38,19 @@
                                 style="background-color:rgb(243, 242, 242); color:black; height:2rem; border-color:rgb(255, 255, 255)"
                                 class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
                                 aria-expanded="false">
-                                {{ isset($currentYear) && $currentYear != '[]' ? $currentYear->year : $academics[0]->year }}
+                                {{ isset($currentYear) && $currentYear != null ? $currentYear->year : $academics->first()->year }}
                             </button>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item {{ request()->path() === 'payments' ? 'active' : (request()->path() === 'payments/' . request()->route('semester') ? 'active' : null) }}"
-                                        href="{{ route('payments.index', ['semester' => request()->route('year') ? request()->route('semester') : 1]) }}">{{ $academics[0]->year }}</a>
+                                <li><a class="dropdown-item {{ isset($currentYear) && $currentYear->year === $academics->first()->year ? 'active' : null }}"
+                                        href="{{ route('payments.index') }}?{{ request('semester') ? 'semester=' . request('semester') . '&' : null }}year={{ $academics->first()->year }}">{{ $academics->first()->year }}</a>
                                 </li>
-                                @foreach ($academics->skip(1) as $academic)
-                                    <li><a class="dropdown-item {{ isset($currentYear) && $currentYear->is($academic) ? 'active' : null }}"
-                                            href="{{ route('payments.index', ['semester' => request()->route('semester'), 'year' => $academic->id]) }}">{{ $academic->year }}</a>
-                                    </li>
-                                @endforeach
+                                @if (count($academics) > 1)
+                                    @foreach ($academics->skip(1) as $academic)
+                                        <li><a class="dropdown-item {{ isset($currentYear) && $currentYear->is($academic) ? 'active' : null }}"
+                                                href="{{ route('payments.index') }}?{{ request('semester') ? 'semester=' . request('semester') . '&' : null }}year={{ $academic->year }}">{{ $academic->year }}</a>
+                                        </li>
+                                    @endforeach
+                                @endif
                             </ul>
                         </div>
                     </div>
@@ -106,7 +107,7 @@
                                             {{ $payment->description->name }}
                                         </td>
                                         <td>
-                                            ₱ {{ number_format($payment->amount, 2) }}
+                                            {{ Number::currency($payment->amount, in: 'PHP', locale: 'ph') }}
                                         </td>
                                         <td>
                                             {{ $payment->created_at->format('F d, Y') }}
@@ -122,7 +123,8 @@
                                             @endif
                                         </td>
                                         <td class="">
-                                            {{ $payment->record_by }}
+                                            {{ $payment->recordBy->lastname }}, {{ $payment->recordBy->firstname }}
+                                            {{ substr($payment->recordBy->middlename, 0, 1) }}.
                                         </td>
                                         <td>
                                             <a class="btn btn-outline-primary " data-toggle="modal" id="paymentButton"
@@ -164,16 +166,19 @@
     </div>
     </div>
     {{-- Container Main end --}}
+    @if (session('isPaid'))
+        <script>
+            alert('Paid Successfully!')
+        </script>
+    @endif
     <script>
         $(document).ready(function() {
             $('#example').DataTable({
-                //disable sorting on last column
                 "columnDefs": [{
                     "orderable": false,
                     "targets": 8
                 }],
                 language: {
-                    //customize pagination prev and next buttons: use arrows instead of words
                     'paginate': {
                         'previous': '<span class="fa fa-chevron-left"></span>',
                         'next': '<span class="fa fa-chevron-right"></span>'

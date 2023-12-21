@@ -1,15 +1,12 @@
 @extends('layouts.main')
 @section('content')
-    <link rel="stylesheet" href="{{ asset('css/balance/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/balance/collector/create/style.css') }}">
     @include('partials.header')
     @include('partials.sidebar')
-    {{-- <h1>diri na ang form nga mahimo</h1> --}}
     <div class="card">
-        {{-- for header only --}}
         <div class="card-header">
             <h1>WALK IN</h1>
         </div>
-        {{-- for the body --}}
         <div class="card-body">
             <form action="{{ route('balance.store', $payment->id) }}" method="POST" class="row g-3 mt-2 ">
                 @csrf
@@ -22,53 +19,60 @@
                 <div class="form-floating">
                     <input name="sbp_amount" type="text" value="{{ $payment->amount }}" class="form-control"
                         id="amount" placeholder="Amount" readonly />
-                    <label for="floatingPassword">Amount</label>
+                    <label for="floatingInput">Amount</label>
                 </div>
                 <div class="form-floating">
-                    <input name="sbp_balance_amount" type="text" value="" class="form-control" id="sbp_d"
-                        placeholder="Amount">
-                    <label for="floatingPassword">Balance Amount</label>
+                    <input name="sbp_paid_amount" type="number" class="form-control" id="paidAmount"
+                        placeholder="Paid Amount">
+                    <label for="floatingInput">Paid Amount</label>
                 </div>
                 <div class="form-floating">
-                    <input name="sbp_paid_amount" type="text" class="form-control" id="amount" placeholder="Amount">
-                    <label for="floatingPassword">Paid Amount</label>
+                    <input name="sbp_balance_amount" type="text" value="" class="form-control" id="balanceAmount"
+                        placeholder="Balance Amount" readonly />
+                    <label for="floatingInput">Balance Amount</label>
                 </div>
                 <div class="form-floating">
-                    <input name="sbp_paid_change" type="text" class="form-control" id="amount" placeholder="Amount">
-                    <label for="floatingPassword">Paid Change</label>
+                    <input name="sbp_paid_change" type="text" class="form-control" id="paidChange"
+                        placeholder="Paid Change" readonly />
+                    <label for="floatingInput">Paid Change</label>
                 </div>
 
                 <div class="form-floating">
-                    <select name="status" class="form-select" id="floatingSelect"
-                        aria-label="Floating label select example">
-                        <option value="Complete">Complete</option>
-                        <option value="Pending">Pending</option>
-                    </select>
-                    <label for="floatingSelect">Status</label>
+                    <input name="status" type="text" placeholder="Amount" class="form-control" id="status"
+                        readonly />
+                    <label for="floatingPassword">Status</label>
                 </div>
 
-                <button type="submit" class="btn btn-outline-danger">Pay</button>
-
+                <div class="modal-footer">
+                    <a class="btn btn-secondary m-2"
+                        href="{{ route('balance.student.payment.index', App\Models\LoginUser::where('student_id', $payment->student_id)->first()->username) }}">Back</a>
+                    <button type="submit" class="btn btn-outline-primary px-5">Pay</button>
+                </div>
             </form>
         </div>
     </div>
+    <script>
+        $(document).ready(function() {
+            $('#paidAmount').on('input', function() {
+                var amount = parseFloat($('#amount').val()) || 0;
+                var paidAmount = parseFloat($(this).val()) || 0;
+
+                var balanceAmount = amount - paidAmount;
+                if (paidAmount > amount) {
+                    $('#balanceAmount').val(0);
+                } else {
+                    $('#balanceAmount').val(balanceAmount.toFixed(2));
+                }
+                var status = (balanceAmount <= 0) ? 'Complete' : 'Pending';
+                $('#status').val(status);
+
+                var paidChange = paidAmount - amount;
+                if (paidAmount < amount) {
+                    $('#paidChange').val(0);
+                } else {
+                    $('#paidChange').val(paidChange.toFixed(2));
+                }
+            });
+        });
+    </script>
 @endsection
-{{-- 
-<script>
-    constamountInput = document.getElementById('amount');
-    let amountValue = '';
-
-    amountInput.addEventListener('input', function(event) {
-        amountValue = event.target.value;
-    });
-
-    amountInput.addEventListener('focus', function(event) {
-        event.preventDefault();
-
-        // Set the value to the peso sign ('₱') and append the stored amountValue
-        amountInput.value = amountValue ? `₱${amountValue}` : '₱';
-
-        // Set the maximum length of the input to 14 characters (including the peso sign)
-        amountInput.maxLength = 14;
-    });
-</script> --}}

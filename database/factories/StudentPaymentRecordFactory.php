@@ -8,16 +8,19 @@ use Illuminate\Http\UploadedFile;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\StudentPaymentRecord>
  */
-class StudentPaymentRecordFactory extends Factory {
+class StudentPaymentRecordFactory extends Factory
+{
     /**
      * Define the model's default state.
      *
      * @return array<string, mixed>
      */
-    public function definition(): array {
+    public function definition(): array
+    {
         $uniqueIdentifier = str_pad(mt_rand(1, 9999), 4, '0', STR_PAD_LEFT);
-        $currentDate = now()->format('Ymd');
-        $generatedCode = $currentDate.$uniqueIdentifier;
+        // $currentDate = now()->format('Ymd');
+        $currentDate = $this->faker->dateTimeBetween('-2 years', '1 year')->format('Ymd');
+        $generatedCode = $currentDate . $uniqueIdentifier;
         return [
             'student_id' => $this->faker->randomElement([1, 2, 3]),
             'academic_year_id' => $this->faker->randomElement([1, 2, 3, 4, 5]),
