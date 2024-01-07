@@ -4,7 +4,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
+return new class extends Migration
+{
     /**
      * Run the migrations.
      */
@@ -24,7 +25,6 @@ return new class extends Migration {
             $table->integer("sbp_semester")->comment("1-1st Semester, 2-2nd Semester");
             $table->date('sbp_date_paid');
             $table->string('status');
-            // $table->string('encoder');
             $table->timestamps();
         });
     }

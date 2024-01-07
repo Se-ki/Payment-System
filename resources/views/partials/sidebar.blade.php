@@ -1,4 +1,3 @@
-{{-- {{ dd(isset(request()->route('year')->id) ? request()->route('year')->id : null) }} --}}
 <div class="l-navbar" id="nav-bar">
     <nav class="nav">
         <div>
@@ -7,7 +6,7 @@
                 <span class="nav_logo-name" style="font:bolder">CEIT E-PAYMENT
                 </span>
             </a>
-            @if (Auth::user()->role_type_id === 1)
+            @if (Auth::user()->role_id === 1)
                 <div class="nav_list">
                     <a href="/" class="nav_link {{ request()->path() === '/' ? 'active' : null }}">
                         <i class='bx bxs-home nav_icon'></i>
@@ -30,7 +29,7 @@
                         <span class="nav_name">My Balance</span>
                     </a>
                 </div>
-            @elseif (Auth::user()->role_type_id === 2)
+            @elseif (Auth::user()->role_id === 2)
                 <div class="nav_list">
                     <a href="{{ url('/') }}" class="nav_link {{ request()->path() === '/' ? 'active' : '' }}">
                         <i class='bx bxs-home nav_icon'></i>
@@ -60,7 +59,7 @@
                 </div>
                 <div class="nav_list">
                     <a href="{{ route('payments.create') }}"
-                        class="nav_link {{ request()->path() === 'payments/create' ? 'active' : '' }}">
+                        class="nav_link {{ request()->path() === 'students/list-of-payments' ? 'active' : '' }}">
                         <i class="fa-solid fa-file-circle-plus nav_icon"></i>
                         <span class="nav_name">Add Payment</span>
                     </a>
@@ -74,7 +73,7 @@
                 </div>
                 <div class="nav_list">
                     <a href="{{ route('descriptions.index') }}"
-                        class="nav_link {{ request()->path() === 'payments/description' ? 'active' : '' }}">
+                        class="nav_link {{ request()->path() === 'descriptions' ? 'active' : '' }}">
                         <i class="fa-regular fa-rectangle-list nav_icon"></i>
                         <span class="nav_name">List of Description</span>
                     </a>

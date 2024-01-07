@@ -21,6 +21,6 @@ class Student
             2- Collector
             3- Admin
         */
-        return Auth::check() && Auth::user()->role_type_id === 1 ? $next($request) : redirect('/login');
+        return Auth::check() && Auth::user()->role_id === 1 ? $next($request) : redirect('/login');
     }
 }

@@ -1,14 +1,15 @@
 <link rel="stylesheet" href="{{ asset('css/payment/style.css') }}">
 <div class="card">
     <div class="card-body">
-        <form action="{{ route('payments.pay', $payment->id) }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('pay', $payment->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
             <input type="hidden" name="spr_semester" value={{ $payment->p_semester }}>
-            <input type="hidden" name="year_id" value={{ $payment->academic_year_id }}>
+            <input type="hidden" name="academic_year_id" value={{ $payment->academic_year_id }}>
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="paymentmethod" value="GCASH" checked>
+                        <input class="form-check-input" type="radio" name="spr_mode_of_payment" value="GCASH"
+                            checked>
                         <label class="form-check-label" for="gridRadios2">
                             <img src="{{ asset('img/gcash.png') }}" alt="gcash" width="95px" height="33px"
                                 style="position:relative; bottom: 4px;">
@@ -21,26 +22,28 @@
                     @endphp
                     <p class="small text-muted mb-1">Date Paid</p>
                     {{ date('F d, Y ') }}
-                    <input type="hidden" name="datepaid" value="{{ date('F d, Y h:i:s A') }}" class="form-control"
+                    <input type="hidden" name="date_paid" value="{{ date('F d, Y h:i:s A') }}" class="form-control"
                         id="" readonly>
                 </div>
                 <div class="col">
                     <p class="small text-muted mb-1">Description</p>
-                    <input type="text" name="description" value="{{ $payment->description->name }}"
+                    <input type="text" name="spr_description" value="{{ $payment->description->name }}"
                         class="form-control" id="" readonly>
                 </div>
                 <div class="col">
                     <p class="small text-muted mb-1">Amount</p>
                     <input type="text" value="{{ Number::currency($payment->amount, in: 'PHP', locale: 'ph') }}"
                         class="form-control" id="" readonly>
-                    <input type="hidden" name="amount" value="{{ $payment->amount }}">
+                    <input type="hidden" name="spr_amount" value="{{ $payment->amount }}">
                 </div>
             </div>
             <div class="row">
                 <div class="col mt-3">
                     <p class="small mb-1" id="refLabel">Reference No.</p>
-                    <input type="text" name="referenceno" class="form-control" id="inputgcash" maxlength="13"
-                        required>
+                    <input type="text" name="spr_reference_number" class="form-control" id="inputgcash"
+                        maxlength="13" required>
+                    {{-- #TODO REFACTOR ALL THE NAMING LIKE VARIABLES AND FUNCTION --}}
+                    {{-- #TODO CHECK ALL  --}}
                 </div>
                 <div class="col mt-3">
                     <button id="yourBtn" type="button" class="form-control mt-4 btn btn-danger"><i

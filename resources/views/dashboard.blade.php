@@ -3,7 +3,7 @@
     <link rel="stylesheet" href="{{ asset('css/dashboard/style.css') }}">
     @include('partials.header')
     @include('partials.sidebar')
-    @if (Auth::user()->role_type_id === 1)
+    @if (Auth::user()->role_id === 1)
         {{-- salas html --}}
 
         <div class="hero_area">
@@ -75,7 +75,7 @@
 
         </div>
         </div>
-    @elseif (Auth::user()->role_type_id === 2 || Auth::user()->role_type_id === 3)
+    @elseif (Auth::user()->role_id === 2 || Auth::user()->role_id === 3)
         <div class="container">
 
             <div class="container">

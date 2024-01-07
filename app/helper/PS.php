@@ -1,9 +1,9 @@
 <?php
+
 namespace App\Helper;
 
 use App\Models\LoginUser;
 use App\Models\Payment;
-use App\Models\Student;
 use App\Models\StudentBalancePayment;
 use App\Models\StudentPaymentRecord;
 use Illuminate\Support\Facades\Auth;
@@ -34,14 +34,14 @@ class PS
 
     public static function checkIfCollectorOrAdmin()
     {
-        if (Auth::user()->role_type_id !== 2 && Auth::user()->role_type_id !== 3) {
+        if (Auth::user()->role_id !== 2 && Auth::user()->role_id !== 3) {
             return true;
         }
     }
 
     public static function totalStudent()
     {
-        return count(LoginUser::where('role_type_id', 1)->get());
+        return count(LoginUser::where('role_id', 1)->get());
     }
 
     public static function totalPayments()

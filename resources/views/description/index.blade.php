@@ -20,12 +20,12 @@
             </div>
         </div>
         <main class="cd__main">
-            <table id="example" class="table table-hover table-striped table-bordered"  style="width:100%">
+            <table id="example" class="table table-hover table-striped table-bordered" style="width:100%">
                 <colgroup>
                     <col width="25%">
                     <col width="25%">
                     <col width="25%">
-                    
+
                 </colgroup>
                 <thead>
                     <tr>

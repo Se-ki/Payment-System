@@ -20,11 +20,11 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-Route::middleware(['auth', 'verified', 'preventBackButton'])->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
     //these are the general purpose routes
-    Route::get('/', fn() => view("dashboard"));
+    Route::get('/', fn () => view("dashboard"));
 
-    Route::get('profile', fn() => view('profile.index'))->name('profile');
+    Route::get('profile', fn () => view('profile.index'))->name('profile');
     Route::patch('profile/{id}', [ProfileController::class, 'update'])->name('student.profile.update');
 
     //this route is only for admin and students
@@ -34,18 +34,20 @@ Route::middleware(['auth', 'verified', 'preventBackButton'])->group(function () 
     Route::middleware('isStudent')->group(function () {
         // Route::get('records/{semester?}/{year?}', [StudentPaymentRecordController::class, 'index'])->name("records.index")->where(['semester' => '^[1-2]$']);
         Route::get('payments', [PaymentController::class, 'index'])->name('payments.index')->where(['semester' => '^[1-2]$']);
-        Route::post('payments/pay/{id}', [StudentPaymentRecordController::class, 'store'])->name('payments.pay');
-        Route::get('balance/{semester?}/{year?}', [StudentBalancePaymentController::class, 'index'])->name("balance.index");
+        Route::post('pay/{id}', [StudentPaymentRecordController::class, 'store'])->name('pay');
+        Route::get('balance', [StudentBalancePaymentController::class, 'index'])->name("balance.index");
     });
 
     //this route is for Collector and Admin only    
-    Route::get('payment/form/{payment:id}', [StudentBalancePaymentController::class, 'create'])->name("balance.create");
-    Route::post('payment/form/{payment:id}', [StudentBalancePaymentController::class, 'store'])->name('balance.store');
-    Route::get('students', [StudentBalancePaymentController::class, 'listOfStudent'])->name("balance.student.index");
-    Route::get('payment/list/{student:username}', [StudentBalancePaymentController::class, 'listOfPayments'])->name("balance.student.payment.index");
-    Route::get('list/balance/{student:username}', [StudentBalancePaymentController::class, 'show'])->name('balance.show');
-    Route::get('form/balance/{balance:id}', [StudentBalancePaymentController::class, 'edit'])->name('balance.edit');
-    Route::patch('form/balance/{balance:id}', [StudentBalancePaymentController::class, 'update'])->name('balance.update');
+    Route::get('payment-form/{payment:id}', [StudentBalancePaymentController::class, 'create'])->name("balance.create");
+    Route::post('payment-form/{payment:id}', [StudentBalancePaymentController::class, 'store'])->name('balance.store');
+    Route::prefix('students')->group(function () {
+        Route::get('/', [StudentBalancePaymentController::class, 'listOfStudent'])->name("balance.student.index");
+        Route::get('payment-list/{student:username}', [StudentBalancePaymentController::class, 'listOfPayments'])->name("balance.student.payment.index");
+        Route::get('balance/{student:username}', [StudentBalancePaymentController::class, 'show'])->name('balance.show');
+    });
+    Route::get('balance-form/{balance:id}', [StudentBalancePaymentController::class, 'edit'])->name('balance.edit');
+    Route::patch('balance-form/{balance:id}', [StudentBalancePaymentController::class, 'update'])->name('balance.update');
 
     //collector route
     Route::middleware("isCollector")->group(function () {
@@ -55,10 +57,10 @@ Route::middleware(['auth', 'verified', 'preventBackButton'])->group(function () 
     //admin route
     Route::middleware('isAdmin')->group(function () {
         //route here
-        Route::get('payments/create', [PaymentController::class, 'create'])->name('payments.create');
-        Route::post('payments/store', [PaymentController::class, 'store'])->name('payments-store');
-        Route::get('payments/description', [DescriptionController::class, 'index'])->name('descriptions.index');
-        Route::post('payments/description', [DescriptionController::class, 'store'])->name('descriptions.store');
+        Route::get('students/list-of-payments', [PaymentController::class, 'create'])->name('payments.create');
+        Route::post('payments-create', [PaymentController::class, 'store'])->name('payments.store');
+        Route::get('descriptions', [DescriptionController::class, 'index'])->name('descriptions.index');
+        Route::post('descriptions', [DescriptionController::class, 'store'])->name('descriptions.store');
     });
 
     Route::resource('payment', PaymentController::class);

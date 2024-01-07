@@ -54,7 +54,8 @@
                             <td>{{ $payment->date_post }}</td>
                             <td>{{ $payment->deadline }}</td>
                             <td>{{ $payment->recordBy->lastname }}, {{ $payment->recordBy->firstname }}
-                                {{ substr($payment->recordBy->middlename, 0, 1) }}.</td>
+                                {{ isset($payment->recordBy->middlename) ? substr($payment->recordBy->middlename, 0, 1) . '.' : null }}
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>
@@ -70,8 +71,13 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form action="{{ route('payments-store') }}" method="POST">
+                        <form action="{{ route('payments.store') }}" method="POST">
                             @csrf
+                            @foreach ($errors->all() as $message)
+                                <li>
+                                    {{ $message }}
+                                </li>
+                            @endforeach
                             <div class="form-floating mb-3">
                                 <select name="description_id" class="form-select" id="floatingSelect"
                                     aria-label="Floating label select example">
@@ -95,7 +101,7 @@
                                 <label for="floatingDeadline">Deadline</label>
                             </div>
                             <div class="form-floating">
-                                <select name="semester" class="form-select" id="floatingSelect"
+                                <select name="payment_semester" class="form-select" id="floatingSelect"
                                     aria-label="Floating label select example">
                                     <option value="1" selected>
                                         1st Semester
@@ -109,7 +115,9 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <input type="submit" name="save" class="btn btn-primary" value="Save">
+                        <button type="submit" class="btn btn-primary">
+                            Submit
+                        </button>
                         </form>
                     </div>
                 </div>

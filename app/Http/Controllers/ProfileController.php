@@ -27,14 +27,13 @@ class ProfileController extends Controller
      */
     public function update(Request $request): RedirectResponse
     {
-        $name = $request->file('profile_pic')->getClientOriginalName();
-        $extension = $request->file('profile_pic')->getClientOriginalExtension();
-        // dd($extension != 'JPG' && $extension != 'png' && $extension != 'jpeg');
+        $name = $request->file('profile_picture')->getClientOriginalName();
+        $extension = $request->file('profile_picture')->getClientOriginalExtension();
         if ($extension != 'jpg' && $extension != 'JPG' && $extension != 'png' && $extension != 'PNG' && $extension != 'jpeg' && $extension != 'JPEG') {
             return redirect()->back()->with('error', true);
         }
-        $request->file('profile_pic')->storeAs('public/profile_pictures/', $name);
-        Student::findOrFail($request->id)->update(['profile_pic' => $name]);
+        $request->file('profile_picture')->storeAs('public/profile_pictures/', $name);
+        Student::findOrFail($request->id)->update(['profile_picture' => $name]);
         return Redirect::route('profile');
     }
     // public function update(ProfileUpdateRequest $request): RedirectResponse

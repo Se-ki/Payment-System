@@ -18,7 +18,7 @@ class StudentFactory extends Factory
     {
         return [
             'course_id' => fake()->randomElement([1, 2, 3, 4, 5]),
-            'profile_pic' => NULL,
+            'profile_picture' => NULL,
             'school_id' => date('Y') . fake()->numberBetween(1000, 9999),
             'firstname' => fake()->firstName(),
             'lastname' => fake()->lastName(),

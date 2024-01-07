@@ -57,7 +57,7 @@ class StudentBalancePaymentController extends Controller
             'sbp_paid_amount' => $request->sbp_paid_amount,
             'sbp_paid_change' => $request->sbp_paid_change,
             'sbp_balance_amount' => $request->sbp_balance_amount,
-            'sbp_semester' => $payment->p_semester,
+            'sbp_semester' => $payment->payment_semester,
             'sbp_date_paid' => NOW(),
             'status' => $request->status,
             'collector_id' => Auth::user()->id,
@@ -70,7 +70,6 @@ class StudentBalancePaymentController extends Controller
 
         return redirect(route('balance.show', LoginUser::find($payment->student_id)->username));
     }
-
 
     public function edit(StudentBalancePayment $balance): View
     {
@@ -94,7 +93,7 @@ class StudentBalancePaymentController extends Controller
         }
         return view('balance.student.index', [
             'header' => 'List of Students',
-            'users' => LoginUser::where('role_type_id', 1)->get(),
+            'users' => LoginUser::where('role_id', 1)->get(),
         ]);
     }
     public function listOfPayments(LoginUser $student): View|RedirectResponse

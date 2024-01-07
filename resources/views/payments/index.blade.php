@@ -7,7 +7,7 @@
     <!--Container Main start-->
     <div class="card card-outline rounded-0 card-navy   ">
         <span class="border-top border-black "></span>
-        <div class="card-header ">
+        <div class="card-header">
             <p>
             <div class="form">
                 <form class="row g-3">
@@ -92,13 +92,12 @@
                                 @foreach ($payments as $key => $payment)
                                     <tr data-toggle="modal" id="paymentButton" data-target="#paymentModal"
                                         data-attr="{{ route('payment.show', $payment->id) }}" title="Pay">
-
                                         <td>
                                             {{ ++$key }}
                                         </td>
 
                                         <td>
-                                            {{ $payment->p_semester }}
+                                            {{ $payment->payment_semester }}
                                         </td>
                                         <td>
                                             {{ $payment->academic->year }}
@@ -124,7 +123,7 @@
                                         </td>
                                         <td class="">
                                             {{ $payment->recordBy->lastname }}, {{ $payment->recordBy->firstname }}
-                                            {{ substr($payment->recordBy->middlename, 0, 1) }}.
+                                            {{ isset($payment->recordBy->middlename) ? substr($payment->recordBy->middlename, 0, 1) . '.' : null }}
                                         </td>
                                         <td>
                                             <a class="btn btn-outline-primary " data-toggle="modal" id="paymentButton"

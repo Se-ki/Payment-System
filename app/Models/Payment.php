@@ -10,9 +10,9 @@ class Payment extends Model
 {
     use HasFactory, UUID;
 
-    protected $fillable = ['academic_year_id', 'description_id', 'amount', 'date_post', 'deadline', 'record_by_id', 'p_semester'];
+    protected $fillable = ['academic_year_id', 'description_id', 'amount', 'date_post', 'deadline', 'record_by_id', 'payment_semester'];
     protected $with = ['student', 'academic', 'description'];
-    
+
     public function student()
     {
         return $this->belongsTo(Student::class);

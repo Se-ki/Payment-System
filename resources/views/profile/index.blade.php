@@ -9,12 +9,12 @@
                 <div class="card mb-4">
                     <div class="card-body text-center p-4">
                         <a href="" data-bs-toggle="modal" data-bs-target="#changeprofile">
-                            @if (!Auth::user()->student->profile_pic)
+                            @if (!Auth::user()->student->profile_picture)
                                 <img id="image" src="{{ asset('img/temp-profile.png') }}" alt="avatar"
                                     class="rounded-circle img-fluid" style="width: 150px; padding-top: 11px;">
                             @else
                                 <img id="image"
-                                    src="{{ asset('storage/profile_pictures/' . Auth::user()->student->profile_pic) }}"
+                                    src="{{ asset('storage/profile_pictures/' . Auth::user()->student->profile_picture) }}"
                                     alt="avatar" class="rounded-circle img-fluid"
                                     style="width: 150px; padding-top: 11px;">
                             @endif

@@ -341,3 +341,7 @@ body{
     color: black;
     cursor: pointer;
   }
+
+  td{
+    color:black;
+  }

@@ -20,7 +20,7 @@ return new class extends Migration {
             $table->dateTime('date_post');
             $table->date('deadline');
             // $table->string('record_by');
-            $table->integer('p_semester')->comment("1 - 1st Semester, 2 - 2nd Semester");
+            $table->integer('payment_semester')->comment("1 - 1st Semester, 2 - 2nd Semester");
             $table->timestamps();
         });
     }
