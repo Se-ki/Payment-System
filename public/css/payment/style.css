@@ -1,4 +1,5 @@
-@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap");
+@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+@import url('https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
 
 :root {
     --header-height: 3rem;
@@ -27,8 +28,9 @@ body {
 }
 
 a {
-    text-decoration: none
+    text-decoration: none;
 }
+
 
 .header {
     width: 100%;
@@ -195,3 +197,232 @@ td {
 .description-capitalization {
     text-transform: capitalize;
 }
+
+.dropdown-menu {
+    overflow: hidden;
+    overflow-y: auto;
+    max-height: calc(100vh - 400px);
+}
+
+tr {
+    cursor: pointer;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    align-content: flex-start;
+
+    font-family: 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: 300;
+    font-smoothing: antialiased;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-size: 15px;
+    background: #eee;
+}
+
+.cd__intro {
+    padding: 60px 30px;
+    margin-bottom: 15px;
+    flex-direction: column;
+
+}
+
+.cd__intro,
+.cd__credit {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    background: #fff;
+    color: #333;
+    line-height: 1.5;
+    text-align: center;
+}
+
+.cd__intro h1 {
+    font-size: 18pt;
+    padding-bottom: 15px;
+
+}
+
+.cd__intro p {
+    font-size: 14px;
+}
+
+.cd__action {
+    text-align: center;
+    display: block;
+    margin-top: 20px;
+}
+
+.cd__action a.cd__btn {
+    text-decoration: none;
+    color: #666;
+    border: 2px solid #666;
+    padding: 10px 15px;
+    display: inline-block;
+    margin-left: 5px;
+}
+
+.cd__action a.cd__btn:hover {
+    background: #666;
+    color: #fff;
+    transition: .3s;
+    -webkit-transition: .3s;
+}
+
+.cd__action .cd__btn:before {
+    font-family: FontAwesome;
+    font-weight: normal;
+    margin-right: 10px;
+}
+
+.down:before {
+    content: "\f019"
+}
+
+.back:before {
+    content: "\f112"
+}
+
+.cd__credit {
+    padding: 12px;
+    font-size: 9pt;
+    margin-top: 40px;
+
+}
+
+.cd__credit span:before {
+    font-family: FontAwesome;
+    color: #e41b17;
+    content: "\f004";
+
+
+}
+
+.cd__credit a {
+    color: #333;
+    text-decoration: none;
+}
+
+.cd__credit a:hover {
+    color: #1DBF73;
+}
+
+.cd__credit a:hover:after {
+    font-family: FontAwesome;
+    content: "\f08e";
+    font-size: 9pt;
+    position: absolute;
+    margin: 3px;
+}
+
+.cd__main {
+    background: #fff;
+    padding: 20px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+
+}
+
+.cd__main {
+    display: flex;
+    width: 100%;
+}
+
+@media only screen and (min-width: 1360px) {
+    .cd__main {
+        max-width: 1280px;
+        margin-left: auto;
+        margin-right: auto;
+        padding: 24px;
+    }
+}
+
+/* for the char2x css button */
+.button {
+    border: none;
+    font-size: 17px;
+    padding: 1em 2em;
+    position: relative;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    z-index: 1;
+    background: #caf0f8;
+    border-radius: 8px;
+    box-shadow: 2px 2px 0 #333,
+        2px 2px 200px #003566 inset;
+    color: #fff;
+}
+
+.button:active {
+    transform: scale(.98);
+}
+
+.button:hover {
+    box-shadow: 2px 2px 0 #333,
+        2px 2px 200px #ffba08 inset;
+
+}
+
+.button::before {
+    content: '';
+    position: absolute;
+    left: -41%;
+    width: 150%;
+    height: 300%;
+    border-radius: 50%;
+    box-shadow: 2px 2px 0 #333,
+        0 0 0 8px #90e0ef inset,
+        0 0 0 16px #48cae4 inset,
+        0 0 0 24px #00b4d8 inset,
+        0 0 0 32px #0096c7 inset,
+        0 0 0 40px #0077b6 inset;
+
+    z-index: -1;
+    transition: .2s;
+}
+
+.button:active::before {
+    opacity: .001;
+    box-shadow: 2px 2px 200px #03045e inset;
+}
+
+.button:hover::before {
+    box-shadow: 2px 2px 0 #333,
+        0 0 0 8px #d00000 inset,
+        0 0 0 16px #dc2f02 inset,
+        0 0 0 24px #e85d04 inset,
+        0 0 0 32px #f48c06 inset,
+        0 0 0 40px #faa307 inset;
+    left: -9%;
+    width: 200%;
+    height: 600%;
+}
+
+#yourBtn {
+    /* position: relative;
+    top: 150px;
+    font-family: calibri;
+    width: 150px;
+    padding: 10px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border: 1px dashed #BBB;
+    text-align: center;
+    background-color: #DDD;
+    cursor: pointer; */
+  }
+
+  .form-check-label{
+    text-decoration: none;
+    color: black;
+    cursor: pointer;
+  }

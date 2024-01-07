@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\Student;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -24,18 +25,29 @@ class ProfileController extends Controller
     /**
      * Update the user's profile information.
      */
-    public function update(ProfileUpdateRequest $request): RedirectResponse
+    public function update(Request $request): RedirectResponse
     {
-        $request->user()->fill($request->validated());
-
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
+        $name = $request->file('profile_picture')->getClientOriginalName();
+        $extension = $request->file('profile_picture')->getClientOriginalExtension();
+        if ($extension != 'jpg' && $extension != 'JPG' && $extension != 'png' && $extension != 'PNG' && $extension != 'jpeg' && $extension != 'JPEG') {
+            return redirect()->back()->with('error', true);
         }
-
-        $request->user()->save();
-
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
+        $request->file('profile_picture')->storeAs('public/profile_pictures/', $name);
+        Student::findOrFail($request->id)->update(['profile_picture' => $name]);
+        return Redirect::route('profile');
     }
+    // public function update(ProfileUpdateRequest $request): RedirectResponse
+    // {
+    //     $request->user()->fill($request->validated());
+
+    //     if ($request->user()->isDirty('email')) {
+    //         $request->user()->email_verified_at = null;
+    //     }
+
+    //     $request->user()->save();
+
+    //     return Redirect::route('profile.edit')->with('status', 'profile-updated');
+    // }
 
     /**
      * Delete the user's account.

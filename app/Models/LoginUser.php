@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -18,9 +17,9 @@ class LoginUser extends Authenticatable implements MustVerifyEmail
      *
      * @var array<int, string>
      */
-    // protected $fillable = [
-    //     'password',
-    // ];
+    protected $fillable = [
+        'password',
+    ];
 
     // protected $guard = [];
 
@@ -44,14 +43,15 @@ class LoginUser extends Authenticatable implements MustVerifyEmail
         'password' => 'hashed',
     ];
 
+    protected $with = ['student', 'role'];
+
+
     public function student()
     {
-        return $this->belongsTo(Student::class);
+        return $this->belongsTo(Student::class, foreignKey: 'student_id');
     }
     public function role()
     {
-        return $this->belongsTo(RoleType::class, foreignKey: 'role_type_id');
+        return $this->belongsTo(Role::class, foreignKey: 'role_id');
     }
 }
-
-

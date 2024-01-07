@@ -1,127 +1,81 @@
 @extends('layouts.main')
 @section('content')
-    <link rel="stylesheet" href="{{ asset('css/transaction/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/balance/style.css') }}">
     @include('partials.header')
     @include('partials.sidebar')
     <!--Container Main start-->
-    <div class="wrapper rounded">
-        <nav class="navbar navbar-expand-lg navbar-dark dark d-lg-flex align-items-lg-start m-4"> <a class="navbar-brand"
-                href="#">Transactions <p style="color: bbb;">Welcome to your transactions
-                </p> </a> <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"> <span
-                    class="navbar-toggler-icon"></span> </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ml-lg-auto">
-                    <li class="nav-item "> <a href="#"><span class="fa fa-search"></span></a><input type="search"
-                            class="dark" placeholder="Search"> </li>
-                </ul>
-            </div>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="first" value="option1">
-                <label class="form-check-label" for="first">1 Semester</label>
-            </div>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="second" value="option2">
-                <label class="form-check-label" for="Second">2 Semester</label>
-            </div>
-            <select name="acad-year" id="acad-year">
-                <option value="">2021-2022</option>
-                <option value="">2022-2023</option>
-                <option value="">2023-2024</option>
-            </select>
-        </nav>
-        <div class="table-responsive mt-3">
-            <table class="table">
-                <thead>
-                    <tr>
-                    <tr>
-                        <th>No.</th>
-                        <th>Description</th>
-                        <th>Date</th>
-                        <th>Amount</th>
-                        <th>Status</th>
-                        <th>Encoder</th>
-                    </tr>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($balances as $key => $balance)
-                        <tr>
-                            <td>{{ ++$key }}</td>
-                            <td>{{ $balance->sbp_description }}</td>
-                            <td>{{ $balance->sbp_date_paid }}</td>
-                            <td> ₱ {{ number_format($balance->sbp_paid_amount, 2) }}</td>
-                            <td> {{ $balance->status }}</td>
-                            <td> {{ $balance->encoder }}</td>
-                        </tr>
-                    @endforeach
-                </tbody>
-
-                <section>
-                    <h2>Account Balance</h2>
-                    <p>Your current balance is $500.00.</p>
-                </section>
-
-
-
-                {{-- <thead>
-                    <tr>
-                        <th scope="col">Activity</th>
-                        <th scope="col">Mode</th>
-                        <th scope="col">Date Paid</th>
-                        <th scope="col" class="">Amount</th>
-                    </tr> --}}
-                {{-- </thead> --}}
-                {{-- <tbody style="background-color: #333">
-                    @foreach ($records as $key => $record)
-                        <tr>
-                            <td scope="row" class="text-white">
-                                <span class="fa fa-briefcase mr-1"></span>
-                                {{ ++$key }} {{ $record->description }}
-                            </td>
-                            <td>
-                                <span class="row text-white">
-                                    {{ $record->mode }}
-                                </span>
-                            </td>
-                            <td class="text-white">
-                                {{ Carbon\Carbon::parse($record->paid_date)->format('F j, Y') }}
-                            </td>
-
-                            <td class="text-white">
-                                {{ '₱ ' . number_format($record->amount, 2) }}
-                            </td>
-
-                            <td>
-                                <a style="color: blue; cursor:pointer" data-toggle="modal" id="recordButton"
-                                    data-target="#recordModal" data-attr="{{ route('records.show', $record->id) }}"
-                                    title="show">
-                                    <i class='bx bxs-show'></i>
-                                </a>
-                            </td>
-                        </tr>
-                    @endforeach
-                    {{-- {{}} --}}
-                {{-- </tbody> --}}
-            </table>
-            {{-- <center>
-                <p class=" text-muted pl-1">No transaction has been made.</p>
-            </center> --}}
-        </div>
-        <!-- Modal -->
-        {{-- <div class="modal fade" id="recordModal" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="staticBackdropLabel">Records Details</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body" id="recordBody">
-
-                    </div>
+    <div class="card card-outline rounded-0 card-navy   ">
+        <span class="border-top border-black "></span>
+        <div class="wrapper rounded">
+            <div class="card-header">
+                <div class="col-auto mt-3 ">
+                    <h2 class="fw-bold">My Balance Payments</h2>
                 </div>
             </div>
+            <main class="cd__main">
+                <table id="example" class="table table-hover table-striped table-bordered ">
+                    <thead>
+                        <tr>
+                            <th scope="col">No</th>
+                            <th scope="col">Receipt Number</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">Amount</th>
+                            <th scope="col">Paid Amount</th>
+                            <th scope="col">Change Amount</th>
+                            <th scope="col">Balance Amount</th>
+                            <th scope="col">Date Paid</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Collector</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($balances as $key => $balance)
+                            <tr>
+                                <td> {{ ++$key }} </td>
+                                <td> {{ $balance->sbp_receipt_number }} </td>
+                                <td> {{ $balance->sbp_description }} </td>
+                                <td> {{ Number::currency($balance->sbp_amount, in: 'PHP', locale: 'ph') }} </td>
+                                <td> {{ Number::currency($balance->sbp_paid_amount, in: 'PHP', locale: 'ph') }} </td>
+                                <td> {{ Number::currency($balance->sbp_paid_change, in: 'PHP', locale: 'ph') }} </td>
+                                <td> {{ Number::currency($balance->sbp_balance_amount, in: 'PHP', locale: 'ph') }} </td>
+                                <td> {{ $balance->sbp_date_paid }} </td>
+                                <td> {{ $balance->status }} </td>
+                                <td> {{ $balance->collector->lastname }},
+                                    {{ $balance->collector->firstname }}
+                                    {{ substr($balance->collector->middlename, 0, 1) }}. </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </main>
         </div>
-    </div> --}}
-        <!--Container Main end-->
-    @endsection
+    </div>
+    <!--Container Main end-->
+    <script>
+        $(document).ready(function() {
+            $('#example').DataTable({
+                //disable sorting on last column
+                "columnDefs": [{
+                    "orderable": false,
+                    "targets": 8
+                }],
+                language: {
+                    //customize pagination prev and next buttons: use arrows instead of words
+                    'paginate': {
+                        'previous': '<span class="fa fa-chevron-left"></span>',
+                        'next': '<span class="fa fa-chevron-right"></span>'
+                    },
+                    //customize number of elements to be displayed
+                    "lengthMenu": 'Display <select class="form-control input-sm">' +
+                        '<option value="10">10</option>' +
+                        '<option value="20">20</option>' +
+                        '<option value="30">30</option>' +
+                        '<option value="40">40</option>' +
+                        '<option value="50">50</option>' +
+                        '<option value="-1">All</option>' +
+                        '</select> results'
+                }
+            })
+        });
+    </script>
+@endsection

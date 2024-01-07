@@ -9,8 +9,15 @@
                 <div class="card mb-4">
                     <div class="card-body text-center p-4">
                         <a href="" data-bs-toggle="modal" data-bs-target="#changeprofile">
-                            <img id="image" src="{{ Auth::user()->student->profile_pic }}" alt="avatar"
-                                class="rounded-circle img-fluid" style="width: 150px; padding-top: 11px;">
+                            @if (!Auth::user()->student->profile_picture)
+                                <img id="image" src="{{ asset('img/temp-profile.png') }}" alt="avatar"
+                                    class="rounded-circle img-fluid" style="width: 150px; padding-top: 11px;">
+                            @else
+                                <img id="image"
+                                    src="{{ asset('storage/profile_pictures/' . Auth::user()->student->profile_picture) }}"
+                                    alt="avatar" class="rounded-circle img-fluid"
+                                    style="width: 150px; padding-top: 11px;">
+                            @endif
                         </a>
                         <!-- Modal -->
                         <div class="modal fade" id="changeprofile" data-bs-backdrop="static" data-bs-keyboard="false"
@@ -23,14 +30,17 @@
                                             aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        <form action="" method="post" id="changepic">
-                                            <input type="file" name="picture" id="file_image">
+                                        <form action="{{ route('student.profile.update', ['id' => Auth::user()->id]) }}"
+                                            method="POST" enctype="multipart/form-data">
+                                            @csrf
+                                            @method('PATCH')
+                                            <input type="file" name="profile_pic" accept="image/png, image/jpeg"
+                                                required />
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary"
                                             data-bs-dismiss="modal">Close</button>
-                                        <button type="submit" name="save" id=""
-                                            class="btn btn-primary">Save</button>
+                                        <button type="submit" class="btn btn-primary">Save</button>
                                         </form>
                                     </div>
                                 </div>
@@ -43,7 +53,7 @@
                             {{ Auth::user()->student->course->name }}
                         </p>
                         <p class="text-muted mb-4">
-                            Year Level {{ App\Helper\PS::studentYearLevel(Auth::user()->student->year_level) }}
+                            {{ App\Helper\PS::studentYearLevel(Auth::user()->student->year_level) }}
                         </p>
                     </div>
                 </div>
@@ -153,22 +163,32 @@
                                         <form action="{{ route('password.update') }}" method="POST"
                                             id="form_change_password">
                                             @csrf
-                                            @method('put')
+                                            @method('PUT')
                                             <div class="form-floating mb-3">
                                                 <input type="password" class="form-control" name="current_password"
                                                     id="current_password" placeholder="name@example.com">
                                                 <label>Current Password</label>
-                                                <small><strong>
+                                                <small>
+                                                    <strong class="text-danger">
                                                         @foreach ($errors->updatePassword->get('current_password') as $message)
                                                             {{ $message }}
                                                         @endforeach
-                                                    </strong></small>
+                                                    </strong>
+                                                </small>
                                             </div>
                                             <div class="form-floating mb-3">
                                                 <input type="password" class="form-control" name="password"
                                                     id="password" placeholder="name@example.com">
                                                 <label>New Password</label>
+                                                <small>
+                                                    @foreach ($errors->updatePassword->get('password') as $message)
+                                                        <strong class="text-danger">
+                                                            {{ $message }}
+                                                        </strong>
+                                                    @endforeach
+                                                </small>
                                             </div>
+
                                             <div class="form-floating">
                                                 <input type="password" class="form-control" name="password_confirmation"
                                                     placeholder="Password">
@@ -191,4 +211,9 @@
             </div>
         </div>
     </section>
+    @if (session('status'))
+        <script>
+            alert('Password has been changed!')
+        </script>
+    @endif
 @endsection
