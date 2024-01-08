@@ -18,11 +18,11 @@ class StudentPaymentRecordController extends Controller
         if (Auth::user()->role_id === 2) {
             return redirect('/');
         }
-        
+
         $filters = request(['semester', 'year']);
         $year = AcademicYear::firstWhere('year', $filters['year'] ?? null);
         $query = StudentPaymentRecord::latest();
-        if (Auth::user()->role_type_id === 1) {
+        if (Auth::user()->role_id === 1) {
             $query->where('student_id', Auth::user()->student->id);
         }
         if (isset($filters['semester']) && $filters['semester'] >= 3 || isset($filters['semester']) && $filters['semester'] <= 0 || isset($filters['year']) && !isset($year)) {
@@ -47,7 +47,7 @@ class StudentPaymentRecordController extends Controller
             'currentYear' => $year,
         ]);
     }
-    public function store(int $id, Request $request): RedirectResponse
+    public function store(string $id, Request $request): RedirectResponse
     {
         $sprProofOfPaymentPhotoName = $request->file('proof_of_payment_photo')->getClientOriginalName();
         $extension = $request->file('proof_of_payment_photo')->getClientOriginalExtension();

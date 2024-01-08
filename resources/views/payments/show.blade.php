@@ -3,7 +3,7 @@
     <div class="card-body">
         <form action="{{ route('pay', $payment->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
-            <input type="hidden" name="spr_semester" value={{ $payment->p_semester }}>
+            <input type="hidden" name="spr_semester" value={{ $payment->payment_semester }}>
             <input type="hidden" name="academic_year_id" value={{ $payment->academic_year_id }}>
             <div class="row">
                 <div class="col-md-6">

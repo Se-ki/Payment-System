@@ -34,7 +34,7 @@
                                             method="POST" enctype="multipart/form-data">
                                             @csrf
                                             @method('PATCH')
-                                            <input type="file" name="profile_pic" accept="image/png, image/jpeg"
+                                            <input type="file" name="profile_picture" accept="image/png, image/jpeg"
                                                 required />
                                     </div>
                                     <div class="modal-footer">

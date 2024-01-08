@@ -25,7 +25,7 @@ class ProfileController extends Controller
     /**
      * Update the user's profile information.
      */
-    public function update(Request $request): RedirectResponse
+    public function update(Request $request)
     {
         $name = $request->file('profile_picture')->getClientOriginalName();
         $extension = $request->file('profile_picture')->getClientOriginalExtension();
@@ -33,7 +33,9 @@ class ProfileController extends Controller
             return redirect()->back()->with('error', true);
         }
         $request->file('profile_picture')->storeAs('public/profile_pictures/', $name);
-        Student::findOrFail($request->id)->update(['profile_picture' => $name]);
+        $student = Student::findOrFail($request->id);
+        $student->profile_picture = $name;
+        $student->save();
         return Redirect::route('profile');
     }
     // public function update(ProfileUpdateRequest $request): RedirectResponse
