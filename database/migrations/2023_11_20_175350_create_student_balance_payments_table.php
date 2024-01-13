@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('collector_id')->constrained(table: 'students', column: 'id');
             $table->foreignId('academic_year_id')->constrained();
             $table->string('sbp_description');
-            $table->bigInteger('sbp_receipt_number');
+            $table->bigInteger('sbp_receipt_number')->unique();
             $table->float('sbp_amount');
             $table->float('sbp_paid_amount');
             $table->float('sbp_paid_change');

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\DescriptionRequest;
 use App\Models\Description;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -14,15 +15,10 @@ class DescriptionController extends Controller
         $descriptions = Description::all();
         return view('description.index', compact('descriptions'));
     }
-    public function store(Request $request): RedirectResponse
+    public function store(DescriptionRequest $request, Description $description): RedirectResponse
     {
-        if ($request->status !== 1 && $request->status !== 2) {
-        }
-        Description::create([
-            'name' => ucwords($request->name),
-            'status' => $request->status,
-        ]);
-        return redirect(route('description.index'));
+        $description->createDescription($request);
+        return back()->with('success', 'Added!');
     }
 
     public function edit($id): View
@@ -30,12 +26,14 @@ class DescriptionController extends Controller
         return view('description.show', ['description' => Description::find($id)]);
     }
 
-    public function update(int $id, Request $request): RedirectResponse
+    public function update(int $id, Description $description, DescriptionRequest $request): RedirectResponse
     {
-        Description::find($id)->update([
-            'name' => ucwords($request->name),
-            'status' => $request->status,
-        ]);
-        return redirect(route('description.index'));
+        $description->updateDescription($id, $request);
+        return back()->with('success', 'Updated!');
+    }
+    public function destroy(int $id, Description $description)
+    {
+        $description->deleteDescription($id);
+        return back()->with('success', 'Deleted!');
     }
 }

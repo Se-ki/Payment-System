@@ -1,5 +1,8 @@
 <link rel="icon" href="{{ asset('img/icon-no-bg.png') }}">
 
+<link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
 {{-- BOOTSTRAP --}}
 <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
 

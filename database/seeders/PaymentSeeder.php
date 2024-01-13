@@ -331,16 +331,5 @@ class PaymentSeeder extends Seeder
         Payment::factory(50)->create([
             'student_id' => $student15->id
         ]);
-
-
-        // for ($i = 1; $i <= 15; $i++) {
-        //     $student = '$student' . str($i) . '->id';
-        //     Payment::factory(50)->create([
-        //         'student_id' => $student
-        //     ]);
-        // }
-        // StudentPaymentRecord::factory(500)->create();
-
-        // StudentBalancePayment::factory(500)->create();
     }
 }

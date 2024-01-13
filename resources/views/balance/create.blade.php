@@ -1,4 +1,5 @@
 @extends('layouts.main')
+@section('title', 'Walk In Payment')
 @section('content')
     <link rel="stylesheet" href="{{ asset('css/balance/collector/create/style.css') }}">
     @include('partials.header')

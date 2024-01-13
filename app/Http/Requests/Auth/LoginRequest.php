@@ -28,8 +28,8 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            // 'email' => ['required_without:username', 'string', 'email', 'exist:users,email'],
-            // 'username' => ['required_without:email', 'string', 'exist:users,username'],
+            'email' => ['required_without:username', 'string', 'email', 'exists:login_users,email'],
+            'username' => ['required_without:email', 'string', 'exists:login_users,username'],
             'password' => ['required', 'string'],
         ];
     }
@@ -68,7 +68,7 @@ class LoginRequest extends FormRequest
         event(new Lockout($this));
 
         $seconds = RateLimiter::availableIn($this->throttleKey());
-        
+
         throw ValidationException::withMessages([
             'identity' => trans('auth.throttle', [
                 'seconds' => $seconds,

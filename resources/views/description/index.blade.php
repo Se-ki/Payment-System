@@ -1,4 +1,5 @@
 @extends('layouts.main')
+@section('title', 'Description')
 @section('content')
     <link rel="stylesheet" href="{{ asset('css/payment/style.css') }}">
     @include('partials.header')
@@ -55,9 +56,15 @@
                                     <div class="dropdown-menu" role="menu">
                                         <a class="dropdown-item edit_data" style="cursor:pointer" data-toggle="modal"
                                             id="descriptionButton" data-target="#descriptionModal"
-                                            data-attr="{{ route('description.edit', $description->id) }}"
-                                            title="show"><span class="fa fa-edit text-primary"> </span>Edit</a>
+                                            data-attr="{{ route('descriptions.edit', $description->id) }}"><span
+                                                class="fa fa-edit text-primary"> </span>Edit</a>
                                         <div class="dropdown-divider"></div>
+                                        <form action="{{ route('description.destroy', $description->id) }}" method="post">
+                                            @csrf
+                                            @method('delete')
+                                            <button type="submit" class="dropdown-item"><i
+                                                    class="fa-solid fa-trash text-primary"> </i>Delete</button>
+                                        </form>
                                     </div>
                                 </li>
                             </td>
@@ -75,7 +82,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form action="{{ route('descriptions.store') }}" method="POST">
+                        <form action="{{ route('description.store') }}" method="POST">
                             @csrf
                             <div class="form-floating mb-3">
                                 <input type="text" name="name" class="form-control" id="floatingDescription"

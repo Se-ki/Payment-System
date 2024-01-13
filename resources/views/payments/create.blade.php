@@ -1,4 +1,5 @@
 @extends('layouts.main')
+@section('title', 'Create Payments')
 @section('content')
     <link rel="stylesheet" href="{{ asset('css/payment/style.css') }}">
     @include('partials.header')

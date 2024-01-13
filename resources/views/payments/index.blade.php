@@ -1,4 +1,5 @@
 @extends('layouts.main')
+@section('title', 'Payments')
 @section('content')
     <link rel="stylesheet" href="{{ asset('css/payment/style.css') }}">
     @include('partials.header')
@@ -17,7 +18,7 @@
                     <div class="col-auto mt-4" style="margin-left: 575px">
                         <div class="form-check form-check-inline">
                             <a
-                                href="{{ route('payments.index') }}?semester=1{{ request('year') ? '&' : '' }}{{ http_build_query(request()->except('semester')) }}">
+                                href="{{ route('payment.index') }}?semester=1{{ request('year') ? '&' : '' }}{{ http_build_query(request()->except('semester')) }}">
                                 <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1"
                                     value="option1" {{ request('semester') == 1 ? 'checked' : '' }}>
                                 <label class="form-check-label">1 Semester</label>
@@ -25,7 +26,7 @@
                         </div>
                         <div class="form-check form-check-inline">
                             <a
-                                href="{{ route('payments.index') }}?semester=2{{ request('year') ? '&' : '' }}{{ http_build_query(request()->except('semester')) }}">
+                                href="{{ route('payment.index') }}?semester=2{{ request('year') ? '&' : '' }}{{ http_build_query(request()->except('semester')) }}">
                                 <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2"
                                     value="option2" {{ request('semester') == 2 ? 'checked' : '' }}>
                                 <label class="form-check-label">2 Semester</label>
@@ -38,16 +39,16 @@
                                 style="background-color:rgb(243, 242, 242); color:black; height:2rem; border-color:rgb(255, 255, 255)"
                                 class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
                                 aria-expanded="false">
-                                {{ isset($currentYear) && $currentYear != null ? $currentYear->year : $academics->first()->year }}
+                                {{ isset($currentYear) && $currentYear != null ? $currentYear->first()->year : $academics->first()->year }}
                             </button>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item {{ isset($currentYear) && $currentYear->year === $academics->first()->year ? 'active' : null }}"
-                                        href="{{ route('payments.index') }}?{{ request('semester') ? 'semester=' . request('semester') . '&' : null }}year={{ $academics->first()->year }}">{{ $academics->first()->year }}</a>
+                                <li><a class="dropdown-item {{ isset($currentYear) && $currentYear->first()->year === $academics->first()->year ? 'active' : null }}"
+                                        href="{{ route('payment.index') }}?{{ request('semester') ? 'semester=' . request('semester') . '&' : null }}year={{ $academics->first()->year }}">{{ $academics->first()->year }}</a>
                                 </li>
                                 @if (count($academics) > 1)
                                     @foreach ($academics->skip(1) as $academic)
-                                        <li><a class="dropdown-item {{ isset($currentYear) && $currentYear->is($academic) ? 'active' : null }}"
-                                                href="{{ route('payments.index') }}?{{ request('semester') ? 'semester=' . request('semester') . '&' : null }}year={{ $academic->year }}">{{ $academic->year }}</a>
+                                        <li><a class="dropdown-item {{ isset($currentYear) && $currentYear->first()->is($academic) ? 'active' : null }}"
+                                                href="{{ route('payment.index') }}?{{ request('semester') ? 'semester=' . request('semester') . '&' : null }}year={{ $academic->year }}">{{ $academic->year }}</a>
                                         </li>
                                     @endforeach
                                 @endif
@@ -91,7 +92,7 @@
                             @if (count($payments) > 0)
                                 @foreach ($payments as $key => $payment)
                                     <tr data-toggle="modal" id="paymentButton" data-target="#paymentModal"
-                                        data-attr="{{ route('payment.show', $payment->id) }}" title="Pay">
+                                        data-attr="{{ route('payments.show', $payment->id) }}" title="Pay">
                                         <td>
                                             {{ ++$key }}
                                         </td>
@@ -128,7 +129,7 @@
                                         <td>
                                             <a class="btn btn-outline-primary " data-toggle="modal" id="paymentButton"
                                                 data-target="#paymentModal"
-                                                data-attr="{{ route('payment.show', $payment->id) }}" title="Pay">
+                                                data-attr="{{ route('payments.show', $payment->id) }}" title="Pay">
                                                 Pay
                                             </a>
                                         </td>

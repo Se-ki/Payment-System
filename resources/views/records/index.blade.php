@@ -1,4 +1,5 @@
 @extends('layouts.main')
+@section('title', 'Student Payment Records')
 @section('content')
     <link rel="stylesheet" href="{{ asset('css/records/style.css') }}">
     @include('partials.header')
@@ -22,7 +23,7 @@
                     <div class="col-auto mt-4" style="margin-left: 100px">
                         <div class="form-check form-check-inline">
                             <a
-                                href="{{ route('records.index') }}?semester=1{{ request('year') ? '&' : '' }}{{ http_build_query(request()->except('semester')) }}">
+                                href="{{ route('record.index') }}?semester=1{{ request('year') ? '&' : '' }}{{ http_build_query(request()->except('semester')) }}">
                                 <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1"
                                     value="option1" {{ request('semester') == 1 ? 'checked' : '' }}>
                                 <label class="form-check-label">1 Semester</label>
@@ -30,7 +31,7 @@
                         </div>
                         <div class="form-check form-check-inline">
                             <a
-                                href="{{ route('records.index') }}?semester=2{{ request('year') ? '&' : '' }}{{ http_build_query(request()->except('semester')) }}">
+                                href="{{ route('record.index') }}?semester=2{{ request('year') ? '&' : '' }}{{ http_build_query(request()->except('semester')) }}">
                                 <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2"
                                     value="option2" {{ request('semester') == 2 ? 'checked' : '' }}>
                                 <label class="form-check-label">2 Semester</label>
@@ -43,16 +44,16 @@
                                 style="background-color:rgb(243, 242, 242); color:black; height:2rem; border-color:rgb(255, 255, 255)"
                                 class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
                                 aria-expanded="false">
-                                {{ isset($currentYear) && $currentYear != null ? $currentYear->year : $academics->first()->year }}
+                                {{ isset($currentYear) && $currentYear != null ? $currentYear->first()->year : $academics->first()->year }}
                             </button>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item {{ isset($currentYear) && $currentYear->year === $academics->first()->year ? 'active' : null }}"
-                                        href="{{ route('records.index') }}?{{ request('semester') ? 'semester=' . request('semester') . '&' : null }}year={{ $academics->first()->year }}">{{ $academics->first()->year }}</a>
+                                <li><a class="dropdown-item {{ isset($currentYear) && $currentYear->first()->year === $academics->first()->year ? 'active' : null }}"
+                                        href="{{ route('record.index') }}?{{ request('semester') ? 'semester=' . request('semester') . '&' : null }}year={{ $academics->first()->year }}">{{ $academics->first()->year }}</a>
                                 </li>
                                 @if (count($academics) > 1)
                                     @foreach ($academics->skip(1) as $academic)
-                                        <li><a class="dropdown-item {{ isset($currentYear) && $currentYear->is($academic) ? 'active' : null }}"
-                                                href="{{ route('records.index') }}?{{ request('semester') ? 'semester=' . request('semester') . '&' : null }}year={{ $academic->year }}">{{ $academic->year }}</a>
+                                        <li><a class="dropdown-item {{ isset($currentYear) && $currentYear->first()->is($academic) ? 'active' : null }}"
+                                                href="{{ route('record.index') }}?{{ request('semester') ? 'semester=' . request('semester') . '&' : null }}year={{ $academic->year }}">{{ $academic->year }}</a>
                                         </li>
                                     @endforeach
                                 @endif
@@ -93,11 +94,6 @@
                     </tbody>
                 </table>
             </main>
-            {{-- @if (count($records) == 0)
-                <center>
-                    <span style="font-family: 'Dancing Script', cursive;">No data available in table</span>
-                </center>
-            @endif --}}
         @else
             <main class="cd__main">
                 <table id="example" class="table table-hover table-striped table-bordered " style="width:900px">
@@ -116,12 +112,13 @@
                     <tbody>
                         @foreach ($records as $key => $record)
                             <tr style="color: blue; cursor:pointer" data-toggle="modal" id="recordButton"
-                                data-target="#recordModal" data-attr="{{ route('record.show', $record->id) }}"
+                                data-target="#recordModal" data-attr="{{ route('records.show', $record->id) }}"
                                 title="show">
                                 <td> {{ ++$key }} </td>
                                 <td> {{ App\Helper\PS::addHyphenAfterFourNumbers($record->student->school_id) }} </td>
                                 <td> {{ $record->student->lastname }}, {{ $record->student->firstname }}
-                                    {{ substr($record->student->middlename, 0, 1) }}. </td>
+                                    {{ isset($record->student->middlename) ? substr($record->student->middlename, 0, 1) . '.' : null }}
+                                </td>
                                 <td> {{ $record->spr_receipt_number }} </td>
                                 <td> {{ $record->spr_description }} </td>
                                 <td> {{ $record->spr_mode_of_payment }} </td>

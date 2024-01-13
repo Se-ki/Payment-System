@@ -1,4 +1,5 @@
 @extends('layouts.main')
+@section('title', "Balance of {$user->student->lastname}")
 @section('content')
     <link rel="stylesheet" href="{{ asset('css/balance/style.css') }}">
     @include('partials.header')
@@ -38,7 +39,8 @@
                             <td> {{ $balance->sbp_date_paid }} </td>
                             <td> {{ $balance->status }} </td>
                             <td> {{ $balance->collector->lastname }},
-                                {{ $balance->collector->firstname }} {{ substr($balance->collector->middlename, 0, 1) }}.
+                                {{ $balance->collector->firstname }}
+                                {{ isset($balance->collector->middlename) ? substr($balance->collector->middlename, 0, 1) . '.' : null }}
                             </td>
                             <td>
                                 @if ($balance->sbp_balance_amount != 0 && $balance->collector->id == Auth::user()->id)

@@ -9,7 +9,6 @@ class Student extends Model
 {
     use HasFactory;
     protected $fillable = ['profile_pic'];
-    protected $with = ['course'];
 
     public function payment()
     {
@@ -30,5 +29,9 @@ class Student extends Model
     public function course()
     {
         return $this->belongsTo(Course::class);
+    }
+    public function scopeGetStudent($query)
+    {
+        return $query->with('loginUser')->get();
     }
 }

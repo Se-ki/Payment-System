@@ -1,4 +1,5 @@
 @extends('layouts.main')
+@section('title', 'Profile')
 @section('content')
     <link rel="stylesheet" href="{{ asset('css/profile/style.css') }}">
     @include('partials.header')
@@ -8,7 +9,8 @@
             <div class="col-lg-4">
                 <div class="card mb-4">
                     <div class="card-body text-center p-4">
-                        <a href="" data-bs-toggle="modal" data-bs-target="#changeprofile">
+                        <a style="position: relative; left:80px" href="" data-bs-toggle="modal"
+                            data-bs-target="#changeprofile">
                             @if (!Auth::user()->student->profile_picture)
                                 <img id="image" src="{{ asset('img/temp-profile.png') }}" alt="avatar"
                                     class="rounded-circle img-fluid" style="width: 150px; padding-top: 11px;">

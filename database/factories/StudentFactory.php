@@ -16,6 +16,7 @@ class StudentFactory extends Factory
      */
     public function definition(): array
     {
+
         return [
             'course_id' => fake()->randomElement([1, 2, 3, 4, 5]),
             'profile_picture' => NULL,

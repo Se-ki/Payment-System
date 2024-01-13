@@ -69,6 +69,8 @@ class Kernel extends HttpKernel
         'isAdmin' => \App\Http\Middleware\Admin::class,
         'isStudent' => \App\Http\Middleware\Student::class,
         'isCollector' => \App\Http\Middleware\Collector::class,
+        'isAdminOrStudent' => \App\Http\Middleware\AdminOrStudent::class,
+        'isCollectorOrAdmin' => \App\Http\Middleware\CollectorOrAdmin::class,
         'preventBackButton' => \App\Http\Middleware\PreventBackButtonMiddleware::class,
     ];
 }

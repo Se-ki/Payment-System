@@ -1,4 +1,5 @@
 @extends('layouts.main')
+@section('title', 'List of Students')
 @section('content')
     <link rel="stylesheet" href="{{ asset('css/balance/collector/style.css') }}">
     @include('partials.header')

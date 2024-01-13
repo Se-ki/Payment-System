@@ -1,4 +1,5 @@
 @extends('layouts.main')
+@section('title', config('app.name'))
 @section('content')
     <link rel="stylesheet" href="{{ asset('css/dashboard/style.css') }}">
     @include('partials.header')

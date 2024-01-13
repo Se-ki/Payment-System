@@ -1,4 +1,5 @@
 @extends('layouts.main')
+@section('title', 'Student Balance Payments')
 @section('content')
     <link rel="stylesheet" href="{{ asset('css/balance/style.css') }}">
     @include('partials.header')
@@ -42,7 +43,8 @@
                                 <td> {{ $balance->status }} </td>
                                 <td> {{ $balance->collector->lastname }},
                                     {{ $balance->collector->firstname }}
-                                    {{ substr($balance->collector->middlename, 0, 1) }}. </td>
+                                    {{ isset($balance->collector->middlename) ? substr($balance->collector->middlename, 0, 1) . '.' : null }}
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>

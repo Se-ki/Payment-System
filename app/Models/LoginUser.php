@@ -54,4 +54,13 @@ class LoginUser extends Authenticatable implements MustVerifyEmail
     {
         return $this->belongsTo(Role::class, foreignKey: 'role_id');
     }
+
+    public function scopeStudents($query)
+    {
+        return $query->where('role_id', 1)->get();
+    }
+    public function scopeFindStudent($query, $id)
+    {
+        return $query->find($id);
+    }
 }

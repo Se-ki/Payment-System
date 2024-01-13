@@ -1,4 +1,5 @@
 @extends('layouts.main')
+@section('title', "Balance of {$student->firstname} {$student->lastname}")
 @section('content')
     <link rel="stylesheet" href="{{ asset('css/balance/collector/create/style.css') }}">
     @include('partials.header')

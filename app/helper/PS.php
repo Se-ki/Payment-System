@@ -31,14 +31,6 @@ class PS
             return $year_level . "th year";
         }
     }
-
-    public static function checkIfCollectorOrAdmin()
-    {
-        if (Auth::user()->role_id !== 2 && Auth::user()->role_id !== 3) {
-            return true;
-        }
-    }
-
     public static function totalStudent()
     {
         return count(LoginUser::where('role_id', 1)->get());
@@ -71,6 +63,19 @@ class PS
 
         foreach ($words as $w) {
             $acronym .= mb_substr($w, 0, 1);
+        }
+    }
+    public static function generateCode()
+    {
+        $uniqueIdentifier = str_pad(mt_rand(1, 9999), 4, '0', STR_PAD_LEFT);
+        $currentDate = now()->format('Ymd');
+        return $currentDate . $uniqueIdentifier;
+    }
+
+    public static function abortIfInvalidSemesterAndYear($filters, $year)
+    {
+        if (isset($filters['semester']) && $filters['semester'] >= 3 || isset($filters['semester']) && $filters['semester'] <= 0 || isset($filters['year']) && !isset($year)) {
+            abort(404);
         }
     }
 }

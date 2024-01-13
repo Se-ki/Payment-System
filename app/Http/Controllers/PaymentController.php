@@ -2,72 +2,33 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PaymentRequest;
 use App\Models\AcademicYear;
 use App\Models\Description;
-use App\Models\LoginUser;
 use App\Models\Payment;
-use GuzzleHttp\Client;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
+use App\Models\Student;
 
 class PaymentController extends Controller
 {
-    public function index() //: View
+    public function index(Payment $payment, AcademicYear $academicYear)
     {
-        $filters = request(['semester', 'year']);
-        $query = Payment::latest()->where('student_id', Auth::user()->student->id);
-        $academicYear = AcademicYear::firstWhere('year', $filters['year'] ?? null);
-        if (isset($filters['semester']) && $filters['semester'] >= 3 || isset($filters['semester']) && $filters['semester'] <= 0 || isset($filters['year']) && !isset($academicYear)) {
-            abort(404);
-        }
-        if (!isset($filters['year']) && isset($filters['semester'])) {
-            $query
-                ->where('payment_semester', $filters['semester'])
-                ->firstWhere('academic_year_id', AcademicYear::orderBy('id', 'DESC')->first()->id);
-        } else if (isset($filters['year']) && !isset($filters['semester'])) {
-            $query->where('academic_year_id', $academicYear->id);
-        } else if (isset($filters['year']) && isset($filters['semester'])) {
-            $query
-                ->where('payment_semester', $filters['semester'])
-                ->where('academic_year_id', $academicYear->id);
-        }
-        return view('payments.index', [
-            'header' => "Payments",
-            'payments' => $query->get(),
-            'academics' => AcademicYear::orderBy('id', 'DESC')->get(),
-            'currentYear' => isset($filters['year']) ? AcademicYear::firstWhere('year', $filters['year']) : null,
-        ]);
+        $payments = $payment->paymentFilter()->get();
+        $academics = $academicYear->getYear()->get();
+        $currentYear = request('year') ? $academicYear->currentYear() : null;
+        return view('payments.index', compact('payments', 'academics', 'currentYear'));
     }
-    public function create(): View
+    public function create(Description $description, Payment $payment): View
     {
-        return view('payments.create', [
-            'descriptions' => Description::where('status', 1)->orderBy('id', 'DESC')->get(),
-            'payments' => Payment::latest()->get(),
-        ]);
+        $descriptions = $description->getDescriptions();
+        $payments = $payment->getAllPayments();
+        return view('payments.create', compact('descriptions', 'payments'));
     }
-    public function store(Request $request): RedirectResponse
+    public function store(PaymentRequest $request, Payment $payment): RedirectResponse
     {
-        $academicYear = AcademicYear::orderBy('id', 'DESC')->first();
-        $loginUsers = LoginUser::where('role_id', 1)->get();
-        $request->validate([
-            'amount' => ['required', 'numeric'],
-            'deadline' => ['required', 'date'],
-            'payment_semester' => ['required', 'digits:1', 'numeric'],
-        ]);
-        foreach ($loginUsers as $user) {
-            $user->student->payment()->save(new Payment([
-                'academic_year_id' => $academicYear->id,
-                "description_id" => $request->description_id,
-                'amount' => $request->amount,
-                'date_post' => now(),
-                'deadline' => $request->deadline,
-                'record_by_id' => Auth::user()->id,
-                "payment_semester" => $request->payment_semester,
-            ]));
-        }
-        return redirect(route('payments.create'));
+        $payment->createPayments($request);
+        return back();
     }
     public function show(string $id): View
     {

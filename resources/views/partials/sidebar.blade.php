@@ -12,14 +12,14 @@
                         <i class='bx bxs-home nav_icon'></i>
                         <span class="nav_name">Home</span>
                     </a>
-                    <a href="{{ route('payments.index') }}"
-                        class="nav_link {{ request()->path() === 'payments' ? 'active' : null }}">
+                    <a href="{{ route('payment.index') }}"
+                        class="nav_link {{ request()->path() === 'payment' ? 'active' : null }}">
                         <i class="fa-solid fa-file-invoice nav_icon"></i>
                         <span class="nav_name">Payments</span>
                     </a>
 
-                    <a href="{{ route('records.index') }}"
-                        class="nav_link {{ request()->path() === 'records' ? 'active' : null }}">
+                    <a href="{{ route('record.index') }}"
+                        class="nav_link {{ request()->path() === 'record' ? 'active' : null }}">
                         <i class='bx bx-receipt nav_icon'></i>
                         <span class="nav_name">My Payment Records</span>
                     </a>
@@ -58,22 +58,22 @@
                     </a>
                 </div>
                 <div class="nav_list">
-                    <a href="{{ route('payments.create') }}"
+                    <a href="{{ route('payment.create') }}"
                         class="nav_link {{ request()->path() === 'students/list-of-payments' ? 'active' : '' }}">
                         <i class="fa-solid fa-file-circle-plus nav_icon"></i>
                         <span class="nav_name">Add Payment</span>
                     </a>
                 </div>
                 <div class="nav_list">
-                    <a href="{{ route('records.index') }}"
-                        class="nav_link {{ request()->path() === 'records' ? 'active' : (request()->path() === 'records/' . request()->route('semester') . '/' . (request()->route('year')->id ?? null) ? 'active' : (request()->path() === 'records/' . request()->route('semester') ? 'active' : null)) }}">
+                    <a href="{{ route('record.index') }}"
+                        class="nav_link {{ request()->path() === 'record' ? 'active' : (request()->path() === 'record/' . request()->route('semester') . '/' . (request()->route('year')->id ?? null) ? 'active' : (request()->path() === 'record/' . request()->route('semester') ? 'active' : null)) }}">
                         <i class="fa-solid fa-clipboard-list nav_icon"></i>
                         <span class="nav_name">Student Payment Records</span>
                     </a>
                 </div>
                 <div class="nav_list">
-                    <a href="{{ route('descriptions.index') }}"
-                        class="nav_link {{ request()->path() === 'descriptions' ? 'active' : '' }}">
+                    <a href="{{ route('description.index') }}"
+                        class="nav_link {{ request()->path() === 'description' ? 'active' : '' }}">
                         <i class="fa-regular fa-rectangle-list nav_icon"></i>
                         <span class="nav_name">List of Description</span>
                     </a>
