@@ -53,13 +53,13 @@ class StudentPaymentRecord extends Model
         ]));
     }
 
-    public function scopeStudentRecordsFilter($query, $filters)
+    public function studentRecordsFilter(array $filters)
     {
         $year = AcademicYear::currentYear()->first() ?? null;
         $latestYear = AcademicYear::getYear()->first();
         PS::abortIfInvalidSemesterAndYear($filters, $year);
         $student = Auth::user();
-        $spr = $query->latest()->with(['academic', 'student']);
+        $spr = StudentPaymentRecord::query()->latest()->with(['academic', 'student']);
         if ($student->role_id === 1) {
             $spr->where('student_id', $student->id);
         }
@@ -74,6 +74,6 @@ class StudentPaymentRecord extends Model
         } else if (isset($filters['year']) && !isset($filters['semester'])) {
             $spr->where('academic_year_id', $year->id);
         }
-        return $spr->get();
+        return $spr;
     }
 }

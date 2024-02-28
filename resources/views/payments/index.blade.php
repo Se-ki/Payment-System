@@ -63,7 +63,7 @@
         <div class="card-body">
             <div class="container-fluid">
                 <main class="cd__main">
-                    <table id="example" class="table table-hover table-striped table-bordered ">
+                    <table id="payments-table" class="table table-hover table-striped table-bordered">
                         <colgroup>
                             <col width="5%">
                             <col width="5%">
@@ -89,63 +89,10 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @if (count($payments) > 0)
-                                @foreach ($payments as $key => $payment)
-                                    <tr data-toggle="modal" id="paymentButton" data-target="#paymentModal"
-                                        data-attr="{{ route('payments.show', $payment->id) }}" title="Pay">
-                                        <td>
-                                            {{ ++$key }}
-                                        </td>
-
-                                        <td>
-                                            {{ $payment->payment_semester }}
-                                        </td>
-                                        <td>
-                                            {{ $payment->academic->year }}
-                                        </td>
-                                        <td class="description-capitalization">
-                                            {{ $payment->description->name }}
-                                        </td>
-                                        <td>
-                                            {{ Number::currency($payment->amount, in: 'PHP', locale: 'ph') }}
-                                        </td>
-                                        <td>
-                                            {{ $payment->created_at->format('F d, Y') }}
-                                        </td>
-                                        <td
-                                            style="color: {{ strtotime(NOW()) >= strtotime($payment->deadline) ? 'red' : 'black' }} ">
-                                            {{ Carbon\Carbon::parse($payment->deadline)->format('F d, Y') }}
-                                            @if (strtotime(NOW()) >= strtotime($payment->deadline))
-                                                <br>
-                                                <small>
-                                                    {{ __('Deadline') }}
-                                                </small>
-                                            @endif
-                                        </td>
-                                        <td class="">
-                                            {{ $payment->recordBy->lastname }}, {{ $payment->recordBy->firstname }}
-                                            {{ isset($payment->recordBy->middlename) ? substr($payment->recordBy->middlename, 0, 1) . '.' : null }}
-                                        </td>
-                                        <td>
-                                            <a class="btn btn-outline-primary " data-toggle="modal" id="paymentButton"
-                                                data-target="#paymentModal"
-                                                data-attr="{{ route('payments.show', $payment->id) }}" title="Pay">
-                                                Pay
-                                            </a>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            @endif
                         </tbody>
                     </table>
                 </main>
             </div>
-            @if (count($payments) == 0)
-                <center>
-                    <span style="font-family: 'Dancing Script', cursive;">I think you paid all of your payment.
-                        Hooray!</span>
-                </center>
-            @endif
         </div>
         {{-- modal payment --}}
         <div class="modal fade" id="paymentModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
@@ -166,34 +113,103 @@
     </div>
     </div>
     {{-- Container Main end --}}
-    @if (session('isPaid'))
-        <script>
-            alert('Paid Successfully!')
-        </script>
-    @endif
     <script>
         $(document).ready(function() {
-            $('#example').DataTable({
-                "columnDefs": [{
-                    "orderable": false,
-                    "targets": 8
-                }],
-                language: {
-                    'paginate': {
-                        'previous': '<span class="fa fa-chevron-left"></span>',
-                        'next': '<span class="fa fa-chevron-right"></span>'
+            /*
+                I use $.fn. so that i can use this
+                paymentsTable in the other file
+            */
+            $.fn.paymentsTable = $('#payments-table').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: "{{ route('ajax-fetch-payments') }}",
+                columns: [{
+                        data: null,
+                        render: function(data, type, full, meta) {
+                            // Use meta.row to get the row index, and add 1 to start from 1
+                            return meta.row + 1;
+                        },
+                        name: 'id',
                     },
-                    //customize number of elements to be displayed
-                    "lengthMenu": 'Display <select class="form-control input-sm">' +
-                        '<option value="10">10</option>' +
-                        '<option value="20">20</option>' +
-                        '<option value="30">30</option>' +
-                        '<option value="40">40</option>' +
-                        '<option value="50">50</option>' +
-                        '<option value="-1">All</option>' +
-                        '</select> results'
+                    {
+                        data: 'payment_semester',
+                    },
+                    {
+                        data: 'academic_year',
+                    },
+                    {
+                        data: 'description',
+                    },
+                    {
+                        data: 'amount',
+                    },
+                    {
+                        data: 'date_posted',
+                    },
+                    {
+                        data: 'deadline',
+                        render: function(data, type, meta, full) {
+                            return `<td>
+                                        <span style="color:${isDeadline(data)}">${formattedDate(data)}</span>
+                                        ${displayDeadline(data)}
+                                    </td>`
+                        },
+                    },
+                    {
+                        data: 'record_by',
+                        name: 'record_by',
+                    },
+                    {
+                        data: 'action',
+                        orderable: false,
+                        searchable: false,
+                    },
+                ],
+                rowCallback: function(row, data) {
+                    $(row).on('click', function() {
+                        var paymentUrl = "{{ route('payment.show', ':paymentId') }}"
+                            .replace(
+                                ':paymentId', data.id)
+                        $.ajax({
+                            url: paymentUrl,
+                            success: function(result) {
+                                $('#paymentModal').modal("show");
+                                $('#paymentBody').html(result).show();
+                            },
+                            error: function(error) {
+                                console.log(error);
+                                alert("Page " + paymentUrl +
+                                    " cannot open. Error:" +
+                                    error);
+                            },
+                            timeout: 8000
+                        })
+                    })
                 }
             })
         });
+
+        function formattedDate(date) {
+            var today = new Date(date);
+            return today.toLocaleDateString("en-US", {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            })
+        }
+
+        function parseDate(date) {
+            return Date.parse(date);
+        }
+
+        function isDeadline(deadlineDate) {
+            return parseDate(new Date()) >= parseDate(deadlineDate) ? 'red' : 'black'
+        }
+
+        function displayDeadline(date) {
+            return parseDate(new Date()) >= parseDate(date) ?
+                `<br><small><span style="color:${isDeadline(date)}">Deadline</span></small>` :
+                ''
+        }
     </script>
 @endsection

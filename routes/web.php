@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AjaxController;
 use App\Http\Controllers\DescriptionController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -29,11 +30,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
     //this route is only for admin and students
     Route::middleware('isAdminOrStudent')->group(function () {
         Route::get('record', [StudentPaymentRecordController::class, 'index'])->name("record.index");
+        Route::get('record/{id}', [StudentPaymentRecordController::class, 'show'])->name("record.show");
     });
     //student route
     Route::middleware('isStudent')->group(function () {
         // Route::get('records/{semester?}/{year?}', [StudentPaymentRecordController::class, 'index'])->name("records.index")->where(['semester' => '^[1-2]$']);
         Route::get('payment', [PaymentController::class, 'index'])->name('payment.index')->where(['semester' => '^[1-2]$']);
+        Route::get('payment/{id}', [PaymentController::class, 'show'])->name('payment.show');
         Route::post('pay/{id}', [StudentPaymentRecordController::class, 'store'])->name('pay');
         Route::get('balance', [StudentBalancePaymentController::class, 'index'])->name("balance.index");
     });
@@ -63,6 +66,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('payments-create', [PaymentController::class, 'store'])->name('payment.store');
         Route::get('description', [DescriptionController::class, 'index'])->name('description.index');
         Route::post('description', [DescriptionController::class, 'store'])->name('description.store');
+        Route::get('description/edit/{id}', [DescriptionController::class, 'edit'])->name('description.edit');
         Route::patch('description-update/{id}', [DescriptionController::class, 'update'])->name('description.update');
         Route::delete('description-delete/{id}', [DescriptionController::class, 'destroy'])->name('description.destroy');
     });
@@ -70,6 +74,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('payments', PaymentController::class);
     Route::resource('records', StudentPaymentRecordController::class);
     Route::resource('descriptions', DescriptionController::class);
+
+    // AJAX
+    Route::get('ajax/fetch-description', [DescriptionController::class, 'fetchDescription'])->name('ajax-fetch-description');
+    Route::get('ajax/fetch-students', [AjaxController::class, 'getStudent'])->name('ajax-fetch-students');
+    Route::get('ajax/fetch-payments', [AjaxController::class, 'getPayments'])->name('ajax-fetch-payments');
+    Route::get('ajax/fetch-allPayments', [AjaxController::class, 'getAllPayments'])->name('ajax-fetch-allPayments');
+    Route::get('ajax/fetch-records', [AjaxController::class, 'getRecords'])->name('ajax-fetch-records');
 });
 Route::middleware('auth')->prefix('user')->group(function () {
     Route::get('profile', [ProfileController::class, 'edit'])->name('profile.edit');

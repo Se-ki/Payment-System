@@ -36,7 +36,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($descriptions as $key => $description)
+                    {{-- @foreach ($descriptions as $key => $description)
                         <tr>
                             <td> {{ $description->name }} </td>
                             <td>
@@ -59,7 +59,8 @@
                                             data-attr="{{ route('descriptions.edit', $description->id) }}"><span
                                                 class="fa fa-edit text-primary"> </span>Edit</a>
                                         <div class="dropdown-divider"></div>
-                                        <form action="{{ route('description.destroy', $description->id) }}" method="post">
+                                        <form action="{{ route('description.destroy', $description->id) }}"
+                                            id="delete-description" method="post">
                                             @csrf
                                             @method('delete')
                                             <button type="submit" class="dropdown-item"><i
@@ -69,7 +70,7 @@
                                 </li>
                             </td>
                         </tr>
-                    @endforeach
+                    @endforeach --}}
                 </tbody>
             </table>
         </main>
@@ -82,12 +83,13 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form action="{{ route('description.store') }}" method="POST">
+                        <form action="{{ route('description.store') }}" method="POST" id="create-description-form">
                             @csrf
                             <div class="form-floating mb-3">
                                 <input type="text" name="name" class="form-control" id="floatingDescription"
-                                    placeholder="" required>
+                                    placeholder="" />
                                 <label for="floatingDescription">Description</label>
+                                <small class="show-error text-danger"></small>
                             </div>
                             <div class="form-floating">
                                 <select name="status" class="form-select" id="floatingSelect"
@@ -104,13 +106,12 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Save</button>
+                        <button type="submit" class="btn btn-primary" id="save-button" data-bs-dismiss="">Save</button>
                     </div>
                     </form>
                 </div>
             </div>
         </div>
-
         <!-- Modal for editing description -->
         <div class="modal fade" id="descriptionModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
             aria-labelledby="descriptionLabel" aria-hidden="true">
@@ -132,29 +133,90 @@
     <!--Container Main end-->
     <script>
         $(document).ready(function() {
-            $('#example').DataTable({
-                //disable sorting on last column
-                "columnDefs": [{
-                    "orderable": false,
-                    "targets": 2
-                }],
-                language: {
-                    //customize pagination prev and next buttons: use arrows instead of words
-                    'paginate': {
-                        'previous': '<span class="fa fa-chevron-left"></span>',
-                        'next': '<span class="fa fa-chevron-right"></span>'
-                    },
-                    //customize number of elements to be displayed
-                    "lengthMenu": 'Display <select class="form-control input-sm">' +
-                        '<option value="10">10</option>' +
-                        '<option value="20">20</option>' +
-                        '<option value="30">30</option>' +
-                        '<option value="40">40</option>' +
-                        '<option value="50">50</option>' +
-                        '<option value="-1">All</option>' +
-                        '</select> results'
+            $('#example').DataTable()
+        });
+
+        fetchDescriptionData();
+
+        function tableRow(data) {
+            return "<tr> \
+                    <td>" + data.name + "</td>\
+                      <td>" + status(data.status) + "</td>\
+                    <td class='action'>\
+                        <li class='nav-item dropdown'>\
+                              <a class='btn btn-flat p-1 btn-default btn-sm dropdown-toggle dropdown-icon'\
+                                data-bs-toggle='dropdown'>\
+                                Action\
+                              </a>\
+                            <div class='dropdown-menu' role='menu'>\
+                                <a class='dropdown-item edit_data' style='cursor:pointer' data-toggle='modal'\
+                                      id='descriptionButton' data-target='#descriptionModal'\
+                                     data-attr='" + pathTo(data) + "'><span\
+                                          class='fa fa-edit text-primary'></span>Edit</a>\
+                                   <div class='dropdown-divider'></div>\
+                                 <form action=''\
+                                  id='delete-description' method='post'>\
+                                   <button type='submit' class='dropdown-item'><i\
+                                         class='fa-solid fa-trash text-primary'> </i>Delete</button>\
+                              </form>\
+                               </div>\
+                         </li>\
+                      </td>\
+                </tr>"
+        }
+
+        function fetchDescriptionData() {
+            $.ajax({
+                method: "GET",
+                url: "{{ route('ajax-fetch-description') }}",
+                dataType: "json",
+                success: function(response) {
+                    $('tbody').html('')
+                    $.each(response.description, function(key, data) {
+                        $('tbody').append(tableRow(data))
+                    })
+
+                },
+                error: function(error) {
+                    console.error(error)
                 }
             })
-        });
+        }
+
+        function pathTo(data) {
+            return "{{ route('description.edit', '') }}/" + data.id + ""
+        }
+
+        function status(s) {
+            if (s == 1) {
+                return "Active"
+            } else {
+                return "Inactive"
+            }
+        }
+        $('#create-description-form').submit(function(event) {
+            event.preventDefault()
+            var form = new FormData(this)
+            $.ajax({
+                url: "{{ route('description.store') }}",
+                method: "POST",
+                processData: false,
+                contentType: false,
+                data: form,
+                success: function(response) {
+                    fetchDescriptionData()
+                    $('#exampleModal').modal('hide');
+                    alert("You added a description named " + response.name)
+                },
+                error: function(error) {
+                    $(".show-error").html(error.responseJSON.message)
+                    console.log(error.responseJSON.message)
+                }
+            })
+        })
+
+        function redirect(path) {
+            return location.href = path
+        }
     </script>
 @endsection

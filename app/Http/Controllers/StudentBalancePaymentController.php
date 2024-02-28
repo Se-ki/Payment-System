@@ -9,6 +9,7 @@ use App\Models\Payment;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
+
 class StudentBalancePaymentController extends Controller
 {
     public function index(StudentBalancePayment $sbp): View
@@ -49,10 +50,10 @@ class StudentBalancePaymentController extends Controller
         return redirect(route('balance.show', $student->username));
     }
 
-    public function listOfStudent(LoginUser $loginUser): View|RedirectResponse
+    public function listOfStudent()
     {
-        $users = $loginUser->students();
-        return view('balance.student.index', compact('users'));
+        
+        return view('balance.student.index');
     }
     public function listOfPayments(LoginUser $student, Payment $payment): View|RedirectResponse
     {

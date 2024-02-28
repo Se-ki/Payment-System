@@ -5,10 +5,11 @@ namespace App\Http\Controllers;
 use App\Http\Requests\PaymentRequest;
 use App\Models\AcademicYear;
 use App\Models\Description;
+use App\Models\LoginUser;
 use App\Models\Payment;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
-use App\Models\Student;
+use Illuminate\Support\Facades\Response;
+use Yajra\DataTables\Facades\DataTables;
 
 class PaymentController extends Controller
 {
@@ -19,16 +20,15 @@ class PaymentController extends Controller
         $currentYear = request('year') ? $academicYear->currentYear() : null;
         return view('payments.index', compact('payments', 'academics', 'currentYear'));
     }
-    public function create(Description $description, Payment $payment): View
+    public function create(Description $description): View
     {
         $descriptions = $description->getDescriptions();
-        $payments = $payment->getAllPayments();
-        return view('payments.create', compact('descriptions', 'payments'));
+        return view('payments.create', compact('descriptions'));
     }
-    public function store(PaymentRequest $request, Payment $payment): RedirectResponse
+    public function store(PaymentRequest $request, Payment $payment, LoginUser $loginUser) //: RedirectResponse
     {
-        $payment->createPayments($request);
-        return back();
+        $payment->createPayments($request, $loginUser);
+        return Response::json(['message' => 'Payments created for all student.']);
     }
     public function show(string $id): View
     {

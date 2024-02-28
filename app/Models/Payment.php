@@ -31,10 +31,10 @@ class Payment extends Model
         return $this->belongsTo(related: Student::class, foreignKey: 'record_by_id');
     }
 
-    public function scopePaymentFilter($query)
+    public function paymentFilter()
     {
         $filters = request(['semester', 'year']);
-        $payments = $query->latest()->where('student_id', Auth::user()->student->id)->with(['student', 'academic', 'description', 'recordBy']);
+        $payments = Payment::query()->latest()->where('student_id', Auth::user()->student->id)->with(['student', 'academic', 'description', 'recordBy']);
         $academicYear = AcademicYear::firstWhere('year', $filters['year'] ?? null);
         if (isset($filters['semester']) && $filters['semester'] >= 3 || isset($filters['semester']) && $filters['semester'] <= 0 || isset($filters['year']) && !isset($academicYear)) {
             abort(404);
@@ -50,6 +50,7 @@ class Payment extends Model
                 ->where('payment_semester', $filters['semester'])
                 ->where('academic_year_id', $academicYear->id);
         }
+        return $payments;
     }
     public function scopeShowStudentPayments($query, $student)
     {
@@ -59,14 +60,14 @@ class Payment extends Model
     {
         $query->findOrFail($id);
     }
-    public function scopeGetAllPayments($query)
+    public function getAllPayments()
     {
-        return $query->latest()->with(['description', 'recordBy', 'student'])->get();
+        return Payment::query()->latest()->with(['description', 'recordBy', 'student']);
     }
-    public function createPayments($request)
+    public function createPayments($request, $user)
     {
         $academicYearId = AcademicYear::getYear()->first()->id;
-        $students = LoginUser::students();
+        $students = $user->students()->get();
         $payments = [
             'academic_year_id' => $academicYearId,
             'description_id' => $request->description_id,

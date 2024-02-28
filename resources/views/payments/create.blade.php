@@ -13,7 +13,8 @@
 
                 </div>
                 <div class="col" style="margin-left:500px; font-style:oblique">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                        data-bs-target="#createPaymentModal">
                         Create Payment
                     </button>
                 </div>
@@ -22,7 +23,7 @@
         </div>
         <!-- Button trigger modal -->
         <main class="cd__main">
-            <table id="example" class="table table-hover table-striped table-bordered" style="width:100%">
+            <table id="payments-created" class="table table-hover table-striped table-bordered" style="width:100%">
                 <colgroup>
                     <col width="15%">
                     <col width="25%">
@@ -31,7 +32,6 @@
                     <col width="15%">
                     <col width="15%">
                     <col width="15%">
-
                 </colgroup>
                 <thead>
                     <tr>
@@ -45,7 +45,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($payments as $key => $payment)
+                    {{-- @foreach ($payments as $key => $payment)
                         <tr>
                             <td>{{ App\Helper\PS::addHyphenAfterFourNumbers($payment->student->school_id) }} </td>
                             <td>{{ $payment->student->lastname }}, {{ $payment->student->firstname }}
@@ -58,13 +58,14 @@
                                 {{ isset($payment->recordBy->middlename) ? substr($payment->recordBy->middlename, 0, 1) . '.' : null }}
                             </td>
                         </tr>
-                    @endforeach
+                    @endforeach --}}
                 </tbody>
             </table>
         </main>
 
         <!-- Modal -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="createPaymentModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -72,7 +73,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form action="{{ route('payments.store') }}" method="POST">
+                        <form id="create-payment" method="POST">
                             @csrf
                             @foreach ($errors->all() as $message)
                                 <li>
@@ -119,36 +120,95 @@
                         <button type="submit" class="btn btn-primary">
                             Submit
                         </button>
-                        </form>
                     </div>
+                    </form>
                 </div>
             </div>
         </div>
-        <script>
-            $(document).ready(function() {
-                $('#example').DataTable({
-                    //disable sorting on last column
-                    "columnDefs": [{
-                        "orderable": false,
-                        "targets": 6
-                    }],
-                    language: {
-                        //customize pagination prev and next buttons: use arrows instead of words
-                        'paginate': {
-                            'previous': '<span class="fa fa-chevron-left"></span>',
-                            'next': '<span class="fa fa-chevron-right"></span>'
+    </div>
+    <script>
+        $(document).ready(function() {
+            var createPayment = $('#payments-created').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: "{{ route('ajax-fetch-allPayments') }}",
+                columns: [{
+                        data: 'student_id',
+                    },
+                    {
+                        data: 'student_name',
+                    },
+                    {
+                        data: 'description',
+                    },
+                    {
+                        data: 'amount',
+                    },
+                    {
+                        data: 'date_post',
+                    },
+                    {
+                        data: 'deadline',
+                        render: function(data, type, meta, full) {
+                            return `<td>
+                                        <span style="color:${isDeadline(data)}">${formattedDate(data)}</span>
+                                        ${displayDeadline(data)}
+                                    </td>`
                         },
-                        //customize number of elements to be displayed
-                        "lengthMenu": 'Display <select class="form-control input-sm">' +
-                            '<option value="10">10</option>' +
-                            '<option value="20">20</option>' +
-                            '<option value="30">30</option>' +
-                            '<option value="40">40</option>' +
-                            '<option value="50">50</option>' +
-                            '<option value="-1">All</option>' +
-                            '</select> results'
+                    },
+                    {
+                        data: 'record_by',
+                    },
+                ],
+
+            })
+
+            $("#create-payment").on('submit', function(event) {
+                event.preventDefault()
+                var form = new FormData(this)
+                $.ajax({
+                    url: "{{ route('payment.store') }}",
+                    method: "POST",
+                    processData: false,
+                    contentType: false,
+                    data: form,
+                    success: function(response) {
+                        createPayment.draw()
+                        $('#createPaymentModal').modal('hide');
+                        alert(response.message)
+                    },
+                    error: function(error) {
+                        console.error(error)
                     }
                 })
-            });
-        </script>
-    @endsection
+            })
+        });
+
+        function redirect(path) {
+            return window.location.href = path;
+        }
+
+        function formattedDate(date) {
+            var today = new Date(date);
+            return today.toLocaleDateString("en-US", {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            })
+        }
+
+        function parseDate(date) {
+            return Date.parse(date);
+        }
+
+        function isDeadline(deadlineDate) {
+            return parseDate(new Date()) >= parseDate(deadlineDate) ? 'red' : 'black'
+        }
+
+        function displayDeadline(date) {
+            return parseDate(new Date()) >= parseDate(date) ?
+                `<br><small><span style="color:${isDeadline(date)}">Deadline</span></small>` :
+                ''
+        }
+    </script>
+@endsection
