@@ -58,7 +58,7 @@ class AjaxController extends Controller
             ->addColumn('date_posted', fn ($row, Carbon $carbon) => "<td>{$carbon->parse($row->created_at)->format('F d, Y')}</td>")
             ->addColumn('record_by', fn ($row) => $this->getRecordBy($row))
             ->addColumn('action', fn ($row) => "<td>
-                    <a class='btn btn-outline-primary ' data-toggle='modal' id='paymentButton'
+                    <a class='btn btn-outline-primary 'data-toggle='modal' id='paymentButton'
                         data-target='#paymentModal'
                         data-attr='{$this->modalFormPayment($row)}' title='Pay'>
                         Pay
